@@ -1,0 +1,412 @@
+<!DOCTYPE html><html lang="ru-RU" dir="ltr" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Саяны &#38; Тунка — Тур на Байкал с коньками ГРОМ. Горные озёра, термальные источники, треккинг к вулканам и бурятские стойбища."><title>САЯНЫ &amp; ТУНКА · GROM</title><!-- SEO: Canonical + Hreflang --><link rel="canonical" href="https://11111000000.github.io/gromproject/gromproject/tours/sayany/"><link rel="alternate" hreflang="ru" href="https://11111000000.github.io/gromproject/gromproject/tours/sayany/?lang=ru"><link rel="alternate" hreflang="en" href="https://11111000000.github.io/gromproject/gromproject/tours/sayany/?lang=en"><link rel="alternate" hreflang="zh" href="https://11111000000.github.io/gromproject/gromproject/tours/sayany/?lang=zh"><link rel="alternate" hreflang="x-default" href="https://11111000000.github.io/gromproject/gromproject/tours/sayany/?lang=ru"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:title" content="САЯНЫ &#38; ТУНКА · GROM"><meta property="og:description" content="Саяны &#38; Тунка — Тур на Байкал с коньками ГРОМ. Горные озёра, термальные источники, треккинг к вулканам и бурятские стойбища."><meta property="og:url" content="https://11111000000.github.io/gromproject/gromproject/tours/sayany/"><meta property="og:site_name" content="ГРОМ — озёрные коньки"><meta property="og:locale" content="ru_RU"><meta property="og:image" content="https://11111000000.github.io/gromproject/og-image.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="ГРОМ — озёрные коньки из Ангарска"><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="САЯНЫ &#38; ТУНКА · GROM"><meta name="twitter:description" content="Саяны &#38; Тунка — Тур на Байкал с коньками ГРОМ. Горные озёра, термальные источники, треккинг к вулканам и бурятские стойбища."><!-- Yandex.Metrica counter (замените COUNTER_ID на реальный) --><script type="text/javascript">
+      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+      // Замените 00000000 на реальный ID счётчика Яндекс.Метрики
+      ym(00000000, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
+    </script><noscript><div><img src="https://mc.yandex.ru/watch/00000000" style="position:absolute;left:-9999px;" alt=""></div></noscript><!-- /Yandex.Metrica counter --><!-- Favicon + Manifest --><link rel="icon" type="image/svg+xml" href="/gromproject/favicon.svg"><link rel="manifest" href="/gromproject/site.webmanifest"><meta name="theme-color" content="#f4b942"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&display=swap"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"><style>
+      /* Сброс margin/padding на html/body */
+      html, body { margin: 0; padding: 0; }
+      body { background: var(--bg) !important; color: var(--text) !important; }
+
+      /* ═════════════════════════════════════════════
+         7 ТЕМ ГРОМ — расширенная палитра
+         ═════════════════════════════════════════════
+
+         Оригинальные 3: Рассвет, Ночь, Тайга
+         Расширение +4: Лёд, Полярное сияние, Рассвет, Угли
+
+         Каждая тема имеет:
+         --heading — цвет заголовков (читаемый всегда)
+         --accent — акцентный цвет (меняется по темам)
+         --header-bg/--header-fg — шапка (тёмная всегда)
+         ═════════════════════════════════════════════ */
+
+      /* 🌅 Theme 1: Байкальский рассвет (светлая, default) */
+      :root {
+        --bg:            #f0f4f8;   /* лёд */
+        --surface:       #ffffff;   /* чистый снег */
+        --text:          #1a2634;   /* уголь */
+        --heading:       #0a1929;   /* глубина Байкала */
+        --header-bg:     #0a1929;   /* шапка всегда тёмная */
+        --header-fg:     #e8f4fd;   /* шапка текст */
+        --accent:        #e6a817;   /* рассветный янтарь */
+        --accent-2:      #2c5a6e;   /* байкальский лёд */
+        --accent-fg:     #1a2634;   /* тёмный текст на янтаре */
+        --border:        #c9d9e6;   /* границы */
+        --muted:         #64748b;   /* muted текст */
+        --hero-bg:       #0a1929;
+        --hero-fg:       #e8f4fd;
+        --footer-bg:     #0a1929;
+        --footer-fg:     #94a3b8cc;
+        --texture-opacity: 0.06;
+      }
+
+      /* 🌙 Theme 2: Байкальская ночь (тёмная) */
+      [data-theme="night"] {
+        --bg:            #0b1622;   /* глубокая ночь Байкала */
+        --surface:       #12202e;   /* карточки */
+        --text:          #b8c9db;   /* текст */
+        --heading:       #e8f4fd;   /* светлые заголовки — читаемы! */
+        --header-bg:     #090f17;   /* шапка чуть темнее фона */
+        --header-fg:     #e8f4fd;
+        --accent:        #60a5fa;   /* ЛЕДЯНОЙ СИНИЙ — не жёлтый! */
+        --accent-2:      #3b82f6;   /* яркий синий */
+        --accent-fg:     #0b1622;   /* тёмный текст на синем */
+        --border:        #1e3448;   /* границы */
+        --muted:         #94aec6;   /* muted текст */
+        --hero-bg:       #0b1622;
+        --hero-fg:       #e8f4fd;
+        --footer-bg:     #090f17;
+        --footer-fg:     #78909c99;
+        --texture-opacity: 0.25;
+      }
+
+      /* 🪵 Theme 3: Таёжный закат (тёплая) */
+      [data-theme="taiga"] {
+        --bg:            #f5f0e8;   /* тёплая бумага */
+        --surface:       #ffffff;
+        --text:          #3d2b1f;   /* тёмное дерево */
+        --heading:       #2c1810;   /* заголовки */
+        --header-bg:     #2c1810;
+        --header-fg:     #f5f0e8;
+        --accent:        #c67b3a;   /* медь */
+        --accent-2:      #5a4632;
+        --accent-fg:     #ffffff;
+        --border:        #d4c4b0;
+        --muted:         #8a7a6a;
+        --hero-bg:       #2c1810;
+        --hero-fg:       #f5f0e8;
+        --footer-bg:     #2c1810;
+        --footer-fg:     #f5f0e8b3;
+        --texture-opacity: 0.03;
+      }
+
+      /* 🧊 Theme 4: Байкальский лёд (холодный светлый) */
+      [data-theme="ice"] {
+        --bg:            #e8f4fd;   /* ледяная вода */
+        --surface:       #ffffff;
+        --text:          #1a3a4e;   /* глубокий лёд */
+        --heading:       #0d2533;   /* тёмный лёд */
+        --header-bg:     #0d2533;
+        --header-fg:     #e8f4fd;
+        --accent:        #4fc3f7;   /* бирюзовый лёд */
+        --accent-2:      #0288d1;   /* глубокий синий */
+        --accent-fg:     #0d2533;
+        --border:        #b3d9ea;
+        --muted:         #5a8a9e;
+        --hero-bg:       #0d2533;
+        --hero-fg:       #e8f4fd;
+        --footer-bg:     #0d2533;
+        --footer-fg:     #b3d9eacc;
+        --texture-opacity: 0.04;
+      }
+
+      /* 🌌 Theme 5: Полярное сияние (тёмная с зелёным) */
+      [data-theme="polar"] {
+        --bg:            #0d1b2a;   /* полярная ночь */
+        --surface:       #152238;   /* карточки */
+        --text:          #b0c4d8;   /* текст */
+        --heading:       #e0f0ff;   /* светлые заголовки */
+        --header-bg:     #080f1a;
+        --header-fg:     #e0f0ff;
+        --accent:        #66bb6a;   /* аврора-зелёный */
+        --accent-2:      #26a69a;   /* бирюзовый акцент */
+        --accent-fg:     #0d1b2a;
+        --border:        #1e3a50;
+        --muted:         #7a9ab0;
+        --hero-bg:       #0d1b2a;
+        --hero-fg:       #e0f0ff;
+        --footer-bg:     #080f1a;
+        --footer-fg:     #7a9ab099;
+        --texture-opacity: 0.2;
+      }
+
+      /* 🌅 Theme 6: Рассвет над Байкалом (тёплый светлый) */
+      [data-theme="sunrise"] {
+        --bg:            #fdf0e6;   /* тёплый песок */
+        --surface:       #ffffff;
+        --text:          #4a2c1a;   /* коричневый */
+        --heading:       #2e1a0e;   /* тёмный шоколад */
+        --header-bg:     #2e1a0e;
+        --header-fg:     #fdf0e6;
+        --accent:        #ff8a65;   /* рассветный оранжевый */
+        --accent-2:      #e65100;   /* глубокий оранжевый */
+        --accent-fg:     #ffffff;
+        --border:        #e0c8b8;
+        --muted:         #9a7a6a;
+        --hero-bg:       #2e1a0e;
+        --hero-fg:       #fdf0e6;
+        --footer-bg:     #2e1a0e;
+        --footer-fg:     #e0c8b8cc;
+        --texture-opacity: 0.03;
+      }
+
+      /* 🔥 Theme 7: Угли (тёмная с красным) */
+      [data-theme="ember"] {
+        --bg:            #1a0f0f;   /* тёмный уголь */
+        --surface:       #261515;   /* карточки */
+        --text:          #d4b8b0;   /* тёплый текст */
+        --heading:       #f5e6e0;   /* светлые заголовки */
+        --header-bg:     #120a0a;
+        --header-fg:     #f5e6e0;
+        --accent:        #ef5350;   /* раскалённый красный */
+        --accent-2:      #ff8a65;   /* оранжевое пламя */
+        --accent-fg:     #1a0f0f;
+        --border:        #3d2020;
+        --muted:         #a08078;
+        --hero-bg:       #1a0f0f;
+        --hero-fg:       #f5e6e0;
+        --footer-bg:     #120a0a;
+        --footer-fg:     #a0807899;
+        --texture-opacity: 0.15;
+      }
+
+      body { background: var(--bg) !important; color: var(--text) !important; }
+
+      /* ═══ ВСЕ ТЕКСТОВЫЕ ЦВЕТА — полная карта читаемости ═══
+         ТЕЗИС:   text-frost-dark/80 = #c9d9e6CC на белом = 1.7:1 → НЕЧИТАЕМО
+         АНТИТЕЗИС: text-frost-dark/50-70 → var(--muted) → ~4.5:1 → приемлемо
+         СИНТЕЗ:   полная матрица классов с гарантированной читаемостью
+         Все /50, /60, /70, /80 → var(--text) с разной opacity (от 50% до 100%)
+         Это гарантирует контраст ≥ AA на любом фоне в любой теме ═══ */
+
+      .text-thunder                     { color: var(--heading) !important; }
+      .text-steel                       { color: var(--text) !important; }
+      .text-bolt                        { color: var(--accent) !important; }
+      .text-ice                         { color: var(--accent-2) !important; }
+
+      /* Все оттеночные варианты frost-dark → var(--heading) с полным контрастом */
+      .text-frost-dark                     { color: var(--heading) !important; }
+      .text-frost-dark\/80,
+      .text-frost-dark\/70,
+      .text-frost-dark\/60,
+      .text-frost-dark\/50              { color: var(--text) !important; opacity: 0.85; }
+
+      /* Фоновые классы */
+      .bg-thunder, .from-thunder        { background-color: var(--hero-bg) !important; }
+      .bg-frost                         { background-color: var(--bg) !important; }
+      .bg-steel                         { background-color: var(--footer-bg) !important; }
+      .text-frost                       { color: var(--header-fg) !important; }
+      .text-frost\/80                   { color: var(--header-fg) !important; opacity: 0.8; }
+      .text-frost\/70                   { color: var(--header-fg) !important; opacity: 0.7; }
+      .text-frost\/60                   { color: var(--header-fg) !important; opacity: 0.6; }
+      .text-frost\/50                   { color: var(--header-fg) !important; opacity: 0.5; }
+      .text-frost\/40                   { color: var(--header-fg) !important; opacity: 0.4; }
+      .bg-bolt                          { background-color: var(--accent) !important; color: var(--accent-fg) !important; }
+      .bg-ice                           { background-color: var(--accent-2) !important; }
+      .text-ice                         { color: var(--accent-2) !important; }
+      .border-ice\/30, .border-ice\/40  { border-color: var(--accent-2) !important; opacity: 0.4; }
+      .border-frost-dark                { border-color: var(--border) !important; }
+      .bg-frost-dark\/30                { background: rgba(201, 217, 230, 0.3) !important; }
+      .bg-thunder\/95                   { background: var(--header-bg) !important; opacity: 0.95; }
+      .border-frost\/30                 { border-color: rgba(232, 244, 253, 0.3) !important; }
+      .border-frost\/10                 { border-color: rgba(232, 244, 253, 0.1) !important; }
+      .bg-frost\/5                      { background: rgba(232, 244, 253, 0.05) !important; }
+      .bg-bolt\/10                      { background: rgba(244, 185, 66, 0.1) !important; }
+      .product-card                    { background-color: var(--surface) !important; }
+      .bg-white                         { background-color: var(--surface) !important; }
+      .ice-cracks-bg                    { background-color: var(--bg) !important; }
+      .bg-ice-texture::after            { opacity: var(--texture-opacity) !important; }
+      .to-thunder-dark                  { --tw-gradient-to: var(--hero-bg) !important; }
+
+      /* Safari 16.4+ — color-mix (точные цвета с прозрачностью) */
+      @supports (background: color-mix(in srgb, red 50%, transparent)) {
+        .bg-frost-dark\/30                { background: color-mix(in srgb, var(--border) 30%, transparent) !important; }
+        .bg-thunder\/95                   { background: color-mix(in srgb, var(--header-bg) 95%, transparent) !important; }
+        .border-frost\/30                 { border-color: color-mix(in srgb, var(--header-fg) 30%, transparent) !important; }
+        .border-frost\/10                 { border-color: color-mix(in srgb, var(--header-fg) 10%, transparent) !important; }
+        .bg-frost\/5                      { background: color-mix(in srgb, var(--header-fg) 5%, transparent) !important; }
+        .bg-bolt\/10                      { background: color-mix(in srgb, var(--accent) 10%, transparent) !important; }
+        .to-thunder-dark                  { --tw-gradient-to: color-mix(in srgb, var(--hero-bg) 80%, black) !important; }
+      }
+
+      /* ═══ ПЕРЕКЛЮЧАТЕЛЬ ТЕМ ═══ */
+      .theme-switcher    { display: inline-flex; gap: 0; background: rgba(232, 244, 253, 0.08); border: 1px solid rgba(232, 244, 253, 0.15); padding: 1px; }
+      .theme-btn         { width: 20px; height: 20px; border: 1px solid transparent; cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center; font-size: 10px; background: transparent; color: var(--header-fg); }
+      .theme-btn:hover   { border-color: var(--accent); background: rgba(244, 185, 66, 0.15); }
+      .theme-btn.active  { border-color: var(--accent); background: rgba(244, 185, 66, 0.2); }
+      @supports (background: color-mix(in srgb, red 50%, transparent)) {
+        .theme-switcher    { background: color-mix(in srgb, var(--header-fg) 8%, transparent); border-color: color-mix(in srgb, var(--header-fg) 15%, transparent); }
+        .theme-btn:hover   { background: color-mix(in srgb, var(--accent) 15%, transparent); }
+        .theme-btn.active  { background: color-mix(in srgb, var(--accent) 20%, transparent); }
+      }
+      @media (min-width: 640px) { .theme-btn { width: 28px; height: 26px; font-size: 14px; } .theme-switcher { padding: 2px; gap: 2px; } }
+
+      /* ═══ HAMBURGER ═══ */
+      #menu-toggle[aria-expanded="true"] .menu-bar:nth-child(1) { transform: translateY(4px) rotate(45deg); }
+      #menu-toggle[aria-expanded="true"] .menu-bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+      #menu-toggle[aria-expanded="true"] .menu-bar:nth-child(3) { transform: translateY(-4px) rotate(-45deg); }
+
+      /* ═══ MOBILE MENU ═══ */
+      #mobile-menu { will-change: transform, opacity; }
+      #mobile-menu.translate-y-0 { transform: translateY(0); }
+      #mobile-menu.-translate-y-full { transform: translateY(-100%); }
+    </style><script>
+      (function() {
+        var theme = localStorage.getItem('grom-theme') || 'light';
+        var meta = document.querySelector('meta[name="theme-color"]');
+        var colors = { light: '#f0f4f7', night: '#0b1622', taiga: '#2c1810', ice: '#e8f4fd', polar: '#0d1b2a', sunrise: '#fdf0e6', ember: '#1a0f0f' };
+        document.documentElement.setAttribute('data-theme', theme);
+        if (meta && colors[theme]) meta.setAttribute('content', colors[theme]);
+      })();
+    </script><script>
+      // ═══ Клиентский i18n — заменяет русский текст на нужный язык ═══
+      (function() {
+        var url = new URL(window.location.href);
+        var lang = url.searchParams.get('lang') || localStorage.getItem('grom-lang') || 'ru';
+        if (!['ru','en','zh'].includes(lang)) lang = 'ru';
+        localStorage.setItem('grom-lang', lang);
+        document.documentElement.setAttribute('data-lang', lang);
+
+        // Обновить активную кнопку языка
+        var langBtns = document.querySelectorAll('#lang-switcher .theme-btn');
+        var langMap = { 'РУС': 'ru', 'ENG': 'en', '中文': 'zh' };
+        langBtns.forEach(function(btn) {
+          btn.classList.toggle('active', langMap[btn.title] === lang);
+        });
+
+        // ... rest of i18n script
+
+        fetch('/gromproject/i18n.json').then(r => r.json()).then(dict => {
+          if (!dict[lang] || lang === 'ru') return;
+          var d = dict[lang];
+          if (d.site_name) document.title = d.site_name;
+          var metaDesc = document.querySelector('meta[name="description"]');
+          if (metaDesc && d.desc) metaDesc.setAttribute('content', d.desc);
+          document.querySelectorAll('[data-i18n]').forEach(el => {
+            var key = el.getAttribute('data-i18n');
+            if (d[key]) el.textContent = d[key];
+          });
+          var ru = dict.ru;
+          var textMap = {};
+          for (var key in ru) {
+            if (typeof ru[key] === 'string' && ru[key].length > 1 && d[key] && d[key] !== ru[key]) {
+              textMap[ru[key]] = d[key];
+            }
+          }
+          var phrases = {
+            '⚡ Выбрать коньки': d.hero_cta1,
+            'Туры на Байкал': d.hero_cta2,
+            'отзывов · 5.0': d.metric_reviews,
+            'без заточки': d.metric_km,
+            'нагрузка': d.metric_kg,
+            'Не гнётся. Не ломается.': d.tech_heading,
+            'Каждый комплект — это лазерная резка, нержавеющая сталь и сибирский характер.': d.tech_subtitle,
+            '★ ★ ★ ★ ★ · 5.0 · 109 отзывов': d.reviews_label,
+            'Говорят люди': d.reviews_heading,
+            'Шесть изделий. Единый стандарт.': d.catalog_heading,
+            'Все товары →': d.catalog_all,
+            'Подобрать лезвие': d.calc_heading,
+            'Под ботинок 38–42 берите 480 мм, под 43–46 — 520 мм.': d.calc_subtitle,
+            'Рекомендуем': d.calc_recommend,
+            'Купить за 6 600 ₽': d.calc_cta,
+            'Готов к открытому льду?': d.cta_heading,
+            '109 клиентов уже катаются на ГРОМ. Присоединяйся. Доставка по РФ за 3–7 дней · Гарантия 1 год.': d.cta_text,
+            '⚡ В каталог': d.cta_catalog,
+            'Каталог': d.nav_catalog,
+            'Туры': d.nav_tours,
+            'Технология': d.nav_technology,
+            'Бренд': d.nav_brand,
+            'Контакты': d.nav_contacts,
+            'Технология': d.tech_label,
+            'Каталог': d.catalog_label,
+            'Калькулятор размера': d.calc_label,
+          };
+
+          function replaceTextNodes(root) {
+            if (root.nodeType === 3) {
+              var t = root.textContent.trim();
+              if (phrases[t] !== undefined) {
+                if (phrases[t] !== null && phrases[t] !== undefined) {
+                  root.textContent = phrases[t];
+                }
+                return;
+              }
+              if (textMap[t]) {
+                root.textContent = textMap[t];
+                return;
+              }
+            }
+            if (root.childNodes) {
+              for (var i = 0; i < root.childNodes.length; i++) {
+                replaceTextNodes(root.childNodes[i]);
+              }
+            }
+          }
+          replaceTextNodes(document.body);
+        }).catch(() => {});
+      })();
+    </script><link rel="stylesheet" href="/gromproject/_astro/about.Buh6yZkr.css"></head> <body class="min-h-screen flex flex-col overflow-x-hidden"> <header class="bg-thunder/95 text-frost sticky top-0 z-50 border-b-2 border-bolt/40 backdrop-blur-md"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2"> <a href="/gromproject//" class="flex items-center gap-2 sm:gap-3 group shrink-0"> <svg width="24" height="24" viewBox="0 0 32 32" class="hidden sm:block text-bolt fill-current group-hover:scale-110 transition-transform"> <path d="M19 2 L8 18 L15 18 L11 30 L24 14 L17 14 Z"></path> </svg> <div class="leading-none"> <span class="text-base sm:text-lg font-black tracking-tight">ГРОМ</span> <span class="hidden sm:block text-[10px] text-frost/50 uppercase tracking-industrial mt-0.5">Ангарск · Сибирь</span> </div> </a> <!-- Hamburger — visible below md --> <button id="menu-toggle" class="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5 text-frost" aria-label="Меню" aria-expanded="false" aria-controls="mobile-menu"> <span class="menu-bar block w-5 h-0.5 bg-current transition-all duration-300 origin-center"></span> <span class="menu-bar block w-5 h-0.5 bg-current transition-all duration-300"></span> <span class="menu-bar block w-5 h-0.5 bg-current transition-all duration-300 origin-center"></span> </button> <nav class="hidden md:flex items-center gap-1 text-xs font-bold uppercase tracking-industrial"> <a href="/gromproject/catalog?lang=ru" class="px-2 py-2 hover:text-bolt transition">Каталог</a> <a href="/gromproject/pro?lang=ru" class="px-2 py-2 hover:text-bolt transition text-bolt" data-i18n="nav_pro">PRO-серия</a> <a href="/gromproject/tours?lang=ru" class="px-2 py-2 hover:text-bolt transition">Туры</a> <a href="/gromproject/technology?lang=ru" class="px-2 py-2 hover:text-bolt transition">Технология</a> <a href="/gromproject/about?lang=ru" class="px-2 py-2 hover:text-bolt transition">Бренд</a> <a href="/gromproject/contacts?lang=ru" class="px-2 py-2 hover:text-bolt transition">Контакты</a> </nav> <div class="flex items-center gap-1 sm:gap-3"> <!-- Поиск --> <input type="search" id="site-search" placeholder="Поиск..." class="hidden sm:block bg-frost/10 border border-frost/30 text-frost text-xs font-mono px-3 py-1.5 w-28 lg:w-40 focus:w-48 transition-all focus:outline-none focus:border-bolt placeholder:text-frost/40" onkeydown="if(event.key==='Enter'){var q=document.getElementById('site-search').value;if(q)window.location.href='/gromproject/catalog/?q='+encodeURIComponent(q)}"> <!-- Язык — client-side updated via script below --> <div class="theme-switcher flex-shrink-0" id="lang-switcher"> <a href="/gromproject/tours/sayany/?lang=ru" class="theme-btn" title="РУС">🇷🇺</a> <a href="/gromproject/tours/sayany/?lang=en" class="theme-btn" title="ENG">🇬🇧</a> <a href="/gromproject/tours/sayany/?lang=zh" class="theme-btn" title="中文">🇨🇳</a> </div> <!-- Переключатель тем --> <div class="theme-switcher flex-shrink-0" id="theme-switcher"> <button class="theme-btn" data-theme="light" title="Рассвет">🌅</button> <button class="theme-btn" data-theme="night" title="Ночь">🌙</button> <button class="theme-btn" data-theme="taiga" title="Тайга">🪵</button> <button class="theme-btn" data-theme="ice" title="Лёд">🧊</button> <button class="theme-btn" data-theme="polar" title="Аврора">🌌</button> <button class="theme-btn" data-theme="sunrise" title="Закат">🌇</button> <button class="theme-btn" data-theme="ember" title="Угли">🔥</button> </div> <a href="tel:+79025761917" class="hidden lg:flex items-center gap-1.5 text-xs font-mono text-frost/80 hover:text-bolt transition shrink-0"> +7 (902) 576-19-17 </a> </div> </div> </header> <!-- Mobile menu drawer --> <div id="mobile-menu" class="md:hidden fixed inset-x-0 top-14 sm:top-16 z-40 bg-thunder/98 border-b-2 border-bolt/40 backdrop-blur-md transform -translate-y-full opacity-0 pointer-events-none transition-all duration-300 ease-in-out max-h-[80vh] overflow-y-auto" aria-hidden="true"> <nav class="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1 text-sm font-bold uppercase tracking-industrial"> <a href="/gromproject/catalog?lang=ru" class="mobile-nav-link px-3 py-3 hover:text-bolt hover:bg-frost/5 transition rounded">Каталог</a> <a href="/gromproject/pro?lang=ru" class="mobile-nav-link px-3 py-3 hover:text-bolt hover:bg-frost/5 transition rounded text-bolt" data-i18n="nav_pro">PRO-серия</a> <a href="/gromproject/tours?lang=ru" class="mobile-nav-link px-3 py-3 hover:text-bolt hover:bg-frost/5 transition rounded">Туры</a> <a href="/gromproject/technology?lang=ru" class="mobile-nav-link px-3 py-3 hover:text-bolt hover:bg-frost/5 transition rounded">Технология</a> <a href="/gromproject/about?lang=ru" class="mobile-nav-link px-3 py-3 hover:text-bolt hover:bg-frost/5 transition rounded">Бренд</a> <a href="/gromproject/contacts?lang=ru" class="mobile-nav-link px-3 py-3 hover:text-bolt hover:bg-frost/5 transition rounded">Контакты</a> <div class="border-t border-frost/10 my-2"></div> <div class="flex items-center gap-3 px-3 py-2"> <input type="search" id="site-search-mobile" placeholder="Поиск..." class="bg-frost/10 border border-frost/30 text-frost text-xs font-mono px-3 py-2 flex-1 focus:outline-none focus:border-bolt placeholder:text-frost/40" onkeydown="if(event.key==='Enter'){var q=document.getElementById('site-search-mobile').value;if(q)window.location.href='/gromproject/catalog/?q='+encodeURIComponent(q)}"> </div> <div class="flex items-center gap-2 px-3 py-2"> <a href="tel:+79149775533" class="text-xs font-mono text-frost/80 hover:text-bolt transition">+7 914 977 55 33</a> </div> </nav> </div> <main class="flex-1 overflow-x-hidden">   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://11111000000.github.io/gromproject/"},{"@type":"ListItem","position":2,"name":"Туры","item":"https://11111000000.github.io/gromproject/tours/"},{"@type":"ListItem","position":3,"name":"Саяны & Тунка"}]}</script> <section class="relative bg-thunder text-frost py-12 sm:py-16 overflow-hidden border-b-4 border-bolt"> <div class="absolute inset-0 bg-ice-texture opacity-90"></div> <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <nav class="text-xs font-mono uppercase tracking-industrial text-frost/50 mb-6"> <a href="/gromproject//" class="hover:text-bolt">Главная</a> ·
+<a href="/gromproject//tours" class="hover:text-bolt">Туры</a> ·
+<span class="text-frost">Саяны &amp; Тунка</span> </nav> <div class="text-7xl mb-4">⛰</div> <h1 class="font-display font-black uppercase leading-[0.95] text-4xl sm:text-6xl mb-6">Саяны &amp; Тунка</h1> <p class="text-lg sm:text-xl text-frost/80 max-w-2xl mb-8">Горные озёра, термальные источники, треккинг к вулканам и бурятские стойбища.</p> <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl"> <div class="border-2 border-bolt/40 p-4"> <div class="text-[10px] font-mono uppercase tracking-industrial text-frost/60">Длительность</div> <div class="text-2xl font-display font-black text-bolt">7 дн.</div> </div> <div class="border-2 border-bolt/40 p-4"> <div class="text-[10px] font-mono uppercase tracking-industrial text-frost/60">Группа</div> <div class="text-2xl font-display font-black text-bolt">до 6</div> </div> <div class="border-2 border-bolt/40 p-4"> <div class="text-[10px] font-mono uppercase tracking-industrial text-frost/60">Цена</div> <div class="text-2xl font-display font-black text-bolt">65 000 ₽</div> </div> <div class="border-2 border-bolt/40 p-4"> <div class="text-[10px] font-mono uppercase tracking-industrial text-frost/60">Сезон</div> <div class="text-base font-display font-black text-bolt">Круглый год</div> </div> </div> </div> </section> <section class="bg-frost ice-cracks-bg py-20"> <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="section-label mb-3">Программа тура</div> <h2 class="font-display font-black text-thunder text-3xl uppercase mb-8">День за днём</h2> <div class="space-y-3"> <div class="bg-white border-l-4 border-bolt p-6 flex gap-4"> <div class="text-3xl font-display font-black text-bolt shrink-0 w-12">Д1</div> <div> <h3 class="font-display font-black text-thunder text-lg uppercase mb-1">Иркутск → Аршан</h3> <p class="text-frost-dark/70 text-sm">Переезд в Тункинскую долину, размещение, знакомство с курортом.</p> </div> </div><div class="bg-white border-l-4 border-bolt p-6 flex gap-4"> <div class="text-3xl font-display font-black text-bolt shrink-0 w-12">Д2</div> <div> <h3 class="font-display font-black text-thunder text-lg uppercase mb-1">Термальные источники</h3> <p class="text-frost-dark/70 text-sm">Купание в горячих источниках, отдых.</p> </div> </div><div class="bg-white border-l-4 border-bolt p-6 flex gap-4"> <div class="text-3xl font-display font-black text-bolt shrink-0 w-12">Д3</div> <div> <h3 class="font-display font-black text-thunder text-lg uppercase mb-1">Вулкан Кропоткина</h3> <p class="text-frost-dark/70 text-sm">Треккинг к подножию потухшего вулкана (8 км).</p> </div> </div><div class="bg-white border-l-4 border-bolt p-6 flex gap-4"> <div class="text-3xl font-display font-black text-bolt shrink-0 w-12">Д4</div> <div> <h3 class="font-display font-black text-thunder text-lg uppercase mb-1">Озеро Байкал</h3> <p class="text-frost-dark/70 text-sm">Поездка на восточный берег, прогулка, рыбалка.</p> </div> </div><div class="bg-white border-l-4 border-bolt p-6 flex gap-4"> <div class="text-3xl font-display font-black text-bolt shrink-0 w-12">Д5</div> <div> <h3 class="font-display font-black text-thunder text-lg uppercase mb-1">Бурятское стойбище</h3> <p class="text-frost-dark/70 text-sm">Знакомство с культурой, мастер-класс по приготовлению бухлёра.</p> </div> </div><div class="bg-white border-l-4 border-bolt p-6 flex gap-4"> <div class="text-3xl font-display font-black text-bolt shrink-0 w-12">Д6</div> <div> <h3 class="font-display font-black text-thunder text-lg uppercase mb-1">Пик Любви</h3> <p class="text-frost-dark/70 text-sm">Треккинг к панорамной точке (12 км).</p> </div> </div><div class="bg-white border-l-4 border-bolt p-6 flex gap-4"> <div class="text-3xl font-display font-black text-bolt shrink-0 w-12">Д7</div> <div> <h3 class="font-display font-black text-thunder text-lg uppercase mb-1">Возвращение</h3> <p class="text-frost-dark/70 text-sm">Возвращение в Иркутск.</p> </div> </div> </div> </div> </section> <section class="bg-thunder text-frost py-20"> <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center"> <h2 class="font-display font-black text-3xl sm:text-5xl uppercase mb-6">Готов забронировать?</h2> <p class="text-frost/70 max-w-2xl mx-auto mb-4">Цена: <span class="text-bolt font-black text-2xl">65 000 ₽</span> с человека</p> <p class="text-frost/70 max-w-2xl mx-auto mb-8">Включено: Трансфер, Гид, Проживание, Питание, Баня, Снаряжение для треккинга</p> <a href="https://max.ru/join/CItXClkmsu0XXWDvSS1a8icqjoIhikdprAks4RmZAaM" target="_blank" rel="noopener" class="btn-bolt">⚡ Забронировать</a> </div> </section>  </main> <footer class="bg-steel text-frost/80 overflow-x-hidden"> <div class="skate-track"></div> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"> <div class="grid grid-cols-2 md:grid-cols-4 gap-8"> <div class="col-span-2 md:col-span-1"> <div class="flex items-center gap-2 mb-4"> <svg width="24" height="24" viewBox="0 0 32 32" class="text-bolt fill-current"> <path d="M19 2 L8 18 L15 18 L11 30 L24 14 L17 14 Z"></path> </svg> <span class="font-black text-lg text-frost">ГРОМ</span> </div> <p class="text-sm leading-relaxed">ГРОМ — российские озёрные коньки. Сделано в Ангарске. Испытано на Байкале.</p> </div> <div> <h4 class="text-frost font-black uppercase text-[11px] tracking-industrial mb-3">Каталог</h4> <ul class="space-y-1.5 text-sm"> <li><a href="/gromproject/catalog?lang=ru" class="hover:text-bolt transition">Все товары</a></li> <li><a href="/gromproject/catalog?lang=ru&#38;cat=blades" class="hover:text-bolt transition">Лезвия</a></li> <li><a href="/gromproject/catalog?lang=ru&#38;cat=finished" class="hover:text-bolt transition">Готовые коньки</a></li> <li><a href="/gromproject/catalog?lang=ru&#38;cat=accessories" class="hover:text-bolt transition">Аксессуары</a></li> </ul> </div> <div> <h4 class="text-frost font-black uppercase text-[11px] tracking-industrial mb-3">Туры</h4> <ul class="space-y-1.5 text-sm"> <li><a href="/gromproject//tours/baikal" class="hover:text-bolt transition">Байкал & Ольхон</a></li> <li><a href="/gromproject//tours/sayany" class="hover:text-bolt transition">Саяны & Тунка</a></li> <li><a href="/gromproject//tours/datsans" class="hover:text-bolt transition">Дацаны & этнотуры</a></li> </ul> </div> <div> <h4 class="text-frost font-black uppercase text-[11px] tracking-industrial mb-3">Контакты</h4> <ul class="space-y-1.5 text-sm font-mono"> <li><a href="tel:+79025761917" class="hover:text-bolt transition">+7 (902) 576-19-17</a></li> <li><a href="mailto:info@grom38.ru" class="hover:text-bolt transition">info@grom38.ru</a></li> <li>Ангарск, пр. Карла Маркса 87/10</li> </ul> </div> </div> </div> <div class="border-t border-frost/10"> <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between text-xs text-frost/40 font-mono"> <span>© 2018–2026 ООО «ГРОМ»</span> <span>Сделано в Ангарске · Испытано на Байкале</span> </div> </div> </footer> <script>
+      (function() {
+        var btns = document.querySelectorAll('#lang-switcher .theme-btn, .theme-btn');
+        var langMap = { 'РУС': 'ru', 'ENG': 'en', '中文': 'zh' };
+        var themeBtns = document.querySelectorAll('#theme-switcher .theme-btn');
+        var switcher = document.getElementById('theme-switcher');
+        var meta = document.querySelector('meta[name="theme-color"]');
+        var colors = { light: '#f0f4f8', night: '#0b1622', taiga: '#2c1810', ice: '#e8f4fd', polar: '#0d1b2a', sunrise: '#fdf0e6', ember: '#1a0f0f' };
+        if (!switcher) return;
+
+        function setTheme(name) {
+          document.documentElement.setAttribute('data-theme', name);
+          localStorage.setItem('grom-theme', name);
+          themeBtns.forEach(function(b) { b.classList.toggle('active', b.dataset.theme === name); });
+          if (meta && colors[name]) meta.setAttribute('content', colors[name]);
+        }
+
+        // Set active lang button
+        var url2 = new URL(window.location.href);
+        var currentLang = url2.searchParams.get('lang') || localStorage.getItem('grom-lang') || 'ru';
+        if (!['ru','en','zh'].includes(currentLang)) currentLang = 'ru';
+        var langBtns = document.querySelectorAll('#lang-switcher .theme-btn');
+        var langMap2 = { 'РУС': 'ru', 'ENG': 'en', '中文': 'zh' };
+        langBtns.forEach(function(b) { b.classList.toggle('active', langMap2[b.title] === currentLang); });
+
+        switcher.addEventListener('click', function(e) {
+          var btn = e.target.closest('.theme-btn');
+          if (btn) setTheme(btn.dataset.theme);
+        });
+
+        setTheme(localStorage.getItem('grom-theme') || 'light');
+
+        // ═══ Mobile menu toggle ═══
+        var menuToggle = document.getElementById('menu-toggle');
+        var mobileMenu = document.getElementById('mobile-menu');
+        if (menuToggle && mobileMenu) {
+          function closeMenu() {
+            mobileMenu.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+            mobileMenu.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+            mobileMenu.setAttribute('aria-hidden', 'true');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('overflow-hidden');
+          }
+          function openMenu() {
+            mobileMenu.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
+            mobileMenu.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+            mobileMenu.setAttribute('aria-hidden', 'false');
+            menuToggle.setAttribute('aria-expanded', 'true');
+            document.body.classList.add('overflow-hidden');
+          }
+          menuToggle.addEventListener('click', function() {
+            var isOpen = mobileMenu.getAttribute('aria-hidden') === 'false';
+            if (isOpen) closeMenu(); else openMenu();
+          });
+          // Close on nav link click
+          mobileMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', closeMenu);
+          });
+          // Close on Escape
+          document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeMenu();
+          });
+          // Close on resize to desktop
+          window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768) closeMenu();
+          });
+        }
+      })();
+    </script> </body> </html>

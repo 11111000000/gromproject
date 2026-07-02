@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://11111000000.github.io/gromproject/sitemap.xml
