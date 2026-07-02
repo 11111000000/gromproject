@@ -1,0 +1,164 @@
+---
+import Base from '../../layouts/Base.astro';
+import { t, defaultLang, type Lang } from '../../i18n/translations';
+
+const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
+const tr = t[lang];
+
+interface Tour { slug: string; name: string; desc: string; days: number; price: number; maxPeople: number; season: string; emoji: string; color: string; highlights: string[]; }
+
+const tours: Record<Lang, Tour[]> = {
+  ru: [
+    {
+      slug: 'baikal',
+      name: t.ru.tour_baikal_name,
+      desc: t.ru.tour_baikal_desc,
+      days: 5, price: 45000, maxPeople: 8, season: 'Январь — Март', emoji: '🏔', color: 'thunder',
+      highlights: ['Ледовые пещеры мыса Хобой', 'Шаманские скалы острова Ольхон', 'Закат на Сарайском пляже', 'Байкальский лёд толщиной до 1.5 м', 'Традиционная бурятская кухня'],
+    },
+    {
+      slug: 'sayany',
+      name: t.ru.tour_sayany_name,
+      desc: t.ru.tour_sayany_desc,
+      days: 7, price: 65000, maxPeople: 6, season: 'Круглый год', emoji: '⛰', color: 'ice',
+      highlights: ['Озеро Байкал с восточного берега', 'Термальные источники Тункинской долины', 'Вулканы Кропоткина и Старого', 'Треккинг к пику Любви', 'Бурятское стойбище'],
+    },
+    {
+      slug: 'datsans',
+      name: t.ru.tour_datsans_name,
+      desc: t.ru.tour_datsans_desc,
+      days: 4, price: 38000, maxPeople: 10, season: 'Круглый год', emoji: '🛕', color: 'bolt',
+      highlights: ['Иволгинский дацан — центр российского буддизма', 'Этнолагерь с юртами', 'Мастер-класс по приготовлению бухлёра', 'Встреча с ламой', 'Горловое пение и обряды'],
+    },
+  ],
+  en: [
+    {
+      slug: 'baikal',
+      name: t.en.tour_baikal_name,
+      desc: t.en.tour_baikal_desc,
+      days: 5, price: 45000, maxPeople: 8, season: 'January — March', emoji: '🏔', color: 'thunder',
+      highlights: ['Ice caves of Cape Khoboy', 'Shamanic rocks of Olkhon Island', 'Sunset at Saraysky Beach', 'Baikal ice up to 1.5 m thick', 'Traditional Buryat cuisine'],
+    },
+    {
+      slug: 'sayany',
+      name: t.en.tour_sayany_name,
+      desc: t.en.tour_sayany_desc,
+      days: 7, price: 65000, maxPeople: 6, season: 'Year-round', emoji: '⛰', color: 'ice',
+      highlights: ['Lake Baikal from the east shore', 'Thermal springs of Tunkinskaya Valley', 'Kropotkin and Old Volcanoes', 'Trekking to Love Peak', 'Buryat camp'],
+    },
+    {
+      slug: 'datsans',
+      name: t.en.tour_datsans_name,
+      desc: t.en.tour_datsans_desc,
+      days: 4, price: 38000, maxPeople: 10, season: 'Year-round', emoji: '🛕', color: 'bolt',
+      highlights: ['Ivolginsky Datsan — center of Russian Buddhism', 'Ethno-camp with yurts', 'Bukhlyor cooking masterclass', 'Meeting with a lama', 'Throat singing and rituals'],
+    },
+  ],
+  zh: [
+    {
+      slug: 'baikal',
+      name: t.zh.tour_baikal_name,
+      desc: t.zh.tour_baikal_desc,
+      days: 5, price: 45000, maxPeople: 8, season: '一月 — 三月', emoji: '🏔', color: 'thunder',
+      highlights: ['霍博伊角冰洞', '奥利洪岛萨满岩', '萨赖斯基海滩日落', '厚达1.5米的贝加尔冰', '传统布里亚特美食'],
+    },
+    {
+      slug: 'sayany',
+      name: t.zh.tour_sayany_name,
+      desc: t.zh.tour_sayany_desc,
+      days: 7, price: 65000, maxPeople: 6, season: '全年', emoji: '⛰', color: 'ice',
+      highlights: ['从东岸看贝加尔湖', '通卡山谷温泉', '克鲁波特金和旧火山', '徒步至爱情峰', '布里亚特营地'],
+    },
+    {
+      slug: 'datsans',
+      name: t.zh.tour_datsans_name,
+      desc: t.zh.tour_datsans_desc,
+      days: 4, price: 38000, maxPeople: 10, season: '全年', emoji: '🛕', color: 'bolt',
+      highlights: ['伊沃尔金斯基达仓——俄罗斯佛教中心', '蒙古包民族营地', '布赫勒尔烹饪课', '与喇嘛会面', '呼麦唱法和仪式'],
+    },
+  ],
+};
+
+const labels = {
+  ru: { duration: 'Длительность', days: 'дней', upTo: 'до', people: 'чел.', est: 'EST. 2018 · ООО «ГРОМ»', cat: 'Каталог туров', heading: 'Три направления. Один стандарт.', subtitle: 'Каждый тур — с гидом, трансфером и продуманной программой.' },
+  en: { duration: 'Duration', days: 'days', upTo: 'up to', people: 'people', est: 'EST. 2018 · GROM LLC', cat: 'Tour catalog', heading: 'Three directions. One standard.', subtitle: 'Every tour comes with a guide, transfers and a curated program.' },
+  zh: { duration: '时长', days: '天', upTo: '最多', people: '人', est: 'EST. 2018 · GROM LLC', cat: '旅游目录', heading: '三个方向。一个标准。', subtitle: '每趟旅游都配有导游、交通和精心策划的行程。' },
+} as const;
+const L = labels[lang];
+---
+<Base title={tr.tours_title} description={lang === 'ru' ? 'Туры на Байкал с коньками ГРОМ — Байкал и Ольхон, Саяны, дацаны.' : lang === 'en' ? 'Baikal tours with GROM skates — Baikal & Olkhon, Sayans, datsans.' : 'ГРОМ 冰刀贝加尔湖之旅 — 贝加尔湖与奥尔洪岛、萨彦岭、寺庙。'}>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": lang === 'ru' ? 'Главная' : lang === 'en' ? 'Home' : '首页', "item": "https://11111000000.github.io/gromproject/" },
+      { "@type": "ListItem", "position": 2, "name": lang === 'ru' ? 'Туры' : lang === 'en' ? 'Tours' : '旅游', "item": "https://11111000000.github.io/gromproject/tours/" }
+    ]
+  })} />
+
+  <section class="relative bg-thunder text-frost py-20 sm:py-28 overflow-hidden border-b-4 border-bolt">
+    <div class="absolute inset-0 bg-ice-texture opacity-90"></div>
+    <div class="absolute top-6 left-0 right-0 z-10">
+      <div class="max-w-7xl mx-auto px-4 flex items-center justify-between text-[10px] font-mono uppercase tracking-industrial text-frost/40">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 bg-bolt rounded-full animate-bolt-pulse"></span>
+          {lang === 'en' ? 'BAIKAL · SAYAN · BURYATIA' : lang === 'zh' ? '贝加尔湖 · 萨彦 · 布里亚特' : 'БАЙКАЛ · САЯНЫ · БУРЯТИЯ'}
+        </div>
+        <div>{L.est}</div>
+      </div>
+    </div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="section-label justify-center mb-3">{tr.tours_label}</div>
+      <h1 class="font-display font-black uppercase leading-[0.95] text-4xl sm:text-6xl lg:text-7xl lg:text-8xl mb-8">
+        <span class="block text-frost">{tr.tours_h1_top}</span>
+        <span class="block text-bolt text-glow-bolt">& {tr.tours_h1_bottom}</span>
+      </h1>
+      <p class="text-lg sm:text-xl text-frost/80 leading-relaxed mb-10 max-w-2xl mx-auto">{tr.tours_subtitle}</p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href="#tours" class="btn-bolt">{tr.tours_cta_catalog}</a>
+        <a href="#contact" class="btn-ghost">{tr.tours_cta_contact}</a>
+      </div>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 skate-track opacity-50"></div>
+  </section>
+
+  <section id="tours" class="bg-frost ice-cracks-bg py-20 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <div class="section-label justify-center mb-3">{L.cat}</div>
+        <h2 class="font-display font-black text-thunder text-3xl sm:text-5xl uppercase">{L.heading}</h2>
+        <p class="mt-4 text-frost-dark/70 max-w-2xl mx-auto">{L.subtitle}</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {tours[lang].map(tour => (
+          <a href={`${import.meta.env.BASE_URL}tours/${tour.slug}`} class="group block bg-white border-2 border-frost-dark hover:border-bolt transition-all duration-300 relative">
+            <div class="aspect-square bg-bolt/10 flex items-center justify-center text-8xl">{tour.emoji}</div>
+            <div class="p-6">
+              <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50 mb-1">{L.duration.toUpperCase()} · {tour.days} {L.days.toUpperCase()}</div>
+              <h3 class="font-display font-black text-thunder text-xl leading-tight uppercase mb-2">{tour.name}</h3>
+              <p class="text-frost-dark/70 text-sm mb-4">{tour.desc}</p>
+              <div class="flex items-center justify-between pt-4 border-t border-frost-dark">
+                <div class="font-display font-black text-thunder text-2xl">{tour.price.toLocaleString('ru-RU')} ₽</div>
+                <div class="text-bolt font-black text-xs uppercase tracking-industrial group-hover:translate-x-1 transition">→</div>
+              </div>
+              <div class="mt-3 text-[10px] font-mono text-frost-dark/50 uppercase">{L.upTo.toUpperCase()} {tour.maxPeople} {L.people.toUpperCase()} · {tour.season}</div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="bg-thunder text-frost py-20 sm:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <svg width="48" height="48" viewBox="0 0 32 32" class="text-bolt fill-current mx-auto mb-6">
+        <path d="M19 2 L8 18 L15 18 L11 30 L24 14 L17 14 Z"/>
+      </svg>
+      <h2 class="font-display font-black text-3xl sm:text-5xl uppercase mb-6">{tr.tours_cta_heading}</h2>
+      <p class="text-frost/70 max-w-2xl mx-auto mb-8">{tr.tours_cta_text}</p>
+      <a href="https://max.ru/join/CItXClkmsu0XXWDvSS1a8icqjoIhikdprAks4RmZAaM" target="_blank" rel="noopener" class="btn-bolt">{tr.tours_cta_action}</a>
+    </div>
+  </section>
+</Base>

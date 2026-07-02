@@ -1,0 +1,345 @@
+---
+import Base from '../../layouts/Base.astro';
+import { t, defaultLang, type Lang } from '../../i18n/translations';
+
+const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
+const tr = t[lang];
+
+export function getStaticPaths() {
+  return [
+    { params: { sku: '001' } }, { params: { sku: '002' } },
+    { params: { sku: '003' } }, { params: { sku: '004' } },
+    { params: { sku: '005' } }, { params: { sku: '006' } },
+  ];
+}
+
+interface Spec { k: string; v: string; }
+interface Product {
+  name: string;
+  price: number; sku: string; rating: number | null; reviews: number; badge: string | null;
+  short: string; desc: string;
+  specs: Spec[];
+  variants?: { size?: string[]; binding?: string[]; };
+}
+
+const products: Record<Lang, Record<string, Product>> = {
+  ru: {
+    '001': { sku: '001', name: t.ru.product_001_name, price: 7800, rating: 5.0, reviews: 109, badge: t.ru.product_badge_hit, short: 'Сталь 420 · 460/520 мм · 1.3 кг · HRC 50', desc: 'Нордики или как их ещё называют — байсы. Коньки для открытого льда собственной разработки и исполнения, предназначены под эксплуатацию с ботинками беговых лыж для конькового хода. Эти коньки — результат долгой и кропотливой работы, как в теоретической части так и в практическом исполнении.', specs: [
+      { k: 'HRC (твёрдость)', v: '50' }, { k: 'Сталь', v: '420 нержавеющая, 1.2 мм' }, { k: 'Корпус', v: 'Алюминиевый уголок 20×20×2 мм' }, { k: 'Клёпки', v: 'Полнотелые алюминиевые' }, { k: 'Длина', v: '460 мм / 520 мм' }, { k: 'Вес пары', v: '800 г (460 мм) / 880 г (520 мм)' }, { k: 'Вес с упаковкой', v: '1,3 кг' }, { k: 'Макс. нагрузка', v: 'до 110 кг (усиленные — под заказ)' }, { k: 'Полка под крепление', v: '42 мм' }, { k: 'Радиус поворота', v: '4 м (460 мм) / 7 м (520 мм)' }, { k: 'Ресурс заточки', v: '≥ 200 км на чистом льду' }, { k: 'Производство', v: 'Лазерная резка на ЧПУ' }, { k: 'Совместимость', v: 'NNN, SNS, Prolink' },
+      { k: 'Мастер', v: 'Алексей' }, { k: 'Серийный №', v: 'ГРОМ-001-2026-####' }, { k: 'Гарантия', v: '1 год' }, { k: 'Срок изготовления', v: '2 недели' },
+    ], variants: { size: ['460 мм', '520 мм'], binding: ['NNN', 'SNS'] } },
+    '002': { sku: '002', name: t.ru.product_002_name, price: 9200, rating: 5.0, reviews: 109, badge: t.ru.product_badge_hit, short: 'Антикоррозийное покрытие · сталь 420 · 460/520 мм · HRC 50', desc: 'Премиум-версия с порошковым антикоррозийным покрытием. Та же надёжность, что у неокрашенных, плюс защита от ржавчины и стильный внешний вид.', specs: [
+      { k: 'HRC (твёрдость)', v: '50' }, { k: 'Сталь', v: '420 нержавеющая, 1.2 мм' }, { k: 'Покрытие', v: 'Порошковая окраска' }, { k: 'Длина', v: '460 мм / 520 мм' }, { k: 'Вес пары', v: '800 г (460 мм) / 880 г (520 мм)' }, { k: 'Вес с упаковкой', v: '1,3 кг' }, { k: 'Макс. нагрузка', v: 'до 110 кг' }, { k: 'Ресурс заточки', v: '≥ 200 км' },
+      { k: 'Мастер', v: 'Алексей' }, { k: 'Серийный №', v: 'ГРОМ-002-2026-####' }, { k: 'Гарантия', v: '1 год' },
+    ], variants: { size: ['460 мм', '520 мм'], binding: ['NNN', 'SNS'] } },
+    '003': { sku: '003', name: t.ru.product_003_name, price: 6600, rating: null, reviews: 0, badge: null, short: '480/520 мм · 1.1 кг · HRC 50', desc: 'Стальное лезвие для открытого льда. Подходит для самостоятельной установки на лыжные ботинки NNN и SNS.', specs: [
+      { k: 'HRC (твёрдость)', v: '50' }, { k: 'Материал', v: 'Сталь' }, { k: 'Длина', v: '480 мм / 520 мм' }, { k: 'Вес', v: '1,1 кг' }, { k: 'Совместимость', v: 'NNN, SNS' },
+      { k: 'Мастер', v: 'Алексей' }, { k: 'Серийный №', v: 'ГРОМ-003-2026-####' }, { k: 'Гарантия', v: '1 год' },
+    ], variants: { size: ['480 мм', '520 мм'] } },
+    '004': { sku: '004', name: t.ru.product_004_name, price: 8000, rating: null, reviews: 0, badge: null, short: 'Защитное покрытие · 480/520 мм · HRC 50', desc: 'Лезвие с антикоррозийным покрытием. Увеличенный срок службы, защита от ржавчины.', specs: [
+      { k: 'HRC (твёрдость)', v: '50' }, { k: 'Материал', v: 'Сталь' }, { k: 'Покрытие', v: 'Порошковая окраска' }, { k: 'Длина', v: '480 мм / 520 мм' }, { k: 'Вес', v: '1,1 кг' }, { k: 'Совместимость', v: 'NNN, SNS' },
+      { k: 'Мастер', v: 'Алексей' }, { k: 'Серийный №', v: 'ГРОМ-004-2026-####' }, { k: 'Гарантия', v: '1 год' },
+    ], variants: { size: ['480 мм', '520 мм'] } },
+    '005': { sku: '005', name: t.ru.product_005_name, price: 1200, rating: null, reviews: 0, badge: t.ru.product_badge_hit, short: 'Плотная мебельная ткань с ворсом', desc: 'Чехол выполнен из плотной мебельной ткани с мягким и приятным ворсом. В нём очень удобно хранить и транспортировать озёрные коньки как нашего производства, так и модели сторонних производителей.', specs: [
+      { k: 'Материал', v: 'Мебельная ткань с ворсом' }, { k: 'Вес', v: '0,1 кг' }, { k: 'Назначение', v: 'Хранение и транспортировка' },
+    ] },
+    '006': { sku: '006', name: t.ru.product_006_name, price: 1200, rating: null, reviews: 0, badge: null, short: 'Металлические несущие · SNS/NNN · 0,35 кг', desc: 'Несущие детали головной части крепления выполнены из металла, что повышает его надёжность по сравнению с полностью пластиковыми аналогами.', specs: [
+      { k: 'Материал несущих', v: 'Металл' }, { k: 'Тип', v: 'Монолитная пластина' }, { k: 'Вес', v: '0,35 кг' }, { k: 'Совместимость', v: 'NNN, SNS, Prolink' },
+    ], variants: { binding: ['NNN', 'SNS'] } },
+  },
+  en: {
+    '001': { sku: '001', name: t.en.product_001_name, price: 7800, rating: 5.0, reviews: 109, badge: t.en.product_badge_hit, short: 'Steel 420 · 460/520 mm · 1.3 kg', desc: 'Nordic skates (also called bais). Open-ice skates of our own design and manufacture, intended for use with cross-country ski boots for skating. These skates are the result of long and meticulous work, both theoretically and in practical execution.', specs: [
+      { k: 'Steel', v: '420 stainless, 2 mm' }, { k: 'Frame', v: 'Aluminum angle 20×20×2 mm' }, { k: 'Rivets', v: 'Solid aluminum' }, { k: 'Length', v: '460 mm / 520 mm' }, { k: 'Pair weight', v: '800 g (460 mm) / 880 g (520 mm)' }, { k: 'Packed weight', v: '1.3 kg' }, { k: 'Max load', v: 'up to 110 kg (reinforced — custom order)' }, { k: 'Binding shelf', v: '42 mm' }, { k: 'Turn radius', v: '4 m (460 mm) / 7 m (520 mm)' }, { k: 'Edge life', v: '≥ 200 km on clean ice' }, { k: 'Production', v: 'CNC laser cutting' }, { k: 'Compatibility', v: 'NNN, SNS, Prolink' },
+    ], variants: { size: ['460 mm', '520 mm'], binding: ['NNN', 'SNS'] } },
+    '002': { sku: '002', name: t.en.product_002_name, price: 9200, rating: 5.0, reviews: 109, badge: t.en.product_badge_hit, short: 'Anti-corrosion coating · steel 420 · 460/520 mm', desc: 'Premium version with powder anti-corrosion coating. Same reliability as unpainted, plus rust protection and a stylish look.', specs: [
+      { k: 'Steel', v: '420 stainless, 2 mm' }, { k: 'Coating', v: 'Powder coating' }, { k: 'Length', v: '460 mm / 520 mm' }, { k: 'Pair weight', v: '800 g (460 mm) / 880 g (520 mm)' }, { k: 'Packed weight', v: '1.3 kg' }, { k: 'Max load', v: 'up to 110 kg' }, { k: 'Edge life', v: '≥ 200 km' },
+    ], variants: { size: ['460 mm', '520 mm'], binding: ['NNN', 'SNS'] } },
+    '003': { sku: '003', name: t.en.product_003_name, price: 6600, rating: null, reviews: 0, badge: null, short: '480/520 mm · 1.1 kg', desc: 'Steel blade for open ice. Suitable for self-installation on NNN and SNS ski boots.', specs: [
+      { k: 'Material', v: 'Steel' }, { k: 'Length', v: '480 mm / 520 mm' }, { k: 'Weight', v: '1.1 kg' }, { k: 'Compatibility', v: 'NNN, SNS' },
+    ], variants: { size: ['480 mm', '520 mm'] } },
+    '004': { sku: '004', name: t.en.product_004_name, price: 8000, rating: null, reviews: 0, badge: null, short: 'Protective coating · 480/520 mm', desc: 'Blade with anti-corrosion coating. Longer service life, rust protection.', specs: [
+      { k: 'Material', v: 'Steel' }, { k: 'Coating', v: 'Powder coating' }, { k: 'Length', v: '480 mm / 520 mm' }, { k: 'Weight', v: '1.1 kg' }, { k: 'Compatibility', v: 'NNN, SNS' },
+    ], variants: { size: ['480 mm', '520 mm'] } },
+    '005': { sku: '005', name: t.en.product_005_name, price: 1200, rating: null, reviews: 0, badge: t.en.product_badge_hit, short: 'Velvet furniture fabric', desc: 'Made of durable velvet furniture fabric with soft pleasant pile. Very convenient for storing and transporting lake skates from both our production and third-party models.', specs: [
+      { k: 'Material', v: 'Velvet furniture fabric' }, { k: 'Weight', v: '0.1 kg' }, { k: 'Purpose', v: 'Storage and transport' },
+    ] },
+    '006': { sku: '006', name: t.en.product_006_name, price: 1200, rating: null, reviews: 0, badge: null, short: 'Metal supports · SNS/NNN · 0.35 kg', desc: 'The bearing parts of the binding head are made of metal, which increases its reliability compared to fully plastic analogues.', specs: [
+      { k: 'Support material', v: 'Metal' }, { k: 'Type', v: 'Monolithic plate' }, { k: 'Weight', v: '0.35 kg' }, { k: 'Compatibility', v: 'NNN, SNS, Prolink' },
+    ], variants: { binding: ['NNN', 'SNS'] } },
+  },
+  zh: {
+    '001': { sku: '001', name: t.zh.product_001_name, price: 7800, rating: 5.0, reviews: 109, badge: t.zh.product_badge_hit, short: '420不锈钢 · 460/520毫米 · 1.3公斤', desc: '北欧冰鞋（也称为bais）。我们自主设计和制造的开放冰面冰鞋，配合越野滑雪靴滑冰使用。这些冰鞋是长期细致工作的成果，理论和实践执行俱佳。', specs: [
+      { k: '钢材', v: '420不锈钢，2毫米' }, { k: '框架', v: '铝角20×20×2毫米' }, { k: '铆钉', v: '实心铝' }, { k: '长度', v: '460毫米 / 520毫米' }, { k: '成对重量', v: '800克 (460毫米) / 880克 (520毫米)' }, { k: '包装重量', v: '1.3公斤' }, { k: '最大载荷', v: '高达110公斤（加强版 — 定制）' }, { k: '绑定架', v: '42毫米' }, { k: '转弯半径', v: '4米 (460毫米) / 7米 (520毫米)' }, { k: '刀刃寿命', v: '洁净冰面≥200公里' }, { k: '生产', v: 'CNC激光切割' }, { k: '兼容性', v: 'NNN, SNS, Prolink' },
+    ], variants: { size: ['460毫米', '520毫米'], binding: ['NNN', 'SNS'] } },
+    '002': { sku: '002', name: t.zh.product_002_name, price: 9200, rating: 5.0, reviews: 109, badge: t.zh.product_badge_hit, short: '防腐涂层 · 420不锈钢 · 460/520毫米', desc: '带粉末防腐涂层的优质版本。与未涂装版本同样可靠，加上防锈保护和时尚外观。', specs: [
+      { k: '钢材', v: '420不锈钢，2毫米' }, { k: '涂层', v: '粉末涂层' }, { k: '长度', v: '460毫米 / 520毫米' }, { k: '成对重量', v: '800克 (460毫米) / 880克 (520毫米)' }, { k: '包装重量', v: '1.3公斤' }, { k: '最大载荷', v: '高达110公斤' }, { k: '刀刃寿命', v: '≥200公里' },
+    ], variants: { size: ['460毫米', '520毫米'], binding: ['NNN', 'SNS'] } },
+    '003': { sku: '003', name: t.zh.product_003_name, price: 6600, rating: null, reviews: 0, badge: null, short: '480/520毫米 · 1.1公斤', desc: '适用于开放冰面的钢制冰刀。适合自行安装在NNN和SNS滑雪靴上。', specs: [
+      { k: '材料', v: '钢' }, { k: '长度', v: '480毫米 / 520毫米' }, { k: '重量', v: '1.1公斤' }, { k: '兼容性', v: 'NNN, SNS' },
+    ], variants: { size: ['480毫米', '520毫米'] } },
+    '004': { sku: '004', name: t.zh.product_004_name, price: 8000, rating: null, reviews: 0, badge: null, short: '保护涂层 · 480/520毫米', desc: '带防腐涂层的冰刀。使用寿命更长，防锈保护。', specs: [
+      { k: '材料', v: '钢' }, { k: '涂层', v: '粉末涂层' }, { k: '长度', v: '480毫米 / 520毫米' }, { k: '重量', v: '1.1公斤' }, { k: '兼容性', v: 'NNN, SNS' },
+    ], variants: { size: ['480毫米', '520毫米'] } },
+    '005': { sku: '005', name: t.zh.product_005_name, price: 1200, rating: null, reviews: 0, badge: t.zh.product_badge_hit, short: '绒面家具布料', desc: '由坚固的绒面家具布料制成，绒毛柔软舒适。便于存放和运输我们生产的湖上冰鞋以及第三方型号。', specs: [
+      { k: '材料', v: '绒面家具布料' }, { k: '重量', v: '0.1公斤' }, { k: '用途', v: '存储和运输' },
+    ] },
+    '006': { sku: '006', name: t.zh.product_006_name, price: 1200, rating: null, reviews: 0, badge: null, short: '金属支架 · SNS/NNN · 0.35公斤', desc: '绑定头部的承重部件由金属制成，比全塑料同类产品更可靠。', specs: [
+      { k: '支架材料', v: '金属' }, { k: '类型', v: '整体板' }, { k: '重量', v: '0.35公斤' }, { k: '兼容性', v: 'NNN, SNS, Prolink' },
+    ], variants: { binding: ['NNN', 'SNS'] } },
+  },
+};
+
+const reviewsData: Record<Lang, Array<{ name: string; city: string; text: string }>> = {
+  ru: [
+    { name: 'Антон', city: 'Иркутск', text: 'Откатал за сезон порядка 700 км, не точил. Лишний вес, нулевая физподготовка. Коньки практически едут сами.' },
+    { name: 'Алексей', city: 'Москва', text: 'Прекрасная обработка металла, прекрасная форма лезвий. Продавец объяснил всё по установке.' },
+    { name: 'Михаил', city: 'Ангарск', text: 'Очень лёгкие байсы, продавец порядочный, рекомендую.' },
+  ],
+  en: [
+    { name: 'Anton', city: 'Irkutsk', text: 'Rode about 700 km in a season, never sharpened. Extra weight, zero fitness. The skates practically go by themselves.' },
+    { name: 'Alexey', city: 'Moscow', text: 'Excellent metalwork, excellent blade shape. The seller explained everything about installation.' },
+    { name: 'Mikhail', city: 'Angarsk', text: 'Very light bais, honest seller, recommend.' },
+  ],
+  zh: [
+    { name: 'Anton', city: '伊尔库茨克', text: '一个赛季骑了大约700公里，从未磨刃。超重，零体能。冰鞋几乎自己跑。' },
+    { name: 'Alexey', city: '莫斯科', text: '金属加工精良，冰刀形状优秀。卖家详细解释了安装事宜。' },
+    { name: 'Mikhail', city: '安加尔斯克', text: '非常轻便的冰鞋，诚实的卖家，推荐。' },
+  ],
+};
+
+const labels = {
+  ru: { home: 'Главная', catalog: 'Каталог', article: 'Арт.', reviewsCount: (n: number, r: number) => `${n} ОТЗЫВОВ · ${r}`, size: 'Размер', chooseSize: 'Выбрать размер', binding: 'Крепление', chooseBinding: 'Выбрать тип', orderMax: '⚡ Заказать в MAX', back: '← В каталог', desc: 'Описание', specs: 'Характеристики', reviewsLabel: (r: number) => `★ ★ ★ ★ ★ · 5.0 · ${r} отзывов`, reviews: 'Отзывы', ready: 'Готов заказать?', priceLinePrefix: 'Цена:', priceLineSuffix: '· Доставка по РФ 3–7 дней · Гарантия 1 год' },
+  en: { home: 'Home', catalog: 'Catalog', article: 'Art.', reviewsCount: (n: number, r: number) => `${n} REVIEWS · ${r}`, size: 'Size', chooseSize: 'Choose size', binding: 'Binding', chooseBinding: 'Choose type', orderMax: '⚡ Order via MAX', back: '← To catalog', desc: 'Description', specs: 'Specifications', reviewsLabel: (r: number) => `★ ★ ★ ★ ★ · 5.0 · ${r} reviews`, reviews: 'Reviews', ready: 'Ready to order?', priceLinePrefix: 'Price:', priceLineSuffix: '· Shipping across Russia 3–7 days · 1-year warranty' },
+  zh: { home: '首页', catalog: '目录', article: '货号', reviewsCount: (n: number, r: number) => `${n}条评价 · ${r}`, size: '尺寸', chooseSize: '选择尺寸', binding: '绑定类型', chooseBinding: '选择类型', orderMax: '⚡ 在MAX中订购', back: '← 返回目录', desc: '描述', specs: '规格', reviewsLabel: (r: number) => `★ ★ ★ ★ ★ · 5.0 · ${r}条评价`, reviews: '用户评价', ready: '准备订购？', priceLinePrefix: '价格:', priceLineSuffix: '· 俄罗斯全境配送3–7天 · 1年质保' },
+} as const;
+const L = labels[lang];
+
+const sku = Astro.params.sku as string;
+const p = products[lang][sku];
+if (!p) return Astro.redirect('/catalog');
+---
+<Base title={`${p.name.toUpperCase()} · GROM`} description={`${p.name} — ${p.specs[0]?.v || 'Сталь 420'}. ${lang === 'ru' ? 'Озёрные коньки ГРОМ. Доставка по РФ.' : lang === 'en' ? 'GROM lake skates. Ships across Russia.' : 'ГРОМ 冰刀。全俄配送。'}`}>
+
+  <!-- Schema.org Product -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": p.name,
+    "description": p.desc,
+    "image": `https://11111000000.github.io/gromproject/photos/${p.sku}.jpg`,
+    "sku": p.sku,
+    "brand": { "@type": "Brand", "name": "ГРОМ" },
+    "manufacturer": { "@type": "Organization", "name": "ООО «ГРОМ»", "address": { "@type": "PostalAddress", "addressLocality": "Ангарск", "addressCountry": "RU" } },
+    "offers": {
+      "@type": "Offer",
+      "price": p.price,
+      "priceCurrency": "RUB",
+      "availability": "https://schema.org/InStock",
+      "seller": { "@type": "Organization", "name": "ГРОМ" }
+    },
+    ...(p.rating ? { "aggregateRating": { "@type": "AggregateRating", "ratingValue": p.rating, "reviewCount": p.reviews, "bestRating": 5 } } : {}),
+    "additionalProperty": p.specs.map(s => ({ "@type": "PropertyValue", "name": s.k, "value": s.v }))
+  })} />
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": lang === 'ru' ? 'Главная' : lang === 'en' ? 'Home' : '首页', "item": "https://11111000000.github.io/gromproject/" },
+      { "@type": "ListItem", "position": 2, "name": lang === 'ru' ? 'Каталог' : lang === 'en' ? 'Catalog' : '目录', "item": "https://11111000000.github.io/gromproject/catalog/" },
+      { "@type": "ListItem", "position": 3, "name": p.name }
+    ]
+  })} />
+
+  <section class="relative bg-thunder text-frost py-12 sm:py-16 overflow-hidden border-b-4 border-bolt">
+    <div class="absolute inset-0 bg-ice-texture opacity-90"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="text-xs font-mono uppercase tracking-industrial text-frost/50 mb-6">
+        <a href={`${import.meta.env.BASE_URL}/`} class="hover:text-bolt">{L.home}</a> ·
+        <a href={`${import.meta.env.BASE_URL}/catalog`} class="hover:text-bolt">{L.catalog}</a> ·
+        <span class="text-frost">{p.name}</span>
+      </nav>
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+        <div class="relative aspect-square bg-ice-texture overflow-hidden border-2 border-bolt/40">
+          <img src={`${import.meta.env.BASE_URL}/photos/${p.sku}.jpg`} alt={p.name} class="w-full h-full object-cover" loading="eager" />
+          {p.badge && <div class="badge-bolt absolute top-4 right-4">{p.badge}</div>}
+        </div>
+
+        <div>
+          <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50 mb-1"><span>{L.article}</span> <span>{p.sku}</span></div>
+          <h1 class="font-display font-black uppercase leading-[0.95] text-3xl sm:text-5xl mb-4">{p.name}</h1>
+
+          {p.reviews > 0 && (
+            <div class="flex items-center gap-2 mb-4">
+              <span class="text-bolt text-sm">★★★★★</span>
+              <span class="text-frost/80 text-xs font-mono">{L.reviewsCount(p.reviews, p.rating ?? 0)}</span>
+            </div>
+          )}
+
+          <p class="text-frost/80 mb-6 leading-relaxed">{p.short}</p>
+
+          <div class="font-display font-black text-bolt text-4xl mb-8">{p.price.toLocaleString('ru-RU')} ₽</div>
+
+          {p.sku !== '005' && p.sku !== '006' && (
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6 text-xs">
+              <div class="bg-bolt/10 border border-bolt/40 p-3 text-center">
+                <div class="text-bolt font-display font-black text-lg">HRC {p.specs[0]?.v || '50'}</div>
+                <div class="text-frost/60 text-[10px] uppercase tracking-industrial mt-0.5">{lang === 'ru' ? 'Твёрдость' : 'Hardness'}</div>
+              </div>
+              <div class="bg-bolt/10 border border-bolt/40 p-3 text-center">
+                <div class="text-bolt font-display font-black text-lg">{lang === 'ru' ? 'Ангарск' : 'Angarsk'}</div>
+                <div class="text-frost/60 text-[10px] uppercase tracking-industrial mt-0.5">{lang === 'ru' ? 'Мастер' : 'Master'}</div>
+              </div>
+              <div class="bg-bolt/10 border border-bolt/40 p-3 text-center">
+                <div class="text-bolt font-display font-black text-lg">№ ####</div>
+                <div class="text-frost/60 text-[10px] uppercase tracking-industrial mt-0.5">{lang === 'ru' ? 'Серийный' : 'Serial'}</div>
+              </div>
+            </div>
+          )}
+
+          {p.variants && (
+            <div class="space-y-4 mb-8">
+              {p.variants.size && (
+                <div>
+                  <label class="block text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs mb-2">{L.size}</label>
+                  <select class="size-input">
+                    <option>{L.chooseSize}</option>
+                    {p.variants.size.map(s => <option value={s}>{s}</option>)}
+                  </select>
+                </div>
+              )}
+              {p.variants.binding && (
+                <div>
+                  <label class="block text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs mb-2">{L.binding}</label>
+                  <select class="size-input">
+                    <option>{L.chooseBinding}</option>
+                    {p.variants.binding.map(b => <option value={b}>{b}</option>)}
+                  </select>
+                </div>
+              )}
+            </div>
+          )}
+
+          <div class="flex flex-wrap gap-3">
+            <a href="https://max.ru/join/CItXClkmsu0XXWDvSS1a8icqjoIhikdprAks4RmZAaM" target="_blank" rel="noopener" class="btn-bolt text-sm sm:text-base">{L.orderMax}</a>
+            <a href={`${import.meta.env.BASE_URL}/catalog`} class="btn-ghost text-sm sm:text-base">{L.back}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 skate-track opacity-50"></div>
+  </section>
+
+  <section class="bg-frost ice-cracks-bg py-12 sm:py-16">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <h2 class="font-display font-black text-thunder text-2xl uppercase mb-4">{L.desc}</h2>
+          <div class="bg-white border-2 border-frost-dark p-6 text-frost-dark/70 leading-relaxed">
+            {p.desc}
+          </div>
+        </div>
+        {p.specs && (
+          <div>
+            <h2 class="font-display font-black text-thunder text-2xl uppercase mb-4">{L.specs}</h2>
+            <div class="bg-white border-2 border-frost-dark divide-y divide-frost-dark">
+              {p.specs.map(s => (
+                <div class="flex justify-between p-3 text-sm">
+                  <span class="font-bold text-thunder">{s.k}</span>
+                  <span class="text-frost-dark/70 text-right">{s.v}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  {p.reviews > 0 && (
+    <section class="bg-thunder text-frost py-12 sm:py-16 relative overflow-hidden">
+      <div class="absolute inset-0 bg-ice-texture opacity-30"></div>
+      <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between mb-8">
+          <div>
+            <div class="text-bolt font-mono uppercase tracking-industrial text-xs mb-2">{L.reviewsLabel(p.reviews)}</div>
+            <h2 class="font-display font-black text-2xl sm:text-4xl uppercase">{L.reviews}</h2>
+          </div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-4">
+          {reviewsData[lang].map(r => (
+            <div class="bg-frost/5 border-l-4 border-bolt p-5">
+              <div class="text-bolt text-xs mb-2">★★★★★</div>
+              <p class="text-frost/90 italic leading-relaxed mb-3 text-sm">«{r.text}»</p>
+              <div class="text-xs font-mono uppercase tracking-industrial">
+                <span class="text-bolt">{r.name}</span> · <span class="text-frost/50">{r.city}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="bg-frost ice-cracks-bg py-16 text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <svg width="40" height="40" viewBox="0 0 32 32" class="text-bolt fill-current mx-auto mb-4"><path d="M19 2 L8 18 L15 18 L11 30 L24 14 L17 14 Z"/></svg>
+      <h2 class="font-display font-black text-thunder text-2xl sm:text-4xl uppercase mb-4">{L.ready}</h2>
+      <p class="text-frost-dark/70 mb-6">{L.priceLinePrefix} <span class="text-thunder font-black text-xl">{p.price.toLocaleString('ru-RU')} ₽</span> {L.priceLineSuffix}</p>
+      <a href="https://max.ru/join/CItXClkmsu0XXWDvSS1a8icqjoIhikdprAks4RmZAaM" target="_blank" rel="noopener" class="btn-bolt">{L.orderMax}</a>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- CROSS-SELL: PRO и Heritage -->
+  <!-- ============================== -->
+  {p.sku !== '005' && p.sku !== '006' && (
+    <section class="bg-thunder text-frost py-12 sm:py-16 border-t-2 border-bolt/40">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-8">
+          <div class="text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs mb-2">{lang === 'ru' ? 'Шагните дальше' : 'Step up'}</div>
+          <h2 class="font-display font-black text-2xl sm:text-3xl uppercase">
+            {lang === 'ru' ? 'ГРОМ PRO и Heritage' : 'GROM PRO & Heritage'}
+          </h2>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
+          <a href={`${import.meta.env.BASE_URL}/pro?lang=${lang}`} class="bg-bolt/10 border-2 border-bolt p-6 hover:bg-bolt/20 transition group">
+            <div class="flex items-start justify-between mb-2">
+              <div class="font-display font-black text-2xl text-bolt">PRO</div>
+              <div class="text-right">
+                <div class="text-frost/50 text-[10px] uppercase tracking-industrial">{lang === 'ru' ? 'от' : 'from'}</div>
+                <div class="text-bolt font-display font-black text-2xl">14 000 ₽</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-xs mb-3">
+              <div class="text-center border border-frost/20 p-2"><div class="text-bolt font-display font-black">56</div><div class="text-frost/50 text-[9px] uppercase">HRC</div></div>
+              <div class="text-center border border-frost/20 p-2"><div class="text-bolt font-display font-black">1.4</div><div class="text-frost/50 text-[9px] uppercase">мм</div></div>
+              <div class="text-center border border-frost/20 p-2"><div class="text-bolt font-display font-black">3</div><div class="text-frost/50 text-[9px] uppercase">{lang === 'ru' ? 'года' : 'years'}</div></div>
+            </div>
+            <div class="text-bolt font-black text-xs uppercase tracking-industrial group-hover:translate-x-1 transition">
+              {lang === 'ru' ? 'Скоро в продаже →' : 'Coming soon →'}
+            </div>
+          </a>
+          <a href={`${import.meta.env.BASE_URL}/pro?lang=${lang}`} class="bg-frost/5 border-2 border-frost/30 p-6 hover:border-bolt transition group">
+            <div class="flex items-start justify-between mb-2">
+              <div class="font-display font-black text-2xl text-frost">Heritage</div>
+              <div class="text-right">
+                <div class="text-frost/50 text-[10px] uppercase tracking-industrial">{lang === 'ru' ? 'от' : 'from'}</div>
+                <div class="text-frost font-display font-black text-2xl">22 000 ₽</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-xs mb-3">
+              <div class="text-center border border-frost/20 p-2"><div class="text-frost font-display font-black">60</div><div class="text-frost/50 text-[9px] uppercase">HRC</div></div>
+              <div class="text-center border border-frost/20 p-2"><div class="text-frost font-display font-black">1.4</div><div class="text-frost/50 text-[9px] uppercase">мм</div></div>
+              <div class="text-center border border-frost/20 p-2"><div class="text-frost font-display font-black">∞</div><div class="text-frost/50 text-[9px] uppercase">{lang === 'ru' ? 'гарант' : 'warranty'}</div></div>
+            </div>
+            <div class="text-frost font-black text-xs uppercase tracking-industrial group-hover:translate-x-1 transition">
+              {lang === 'ru' ? 'Лимитированная серия 50 пар →' : 'Limited: 50 pairs →'}
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+</Base>

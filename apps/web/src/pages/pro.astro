@@ -1,0 +1,263 @@
+---
+import Base from '../layouts/Base.astro';
+import { t, defaultLang, type Lang } from '../i18n/translations';
+
+const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
+const tr = t[lang];
+
+// 3 сегмента PRO-серии
+const tiers: Record<Lang, any[]> = {
+  ru: [
+    {
+      name: 'Базовая', tier: 'base', price: '7 800 ₽', hrc: '50 HRC', thick: '1.2 мм', steel: 'Сталь 420',
+      serial: 'да', warranty: '1 год', accent: 'border-frost-dark', priceColor: 'text-thunder',
+      desc: 'Базовый сегмент. Для первого знакомства с диким льдом.',
+      features: ['Сталь 420 нержавеющая', 'Толщина 1.2 мм', 'Серийный №', 'Гарантия 1 год', '5 SKU'],
+    },
+    {
+      name: 'PRO', tier: 'pro', price: '14 000 ₽', hrc: '56 HRC', thick: '1.4 мм', steel: 'Сталь 9ХС',
+      serial: 'да + мастер', warranty: '3 года', accent: 'border-bolt', priceColor: 'text-bolt',
+      desc: 'PRO-серия. Для тех, кто катает 500+ км в сезон.',
+      features: ['Сталь 9ХС (инструментальная)', 'Толщина 1.4 мм', 'HRC 56 (двойная закалка)', 'Серийный № + имя мастера', 'PVD-покрытие нитрид титана', 'Гарантия 3 года', 'Деревянный ящик', 'Сертификат HRC'],
+    },
+    {
+      name: 'Heritage', tier: 'heritage', price: '22 000 ₽', hrc: '60 HRC', thick: '1.4 мм', steel: 'Сталь ШХ15',
+      serial: 'да + подпись', warranty: 'пожизненно', accent: 'border-bolt', priceColor: 'text-bolt',
+      desc: 'Лимитированная серия 50 пар. Ручная финишная доводка, подпись мастера.',
+      features: ['Сталь ШХ15 (Sandvik-аналог)', 'Толщина 1.4 мм', 'HRC 60 (вакуумная закалка)', 'Серийный № + подпись мастера', 'PVD-покрытие улучшенное', 'Пожизненная гарантия', 'Деревянный ящик из ангарской сосны', 'Паспорт изделия', 'Лимитированная серия 50 пар/год'],
+    },
+  ],
+  en: [
+    {
+      name: 'Base', tier: 'base', price: '7 800 ₽', hrc: '50 HRC', thick: '1.2 mm', steel: 'Steel 420',
+      serial: 'yes', warranty: '1 year', accent: 'border-frost-dark', priceColor: 'text-thunder',
+      desc: 'Base segment. First steps on wild ice.',
+      features: ['Steel 420 stainless', '1.2 mm thick', 'Serial №', '1-year warranty', '5 SKUs'],
+    },
+    {
+      name: 'PRO', tier: 'pro', price: '14 000 ₽', hrc: '56 HRC', thick: '1.4 mm', steel: 'Steel 9KhS',
+      serial: 'yes + master', warranty: '3 years', accent: 'border-bolt', priceColor: 'text-bolt',
+      desc: 'PRO series. For those who ride 500+ km per season.',
+      features: ['Steel 9KhS (tool steel)', '1.4 mm thick', 'HRC 56 (double hardening)', 'Serial № + master name', 'PVD titanium nitride coating', '3-year warranty', 'Wooden case', 'HRC certificate'],
+    },
+    {
+      name: 'Heritage', tier: 'heritage', price: '22 000 ₽', hrc: '60 HRC', thick: '1.4 mm', steel: 'Steel ShKh15',
+      serial: 'yes + signature', warranty: 'lifetime', accent: 'border-bolt', priceColor: 'text-bolt',
+      desc: 'Limited series of 50 pairs. Manual finishing, master signature.',
+      features: ['Steel ShKh15 (Sandvik analog)', '1.4 mm thick', 'HRC 60 (vacuum hardening)', 'Serial № + master signature', 'PVD enhanced coating', 'Lifetime warranty', 'Wooden case from Angarsk pine', 'Product passport', 'Limited: 50 pairs/year'],
+    },
+  ],
+  zh: [
+    {
+      name: '基础', tier: 'base', price: '¥7 800', hrc: '50 HRC', thick: '1.2毫米', steel: '420钢',
+      serial: '有', warranty: '1年', accent: 'border-frost-dark', priceColor: 'text-thunder',
+      desc: '基础段。野冰的入门之选。',
+      features: ['420不锈钢', '1.2毫米厚', '序列号', '1年质保', '5款产品'],
+    },
+    {
+      name: 'PRO', tier: 'pro', price: '¥14 000', hrc: '56 HRC', thick: '1.4毫米', steel: '9ХС钢',
+      serial: '有 + 师傅', warranty: '3年', accent: 'border-bolt', priceColor: 'text-bolt',
+      desc: 'PRO系列。为一个赛季骑行500+公里的用户设计。',
+      features: ['9ХС工具钢', '1.4毫米厚', 'HRC 56（双淬火）', '序列号 + 师傅姓名', 'PVD氮化钛涂层', '3年质保', '木盒', 'HRC证书'],
+    },
+    {
+      name: 'Heritage', tier: 'heritage', price: '¥22 000', hrc: '60 HRC', thick: '1.4毫米', steel: 'ШХ15钢',
+      serial: '有 + 签名', warranty: '终身', accent: 'border-bolt', priceColor: 'text-bolt',
+      desc: '限量50双。手工精修，师傅签名。',
+      features: ['ШХ15钢（Sandvik同级）', '1.4毫米厚', 'HRC 60（真空淬火）', '序列号 + 师傅签名', 'PVD增强涂层', '终身质保', '安加尔斯克松木盒', '产品护照', '限量50双/年'],
+    },
+  ],
+};
+
+// 6 шагов производства
+const steps: Record<Lang, any[]> = {
+  ru: [
+    { num: '01', icon: '⚙', title: 'Заготовка', desc: 'Сталь 9ХС (для PRO) или ШХ15 (для Heritage). Режется на ЧПУ.' },
+    { num: '02', icon: '🔥', title: 'Двойная закалка', desc: 'Закалка при 850°C, отпуск при 200°C. HRC 56 (PRO) / 60 (Heritage, вакуум).' },
+    { num: '03', icon: '◆', title: 'Прецизионная фрезеровка', desc: 'Толщина лезвия 1.4 мм с допуском ±0.02 мм.' },
+    { num: '04', icon: '✦', title: 'PVD-покрытие', desc: 'Нитрид титана — золотистый оттенок и +30% к стойкости.' },
+    { num: '05', icon: '✎', title: 'Подпись мастера', desc: 'Лазерная гравировка: имя мастера, дата, серийный №.' },
+    { num: '06', icon: '⚒', title: 'Деревянный ящик', desc: 'Каждая пара в футляре из ангарской сосны с паспортом изделия.' },
+  ],
+  en: [
+    { num: '01', icon: '⚙', title: 'Blank', desc: 'Steel 9KhS (PRO) or ShKh15 (Heritage). CNC cut.' },
+    { num: '02', icon: '🔥', title: 'Double hardening', desc: 'Hardening at 850°C, tempering at 200°C. HRC 56 (PRO) / 60 (Heritage, vacuum).' },
+    { num: '03', icon: '◆', title: 'Precision milling', desc: '1.4 mm thickness, ±0.02 mm tolerance.' },
+    { num: '04', icon: '✦', title: 'PVD coating', desc: 'Titanium nitride — golden tone, +30% durability.' },
+    { num: '05', icon: '✎', title: 'Master signature', desc: 'Laser engraving: master\'s name, date, serial №.' },
+    { num: '06', icon: '⚒', title: 'Wooden case', desc: 'Each pair in an Angarsk pine box with a product passport.' },
+  ],
+  zh: [
+    { num: '01', icon: '⚙', title: '坯料', desc: '9ХС钢（PRO）或ШХ15钢（Heritage）。CNC切割。' },
+    { num: '02', icon: '🔥', title: '双淬火', desc: '850°C淬火，200°C回火。HRC 56（PRO）/ 60（Heritage，真空）。' },
+    { num: '03', icon: '◆', title: '精铣', desc: '冰刀厚度1.4毫米，公差±0.02毫米。' },
+    { num: '04', icon: '✦', title: 'PVD涂层', desc: '氮化钛——金色调，耐久性+30%。' },
+    { num: '05', icon: '✎', title: '师傅签名', desc: '激光雕刻：师傅姓名、日期、序列号。' },
+    { num: '06', icon: '⚒', title: '木盒', desc: '每对配安加尔斯克松木盒，附产品护照。' },
+  ],
+};
+---
+<Base title={tr.pro_title} description={lang === 'ru' ? 'PRO-серия ГРОМ. Сталь 9ХС/ШХ15, HRC 56/60, серийный №, подпись мастера. 14 000–22 000 ₽.' : lang === 'en' ? 'GROM PRO series. Steel 9KhS/ShKh15, HRC 56/60, serial №, master signature. 14 000–22 000 ₽.' : 'ГРОМ PRO系列。9ХС/ШХ15钢，HRC 56/60，序列号，师傅签名。'}>
+
+  <!-- Schema.org Product -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": lang === 'ru' ? 'ГРОМ PRO-серия' : 'GROM PRO series',
+    "description": lang === 'ru' ? 'Лезвия для тех, кто не прощает компромиссов. HRC 56–60, серийный №, подпись мастера.' : 'Blades for those who don\'t forgive compromise. HRC 56–60, serial №, master signature.',
+    "brand": { "@type": "Brand", "name": "ГРОМ" },
+    "manufacturer": { "@type": "Organization", "name": "ООО «ГРОМ»" },
+    "offers": [
+      { "@type": "Offer", "name": "PRO", "price": 14000, "priceCurrency": "RUB", "availability": "https://schema.org/PreOrder" },
+      { "@type": "Offer", "name": "Heritage", "price": 22000, "priceCurrency": "RUB", "availability": "https://schema.org/PreOrder" },
+    ]
+  })} />
+
+  <!-- ============================== -->
+  <!-- HERO — PRO-серия -->
+  <!-- ============================== -->
+  <section class="relative bg-thunder text-frost overflow-hidden border-b-4 border-bolt">
+    <div class="absolute inset-0 bg-ice-texture opacity-90"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20 sm:py-32">
+      <div class="text-center mb-12">
+        <div class="inline-block bg-bolt text-thunder px-3 py-1 text-[10px] sm:text-xs font-black uppercase tracking-industrial mb-4">{tr.pro_label}</div>
+        <h1 class="font-display font-black text-frost leading-[0.95] tracking-tight text-4xl sm:text-6xl lg:text-8xl mb-4 sm:mb-6 uppercase">
+          <span class="block text-bolt">{tr.pro_h1}</span>
+        </h1>
+        <p class="text-base sm:text-xl text-frost/80 leading-relaxed max-w-2xl mx-auto">{tr.pro_subtitle}</p>
+      </div>
+
+      <!-- 3 карточки: Базовая / PRO / Heritage -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+        {tiers[lang].map(tier => (
+          <div class={`bg-frost/5 border-2 ${tier.accent} p-6 backdrop-blur-sm relative`}>
+            {tier.tier === 'pro' && <div class="absolute -top-3 left-4 bg-bolt text-thunder px-3 py-1 text-[10px] font-black uppercase tracking-industrial">PRO</div>}
+            {tier.tier === 'heritage' && <div class="absolute -top-3 left-4 bg-frost text-thunder px-3 py-1 text-[10px] font-black uppercase tracking-industrial">{lang === 'ru' ? 'ЛИМИТ 50' : 'LIMIT 50'}</div>}
+
+            <div class="text-frost/60 text-[10px] font-mono uppercase tracking-industrial mb-2">{tier.name}</div>
+            <div class={`font-display font-black text-3xl sm:text-4xl mb-2 ${tier.priceColor}`}>{tier.price}</div>
+            <p class="text-frost/70 text-xs mb-4">{tier.desc}</p>
+
+            <div class="space-y-2 mb-4 text-sm border-t border-frost/10 pt-4">
+              <div class="flex justify-between"><span class="text-frost/50 text-[10px] uppercase tracking-industrial">HRC</span><span class="text-frost font-bold">{tier.hrc}</span></div>
+              <div class="flex justify-between"><span class="text-frost/50 text-[10px] uppercase tracking-industrial">{lang === 'ru' ? 'Толщина' : 'Thickness'}</span><span class="text-frost font-bold">{tier.thick}</span></div>
+              <div class="flex justify-between"><span class="text-frost/50 text-[10px] uppercase tracking-industrial">{lang === 'ru' ? 'Сталь' : 'Steel'}</span><span class="text-frost font-bold text-xs">{tier.steel}</span></div>
+              <div class="flex justify-between"><span class="text-frost/50 text-[10px] uppercase tracking-industrial">{lang === 'ru' ? 'Серийный №' : 'Serial №'}</span><span class="text-bolt font-bold">{tier.serial}</span></div>
+              <div class="flex justify-between"><span class="text-frost/50 text-[10px] uppercase tracking-industrial">{lang === 'ru' ? 'Гарантия' : 'Warranty'}</span><span class="text-frost font-bold">{tier.warranty}</span></div>
+            </div>
+
+            <ul class="space-y-1.5 text-xs text-frost/80 mb-6 border-t border-frost/10 pt-4">
+              {tier.features.map(f => (
+                <li class="flex items-start gap-2">
+                  <span class="text-bolt mt-0.5">✓</span>
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+
+            <a href={`${import.meta.env.BASE_URL}/contacts?lang=${lang}`} class={
+              tier.tier === 'base' ? "btn-steel text-xs w-full text-center justify-center" :
+              "btn-bolt text-xs w-full text-center justify-center"
+            }>
+              {tier.tier === 'base' ? (lang === 'ru' ? 'В каталог' : 'To catalog') : (tier.tier === 'pro' ? tr.pro_btn_order : tr.pro_btn_heritage)}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="absolute bottom-0 left-0 right-0 skate-track opacity-50"></div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- ЧТО ОТЛИЧАЕТ PRO -->
+  <!-- ============================== -->
+  <section class="bg-frost ice-cracks-bg py-20 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8 sm:mb-12">
+        <div class="section-label justify-center mb-3">{tr.trust_label}</div>
+        <h2 class="font-display font-black text-thunder text-2xl sm:text-5xl uppercase">{tr.pro_h2_why}</h2>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+        <div class="bg-white border-2 border-frost-dark p-6 text-center">
+          <div class="text-bolt font-display font-black text-3xl sm:text-5xl mb-2">56–60</div>
+          <div class="text-frost-dark/60 text-[10px] sm:text-xs font-mono uppercase tracking-industrial">HRC (vs 50 у базовой)</div>
+        </div>
+        <div class="bg-white border-2 border-frost-dark p-6 text-center">
+          <div class="text-bolt font-display font-black text-3xl sm:text-5xl mb-2">1.4</div>
+          <div class="text-frost-dark/60 text-[10px] sm:text-xs font-mono uppercase tracking-industrial">мм (vs 1.2 у базовой)</div>
+        </div>
+        <div class="bg-white border-2 border-frost-dark p-6 text-center">
+          <div class="text-bolt font-display font-black text-3xl sm:text-5xl mb-2">9ХС</div>
+          <div class="text-frost-dark/60 text-[10px] sm:text-xs font-mono uppercase tracking-industrial">инструментальная сталь</div>
+        </div>
+        <div class="bg-white border-2 border-frost-dark p-6 text-center">
+          <div class="text-bolt font-display font-black text-3xl sm:text-5xl mb-2">∞</div>
+          <div class="text-frost-dark/60 text-[10px] sm:text-xs font-mono uppercase tracking-industrial">гарантия (Heritage)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- КАК РОЖДАЕТСЯ ЛЕЗВИЕ — 6 шагов -->
+  <!-- ============================== -->
+  <section class="bg-thunder text-frost py-20 sm:py-24 relative overflow-hidden">
+    <div class="absolute inset-0 bg-ice-texture opacity-30"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8 sm:mb-12">
+        <div class="text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs mb-3">{lang === 'ru' ? 'Технология' : 'Technology'}</div>
+        <h2 class="font-display font-black text-2xl sm:text-5xl uppercase">{tr.pro_h2_how}</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        {steps[lang].map(step => (
+          <div class="bg-frost/5 border-2 border-bolt/30 p-6 backdrop-blur-sm">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-bolt font-display font-black text-2xl">{step.num}</span>
+              <span class="text-3xl">{step.icon}</span>
+            </div>
+            <h3 class="font-display font-black text-lg mb-2">{step.title}</h3>
+            <p class="text-frost/70 text-sm leading-relaxed">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- ДОКУМЕНТАЛКА — Скоро -->
+  <!-- ============================== -->
+  <section class="bg-frost-dark/30 py-16 sm:py-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="bg-thunder text-frost border-2 border-bolt p-8 sm:p-12">
+        <div class="flex items-center justify-center mb-4">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 border-2 border-bolt rounded-full flex items-center justify-center">
+            <svg width="32" height="32" viewBox="0 0 32 32" class="text-bolt fill-current"><path d="M19 2 L8 18 L15 18 L11 30 L24 14 L17 14 Z"/></svg>
+          </div>
+        </div>
+        <div class="text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs mb-3">{tr.pro_video_label}</div>
+        <h3 class="font-display font-black text-2xl sm:text-3xl uppercase mb-4">{tr.pro_video_note}</h3>
+        <div class="mt-6 inline-flex items-center gap-2 text-bolt font-mono text-xs uppercase tracking-industrial">
+          <span class="w-2 h-2 bg-bolt rounded-full animate-pulse"></span>
+          {lang === 'ru' ? 'Скоро на сайте' : 'Coming soon'}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- СРАВНЕНИЕ С КОНКУРЕНТАМИ — CTA -->
+  <!-- ============================== -->
+  <section class="bg-frost ice-cracks-bg py-16 text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <svg width="40" height="40" viewBox="0 0 32 32" class="text-bolt fill-current mx-auto mb-4"><path d="M19 2 L8 18 L15 18 L11 30 L24 14 L17 14 Z"/></svg>
+      <h2 class="font-display font-black text-thunder text-2xl sm:text-4xl uppercase mb-4">{tr.sravnenie_h1}</h2>
+      <p class="text-frost-dark/70 mb-6 text-sm sm:text-base">{tr.sravnenie_subtitle}</p>
+      <a href={`${import.meta.env.BASE_URL}/sravnenie?lang=${lang}`} class="btn-bolt">{tr.pro_compare}</a>
+    </div>
+  </section>
+
+</Base>

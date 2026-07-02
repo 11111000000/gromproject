@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import { t, defaultLang, type Lang } from '../i18n/translations';
+
+const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
+const tr = t[lang];
+---
+<Base title={tr.about_title} description={lang === 'ru' ? 'Бренд ГРОМ — российские озёрные коньки собственного производства. История и миссия.' : lang === 'en' ? 'GROM brand — Russian-made lake skates. Our story and mission.' : 'ГРОМ 品牌 — 俄罗斯自制冰刀。我们的故事与使命。'}>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": lang === 'ru' ? 'Главная' : lang === 'en' ? 'Home' : '首页', "item": "https://11111000000.github.io/gromproject/" },
+      { "@type": "ListItem", "position": 2, "name": lang === 'ru' ? 'О бренде' : lang === 'en' ? 'About' : '关于' }
+    ]
+  })} />
+
+  <section class="relative bg-thunder text-frost py-16 overflow-hidden border-b-4 border-bolt">
+    <div class="absolute inset-0 bg-ice-texture opacity-90"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="section-label justify-center mb-3">ГРОМ</div>
+      <h1 class="font-display font-black uppercase leading-[0.95] text-4xl sm:text-6xl lg:text-7xl mb-6">{tr.about_h1}</h1>
+      <div class="mt-6 flex items-center justify-center gap-3 text-frost/60 text-xs font-mono tracking-industrial uppercase">
+        <span>{tr.about_established}</span><span>·</span><span>{tr.about_location}</span><span>·</span><span>{tr.about_region}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-frost ice-cracks-bg py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-lg leading-relaxed">
+      <div class="bg-white border-2 border-frost-dark p-8 space-y-6">
+        <h2 class="font-display font-black text-thunder text-2xl uppercase">{tr.about_story_title}</h2>
+        <p class="text-frost-dark/80">{tr.about_story_1}</p>
+        <p class="text-frost-dark/80">{tr.about_story_2}</p>
+        <p class="text-frost-dark/80">{tr.about_story_3}</p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4 text-center">
+        <div class="bg-white border-2 border-frost-dark p-6">
+          <div class="text-4xl font-display font-black text-bolt">109</div>
+          <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50 mt-2">{tr.about_stat_reviews}</div>
+        </div>
+        <div class="bg-white border-2 border-frost-dark p-6">
+          <div class="text-4xl font-display font-black text-bolt">700<sup class="text-xl">{lang === 'en' ? 'km' : lang === 'zh' ? '公里' : 'км'}</sup></div>
+          <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50 mt-2">{tr.about_stat_km}</div>
+        </div>
+        <div class="bg-white border-2 border-frost-dark p-6">
+          <div class="text-4xl font-display font-black text-bolt">110<sup class="text-xl">{lang === 'en' ? 'kg' : lang === 'zh' ? '公斤' : 'кг'}</sup></div>
+          <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50 mt-2">{tr.about_stat_kg}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import { t, defaultLang, type Lang } from '../i18n/translations';
+
+const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
+const tr = t[lang];
+
+const steps: Record<Lang, Array<{ title: string; desc: string }>> = {
+  ru: [
+    { title: t.ru.tech_step1_title, desc: t.ru.tech_step1_desc },
+    { title: t.ru.tech_step2_title, desc: t.ru.tech_step2_desc },
+    { title: t.ru.tech_step3_title, desc: t.ru.tech_step3_desc },
+    { title: t.ru.tech_step4_title, desc: t.ru.tech_step4_desc },
+    { title: t.ru.tech_step5_title, desc: t.ru.tech_step5_desc },
+  ],
+  en: [
+    { title: t.en.tech_step1_title, desc: t.en.tech_step1_desc },
+    { title: t.en.tech_step2_title, desc: t.en.tech_step2_desc },
+    { title: t.en.tech_step3_title, desc: t.en.tech_step3_desc },
+    { title: t.en.tech_step4_title, desc: t.en.tech_step4_desc },
+    { title: t.en.tech_step5_title, desc: t.en.tech_step5_desc },
+  ],
+  zh: [
+    { title: t.zh.tech_step1_title, desc: t.zh.tech_step1_desc },
+    { title: t.zh.tech_step2_title, desc: t.zh.tech_step2_desc },
+    { title: t.zh.tech_step3_title, desc: t.zh.tech_step3_desc },
+    { title: t.zh.tech_step4_title, desc: t.zh.tech_step4_desc },
+    { title: t.zh.tech_step5_title, desc: t.zh.tech_step5_desc },
+  ],
+};
+
+const productionLabel: Record<Lang, string> = {
+  ru: 'ПРОИЗВОДСТВО',
+  en: 'PRODUCTION',
+  zh: '生产',
+};
+---
+<Base title={tr.tech_page_title} description={lang === 'ru' ? 'Технология производства коньков ГРОМ — сталь 420, лазерная резка, полнотелые заклёпки.' : lang === 'en' ? 'GROM skate manufacturing — Steel 420, laser cut, solid rivets.' : 'ГРОМ 冰刀制造工艺 — 420钢、激光切割、实心铆钉。'}>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": lang === 'ru' ? 'Главная' : lang === 'en' ? 'Home' : '首页', "item": "https://11111000000.github.io/gromproject/" },
+      { "@type": "ListItem", "position": 2, "name": lang === 'ru' ? 'Технология' : lang === 'en' ? 'Technology' : '工艺' }
+    ]
+  })} />
+
+  <section class="relative bg-thunder text-frost py-16 overflow-hidden border-b-4 border-bolt">
+    <div class="absolute inset-0 bg-ice-texture opacity-90"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="section-label justify-center mb-3">{productionLabel[lang]}</div>
+      <h1 class="font-display font-black uppercase leading-[0.95] text-4xl sm:text-6xl lg:text-7xl mb-6">{tr.tech_h1}</h1>
+      <p class="text-frost/80 text-lg max-w-2xl mx-auto">{tr.tech_subtitle_page}</p>
+    </div>
+  </section>
+
+  <section class="bg-frost ice-cracks-bg py-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <h2 class="sr-only">{tr.tech_h1}</h2>
+      {steps[lang].map((item, i) => (
+        <div class="flex gap-6 bg-white border-l-4 border-bolt p-6">
+          <div class="text-3xl font-display font-black text-bolt shrink-0 w-12">{String(i+1).padStart(2,'0')}</div>
+          <div>
+            <h3 class="font-display font-black text-thunder text-xl uppercase mb-2">{item.title}</h3>
+            <p class="text-frost-dark/70">{item.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>

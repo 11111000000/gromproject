@@ -1,0 +1,570 @@
+---
+import Base from '../layouts/Base.astro';
+import { t, defaultLang, type Lang } from '../i18n/translations';
+
+const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
+const tr = t[lang];
+
+const products: Record<Lang, any[]> = {
+  ru: [
+    { sku: '001', name: 'Озёрные коньки «ГРОМ» неокрашенные', price: 7800, rating: 5.0, reviews: 109, badge: 'ХИТ', short: 'Сталь 420 · 460/520 мм · 1.3 кг' },
+    { sku: '002', name: 'Озёрные коньки «ГРОМ» окрашенные', price: 9200, rating: 5.0, reviews: 109, badge: 'ХИТ', short: 'Антикоррозийное покрытие' },
+    { sku: '003', name: 'Лезвие «ГРОМ» неокрашенное', price: 6600, rating: null, reviews: 0, badge: null, short: 'Сталь · 480/520 мм · 1.1 кг' },
+    { sku: '004', name: 'Лезвие «ГРОМ» окрашенное', price: 8000, rating: null, reviews: 0, badge: null, short: 'Защитное покрытие' },
+    { sku: '005', name: 'Чехол для коньков (байсов)', price: 1200, rating: null, reviews: 0, badge: 'ХИТ', short: 'Мебельная ткань с ворсом' },
+    { sku: '006', name: 'Механическое крепление (SNS/NNN)', price: 1200, rating: null, reviews: 0, badge: null, short: 'Металлические несущие' },
+  ],
+  en: [
+    { sku: '001', name: 'GROM Lake Skates Unpainted', price: 7800, rating: 5.0, reviews: 109, badge: 'HIT', short: 'Steel 420 · 460/520 mm · 1.3 kg' },
+    { sku: '002', name: 'GROM Lake Skates Painted', price: 9200, rating: 5.0, reviews: 109, badge: 'HIT', short: 'Anti-corrosion coating' },
+    { sku: '003', name: 'GROM Blade Unpainted', price: 6600, rating: null, reviews: 0, badge: null, short: 'Steel · 480/520 mm · 1.1 kg' },
+    { sku: '004', name: 'GROM Blade Painted', price: 8000, rating: null, reviews: 0, badge: null, short: 'Protective coating' },
+    { sku: '005', name: 'Skate Bag', price: 1200, rating: null, reviews: 0, badge: 'HIT', short: 'Velvet furniture fabric' },
+    { sku: '006', name: 'Mechanical Binding (SNS/NNN)', price: 1200, rating: null, reviews: 0, badge: null, short: 'Metal supports' },
+  ],
+  zh: [
+    { sku: '001', name: 'GROM 湖上冰鞋 未涂装', price: 7800, rating: 5.0, reviews: 109, badge: '热卖', short: '420不锈钢 · 460/520毫米 · 1.3公斤' },
+    { sku: '002', name: 'GROM 湖上冰鞋 已涂装', price: 9200, rating: 5.0, reviews: 109, badge: '热卖', short: '防腐涂层' },
+    { sku: '003', name: 'GROM 冰刀 未涂装', price: 6600, rating: null, reviews: 0, badge: null, short: '钢材 · 480/520毫米 · 1.1公斤' },
+    { sku: '004', name: 'GROM 冰刀 已涂装', price: 8000, rating: null, reviews: 0, badge: null, short: '保护涂层' },
+    { sku: '005', name: '冰刀收纳袋', price: 1200, rating: null, reviews: 0, badge: '热卖', short: '绒面家具布料' },
+    { sku: '006', name: '机械绑定 (SNS/NNN)', price: 1200, rating: null, reviews: 0, badge: null, short: '金属支架' },
+  ],
+};
+
+const reviews: Record<Lang, any[]> = {
+  ru: [
+    { name: 'Антон', city: 'Иркутск', text: 'Откатал за сезон порядка 700 км, не точил. Лишний вес, нулевая физподготовка. Коньки практически едут сами.', date: '2025-03' },
+    { name: 'Алексей', city: 'Москва', text: 'Прекрасная обработка металла, прекрасная форма лезвий. Продавец объяснил всё по установке.', date: '2025-03' },
+    { name: 'Михаил', city: 'Ангарск', text: 'Очень лёгкие байсы, продавец порядочный, рекомендую.', date: '2025-02' },
+  ],
+  en: [
+    { name: 'Anton', city: 'Irkutsk', text: 'Rode about 700 km in a season, never sharpened. Extra weight, zero fitness. The skates practically go by themselves.', date: '2025-03' },
+    { name: 'Alexey', city: 'Moscow', text: 'Excellent metalwork, excellent blade shape. The seller explained everything about installation.', date: '2025-03' },
+    { name: 'Mikhail', city: 'Angarsk', text: 'Very light bais, honest seller, recommend.', date: '2025-02' },
+  ],
+  zh: [
+    { name: 'Anton', city: '伊尔库茨克', text: '一个赛季骑了大约700公里，从未磨刃。超重，零体能。冰鞋几乎自己跑。', date: '2025-03' },
+    { name: 'Alexey', city: '莫斯科', text: '金属加工精良，冰刀形状优秀。卖家详细解释了安装事宜。', date: '2025-03' },
+    { name: 'Mikhail', city: '安加尔斯克', text: '非常轻便的冰鞋，诚实的卖家，推荐。', date: '2025-02' },
+  ],
+};
+
+const techSpecs: Record<Lang, any[]> = {
+  ru: [
+    { icon: '⚙', label: 'Сталь 420', desc: 'Нержавеющая, толщина 1.2 мм' },
+    { icon: '✦', label: 'Алюминий 20×20', desc: 'Полнотелые заклёпки' },
+    { icon: '◐', label: '460 / 520 мм', desc: 'Два типоразмера под ботинок' },
+    { icon: '∞', label: 'до 110 кг', desc: 'Допустимый вес пользователя' },
+  ],
+  en: [
+    { icon: '⚙', label: 'Steel 420', desc: 'Stainless, 1.2 mm thick' },
+    { icon: '✦', label: 'Aluminum 20×20', desc: 'Solid rivets' },
+    { icon: '◐', label: '460 / 520 mm', desc: 'Two sizes for boots' },
+    { icon: '∞', label: 'up to 110 kg', desc: 'Maximum user weight' },
+  ],
+  zh: [
+    { icon: '⚙', label: '420不锈钢', desc: '不锈钢，1.2毫米厚' },
+    { icon: '✦', label: '20×20铝', desc: '实心铆钉' },
+    { icon: '◐', label: '460/520毫米', desc: '两种靴码尺寸' },
+    { icon: '∞', label: '高达110公斤', desc: '最大用户体重' },
+  ],
+};
+
+// 3 сегмента для Hero (из Site-Redesign-Plan)
+const heroTiers: Record<Lang, any[]> = {
+  ru: [
+    { tier: 'base', name: 'Базовая', price: 7800, hrc: '50 HRC', thick: '1.2 мм', serial: 'да', warranty: '1 год', cta: 'Купить за 7 800 ₽', href: '/catalog' },
+    { tier: 'pro', name: 'PRO', price: 14000, hrc: '56 HRC', thick: '1.4 мм', serial: 'да', warranty: '3 года', cta: 'Скоро в продаже', href: '/pro' },
+    { tier: 'heritage', name: 'Heritage', price: 22000, hrc: '60 HRC', thick: '1.4 мм', serial: 'да + подпись', warranty: 'пожизненно', cta: 'Лимитированная серия 50 пар', href: '/pro' },
+  ],
+  en: [
+    { tier: 'base', name: 'Base', price: 7800, hrc: '50 HRC', thick: '1.2 mm', serial: 'yes', warranty: '1 year', cta: 'Buy for 7 800 ₽', href: '/catalog' },
+    { tier: 'pro', name: 'PRO', price: 14000, hrc: '56 HRC', thick: '1.4 mm', serial: 'yes', warranty: '3 years', cta: 'Coming soon', href: '/pro' },
+    { tier: 'heritage', name: 'Heritage', price: 22000, hrc: '60 HRC', thick: '1.4 mm', serial: 'yes + signature', warranty: 'lifetime', cta: 'Limited: 50 pairs', href: '/pro' },
+  ],
+  zh: [
+    { tier: 'base', name: '基础', price: 7800, hrc: '50 HRC', thick: '1.2毫米', serial: '有', warranty: '1年', cta: '购买 ¥7 800', href: '/catalog' },
+    { tier: 'pro', name: 'PRO', price: 14000, hrc: '56 HRC', thick: '1.4毫米', serial: '有', warranty: '3年', cta: '即将上市', href: '/pro' },
+    { tier: 'heritage', name: 'Heritage', price: 22000, hrc: '60 HRC', thick: '1.4毫米', serial: '有 + 签名', warranty: '终身', cta: '限量50双', href: '/pro' },
+  ],
+};
+---
+<Base title={tr.site_name} description={lang === 'ru' ? 'Российские озёрные коньки ГРОМ. Сделано в Ангарске. Испытано на Байкале. HRC 50–60, серийный №, мастер-класс.' : lang === 'en' ? 'GROM Russian lake skates. Made in Angarsk. Tested on Baikal. HRC 50–60, serial №, master-made.' : 'ГРОМ 俄罗斯冰刀。安加尔斯克制造。贝加尔湖测试。'}>
+
+  <!-- Schema.org Organization -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ГРОМ",
+    "alternateName": ["GROM", "ГРОМ коньки", "GROM skates"],
+    "url": "https://11111000000.github.io/gromproject/",
+    "logo": "https://11111000000.github.io/gromproject/logo-grom.svg",
+    "description": lang === 'ru' ? 'Российские озёрные коньки собственной разработки. Сталь 420/9ХС, лазерная резка на ЧПУ, HRC 50–60.' : lang === 'en' ? 'Russian-made lake skates. Steel 420/9KhS, CNC laser cutting, HRC 50–60.' : '俄罗斯自制冰刀。420/9ХС钢，CNC激光切割，HRC 50–60。',
+    "foundingDate": "2018",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Ангарск",
+      "addressRegion": "Иркутская область",
+      "addressCountry": "RU"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+7-902-576-19-17",
+      "contactType": "sales",
+      "areaServed": "RU"
+    },
+    "sameAs": [],
+    "areaServed": {
+      "@type": "Country",
+      "name": "Russia"
+    }
+  })} />
+
+  <!-- ============================== -->
+  <!-- HERO — Industrial: Тёмный фон, лёд, молния -->
+  <!-- ============================== -->
+  <section class="relative bg-thunder text-frost overflow-hidden border-b-4 border-bolt">
+    <div class="absolute inset-0 bg-ice-texture opacity-90"></div>
+
+    <!-- Индустриальная разметка -->
+    <div class="absolute top-6 left-0 right-0 z-10 hidden sm:block">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-[10px] font-mono uppercase tracking-industrial text-frost/40">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 bg-bolt rounded-full animate-bolt-pulse"></span>
+          {tr.hero_coordinates}
+        </div>
+        <div>{tr.hero_est}</div>
+      </div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20 sm:py-32 lg:py-40">
+      <!-- Слоган + H1 -->
+      <div class="text-center mb-8 sm:mb-12">
+        <div class="flex items-center justify-center gap-3 mb-4 sm:mb-6">
+          <div class="w-8 h-8 sm:w-10 sm:h-10 bg-bolt flex items-center justify-center text-thunder">
+            <svg width="16" height="16" viewBox="0 0 32 32" class="fill-current sm:w-5 sm:h-5"><path d="M19 2 L8 18 L15 18 L11 30 L24 14 L17 14 Z"/></svg>
+          </div>
+          <span class="text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs leading-tight">{tr.hero_made_in}</span>
+        </div>
+        <h1 class="font-display font-black text-frost leading-[0.95] tracking-tight text-4xl sm:text-6xl lg:text-8xl mb-4 sm:mb-6 uppercase">
+          <span class="block">{tr.hero_h1_1}</span>
+          <span class="block">{tr.hero_h1_2}</span>
+          <span class="block text-bolt">{tr.hero_h1_3}</span>
+        </h1>
+        <p class="text-base sm:text-xl text-frost/80 leading-relaxed max-w-2xl mx-auto" set:html={tr.hero_subtitle} />
+      </div>
+
+      <!-- 3 колонки SKU: Базовая / PRO / Heritage -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
+        {heroTiers[lang].map(tier => (
+          <a href={tier.href} class={
+            tier.tier === 'base' ? "bg-white/5 border-2 border-frost/30 p-6 hover:border-bolt transition group backdrop-blur-sm" :
+            tier.tier === 'pro' ? "bg-bolt/10 border-2 border-bolt p-6 hover:bg-bolt/20 transition group backdrop-blur-sm relative" :
+            "bg-frost/5 border-2 border-frost/40 p-6 hover:border-bolt transition group backdrop-blur-sm relative"
+          }>
+            {tier.tier === 'pro' && (
+              <div class="absolute -top-3 left-4 bg-bolt text-thunder px-3 py-1 text-[10px] font-black uppercase tracking-industrial">PRO</div>
+            )}
+            {tier.tier === 'heritage' && (
+              <div class="absolute -top-3 left-4 bg-frost text-thunder px-3 py-1 text-[10px] font-black uppercase tracking-industrial">{lang === 'ru' ? 'ЛИМИТ 50' : 'LIMIT 50'}</div>
+            )}
+            <div class="text-frost/60 text-[10px] sm:text-xs font-mono uppercase tracking-industrial mb-2">{tier.name}</div>
+            <div class="text-frost font-display font-black text-2xl sm:text-3xl mb-4">{tier.price.toLocaleString('ru-RU')} ₽</div>
+            <div class="space-y-2 mb-4 text-sm">
+              <div class="flex justify-between border-b border-frost/10 pb-1">
+                <span class="text-frost/50 text-[10px] uppercase tracking-industrial">HRC</span>
+                <span class="text-frost font-bold">{tier.hrc}</span>
+              </div>
+              <div class="flex justify-between border-b border-frost/10 pb-1">
+                <span class="text-frost/50 text-[10px] uppercase tracking-industrial">{lang === 'ru' ? 'Толщина' : 'Thickness'}</span>
+                <span class="text-frost font-bold">{tier.thick}</span>
+              </div>
+              <div class="flex justify-between border-b border-frost/10 pb-1">
+                <span class="text-frost/50 text-[10px] uppercase tracking-industrial">{lang === 'ru' ? 'Серийный №' : 'Serial №'}</span>
+                <span class="text-bolt font-bold">{tier.serial}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-frost/50 text-[10px] uppercase tracking-industrial">{lang === 'ru' ? 'Гарантия' : 'Warranty'}</span>
+                <span class="text-frost font-bold">{tier.warranty}</span>
+              </div>
+            </div>
+            <div class={
+              tier.tier === 'pro' ? "text-bolt font-black text-xs uppercase tracking-industrial group-hover:translate-x-1 transition" :
+              "text-frost font-black text-xs uppercase tracking-industrial group-hover:translate-x-1 transition"
+            }>
+              {tier.cta} →
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <!-- Метрики доверия -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6 max-w-3xl mx-auto border-t border-frost/10 pt-6 sm:pt-8">
+        <div class="text-center">
+          <div class="text-bolt font-display font-black text-2xl sm:text-3xl">109</div>
+          <div class="text-frost/60 text-[9px] sm:text-xs font-mono uppercase tracking-industrial">{tr.trust_5_0}</div>
+        </div>
+        <div class="text-center">
+          <div class="text-bolt font-display font-black text-2xl sm:text-3xl">700<sup class="text-xs sm:text-base">км</sup></div>
+          <div class="text-frost/60 text-[9px] sm:text-xs font-mono uppercase tracking-industrial">{lang === 'ru' ? 'без заточки' : 'no sharpening'}</div>
+        </div>
+        <div class="text-center">
+          <div class="text-bolt font-display font-black text-2xl sm:text-3xl">110<sup class="text-xs sm:text-base">кг</sup></div>
+          <div class="text-frost/60 text-[9px] sm:text-xs font-mono uppercase tracking-industrial">{lang === 'ru' ? 'нагрузка' : 'max load'}</div>
+        </div>
+        <div class="text-center">
+          <div class="text-bolt font-display font-black text-2xl sm:text-3xl">{lang === 'ru' ? '3 г' : '3y'}</div>
+          <div class="text-frost/60 text-[9px] sm:text-xs font-mono uppercase tracking-industrial">{tr.trust_3y_warranty}</div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="flex flex-wrap gap-3 justify-center mt-8 sm:mt-12">
+        <a href={`${import.meta.env.BASE_URL}/catalog`} class="btn-bolt text-sm sm:text-base">{tr.hero_cta1}</a>
+        <a href={`${import.meta.env.BASE_URL}/tours`} class="btn-ghost text-sm sm:text-base">{tr.hero_cta2}</a>
+      </div>
+    </div>
+
+    <!-- След лезвия -->
+    <div class="absolute bottom-0 left-0 right-0 skate-track opacity-50"></div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- ТЕХНОЛОГИЯ — Характеристики -->
+  <!-- ============================== -->
+  <section class="bg-frost py-20 sm:py-24 ice-cracks-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8 sm:mb-12">
+        <div class="section-label justify-center mb-3">{tr.tech_label}</div>
+        <h2 class="font-display font-black text-thunder text-2xl sm:text-5xl uppercase">{tr.tech_heading}</h2>
+        <p class="mt-3 sm:mt-4 text-frost-dark/70 max-w-2xl mx-auto text-sm sm:text-base">{tr.tech_subtitle}</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+        {techSpecs[lang].map(t => (
+          <div class="bg-white border-2 border-frost-dark p-6 hover:border-bolt hover:shadow-glow transition group">
+            <div class="text-bolt text-3xl mb-3 group-hover:scale-110 transition origin-left">{t.icon}</div>
+            <div class="font-display font-black text-thunder text-lg leading-tight">{t.label}</div>
+            <div class="text-frost-dark/60 text-sm mt-1">{t.desc}</div>
+          </div>
+        ))}
+      </div>
+
+      <!-- HRC объяснение -->
+      <div class="mt-8 sm:mt-12 bg-white border-2 border-frost-dark p-6 max-w-3xl mx-auto">
+        <h3 class="font-display font-black text-thunder text-lg mb-2 flex items-center gap-2">
+          <span class="text-bolt">⚙</span> {tr.hrc_explain_title}
+        </h3>
+        <p class="text-frost-dark/70 text-sm leading-relaxed">{tr.hrc_explain_text}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- PRO-СЕРИЯ — Новый блок -->
+  <!-- ============================== -->
+  <section id="pro" class="bg-thunder text-frost py-20 sm:py-24 relative overflow-hidden border-y-2 border-bolt/40">
+    <div class="absolute inset-0 bg-ice-texture opacity-30"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div>
+          <div class="text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs mb-3">{tr.pro_label}</div>
+          <h2 class="font-display font-black text-3xl sm:text-5xl lg:text-6xl uppercase mb-4 sm:mb-6">
+            <span class="block text-bolt">{tr.pro_h1}</span>
+            <span class="block">{lang === 'ru' ? 'Лезвия для тех,' : 'For those who'}</span>
+            <span class="block">{lang === 'ru' ? 'кто не прощает' : 'don\'t forgive'}</span>
+            <span class="block">{lang === 'ru' ? 'компромиссов' : 'compromise'}</span>
+          </h2>
+          <p class="text-frost/80 leading-relaxed mb-6 sm:mb-8 text-sm sm:text-base">{tr.pro_subtitle}</p>
+
+          <div class="space-y-3 mb-6 sm:mb-8">
+            <div class="flex items-center gap-3 text-sm">
+              <span class="w-2 h-2 bg-bolt rounded-full"></span>
+              <span class="text-frost/90">{lang === 'ru' ? 'Толщина 1.4 мм (vs 1.2 у базовой)' : '1.4 mm thick (vs 1.2 base)'}</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="w-2 h-2 bg-bolt rounded-full"></span>
+              <span class="text-frost/90">{lang === 'ru' ? 'HRC 56–60 (vs 50 у базовой)' : 'HRC 56–60 (vs 50 base)'}</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="w-2 h-2 bg-bolt rounded-full"></span>
+              <span class="text-frost/90">{lang === 'ru' ? 'Сталь 9ХС / ШХ15' : 'Steel 9KhS / ShKh15'}</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="w-2 h-2 bg-bolt rounded-full"></span>
+              <span class="text-frost/90">{lang === 'ru' ? 'Серийный № + подпись мастера' : 'Serial № + master signature'}</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="w-2 h-2 bg-bolt rounded-full"></span>
+              <span class="text-frost/90">{lang === 'ru' ? 'Гарантия 3 года (PRO) / пожизненно (Heritage)' : '3-year warranty (PRO) / lifetime (Heritage)'}</span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <a href={`${import.meta.env.BASE_URL}/pro`} class="btn-bolt text-sm sm:text-base">{tr.pro_btn_consult}</a>
+            <a href={`${import.meta.env.BASE_URL}/sravnenie`} class="btn-ghost text-sm sm:text-base">{tr.pro_compare}</a>
+          </div>
+        </div>
+
+        <!-- Карточки PRO и Heritage -->
+        <div class="space-y-4">
+          <div class="bg-bolt/10 border-2 border-bolt p-6 backdrop-blur-sm">
+            <div class="flex items-start justify-between mb-3">
+              <div>
+                <div class="text-bolt font-mono uppercase tracking-industrial text-[10px] mb-1">{lang === 'ru' ? 'Серия 100+ пар/год' : 'Series 100+ pairs/year'}</div>
+                <div class="font-display font-black text-2xl sm:text-3xl text-frost">PRO</div>
+              </div>
+              <div class="text-right">
+                <div class="text-frost/50 text-[10px] uppercase tracking-industrial">{lang === 'ru' ? 'от' : 'from'}</div>
+                <div class="text-bolt font-display font-black text-2xl sm:text-3xl">14 000 ₽</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-xs">
+              <div class="text-center border border-frost/20 p-2">
+                <div class="text-bolt font-display font-black">56</div>
+                <div class="text-frost/50 text-[9px] uppercase">HRC</div>
+              </div>
+              <div class="text-center border border-frost/20 p-2">
+                <div class="text-bolt font-display font-black">1.4</div>
+                <div class="text-frost/50 text-[9px] uppercase">мм</div>
+              </div>
+              <div class="text-center border border-frost/20 p-2">
+                <div class="text-bolt font-display font-black">3</div>
+                <div class="text-frost/50 text-[9px] uppercase">{lang === 'ru' ? 'года' : 'years'}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-frost/5 border-2 border-frost/30 p-6 backdrop-blur-sm">
+            <div class="flex items-start justify-between mb-3">
+              <div>
+                <div class="text-frost/60 font-mono uppercase tracking-industrial text-[10px] mb-1">{lang === 'ru' ? 'Лимитированная: 50 пар/год' : 'Limited: 50 pairs/year'}</div>
+                <div class="font-display font-black text-2xl sm:text-3xl text-frost">Heritage</div>
+              </div>
+              <div class="text-right">
+                <div class="text-frost/50 text-[10px] uppercase tracking-industrial">{lang === 'ru' ? 'от' : 'from'}</div>
+                <div class="text-frost font-display font-black text-2xl sm:text-3xl">22 000 ₽</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-xs">
+              <div class="text-center border border-frost/20 p-2">
+                <div class="text-frost font-display font-black">60</div>
+                <div class="text-frost/50 text-[9px] uppercase">HRC</div>
+              </div>
+              <div class="text-center border border-frost/20 p-2">
+                <div class="text-frost font-display font-black">1.4</div>
+                <div class="text-frost/50 text-[9px] uppercase">мм</div>
+              </div>
+              <div class="text-center border border-frost/20 p-2">
+                <div class="text-frost font-display font-black">∞</div>
+                <div class="text-frost/50 text-[9px] uppercase">{lang === 'ru' ? 'гарант' : 'warranty'}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- БАЙКАЛ — Партнёрство с турами -->
+  <!-- ============================== -->
+  <section id="baikal" class="bg-frost ice-cracks-bg py-20 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8 sm:mb-12">
+        <div class="section-label justify-center mb-3">{tr.baikal_label}</div>
+        <h2 class="font-display font-black text-thunder text-2xl sm:text-5xl uppercase mb-3 sm:mb-4">{tr.baikal_h2}</h2>
+        <p class="text-frost-dark/70 max-w-3xl mx-auto text-sm sm:text-base">{tr.baikal_subtitle}</p>
+        <div class="inline-block mt-4 bg-bolt/10 border border-bolt/40 px-4 py-2 text-bolt font-mono text-xs uppercase tracking-industrial">{tr.baikal_partner}</div>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12">
+        <div class="bg-white border-2 border-frost-dark p-4 sm:p-6 text-center">
+          <div class="text-bolt font-display font-black text-2xl sm:text-4xl mb-1">{tr.baikal_stat_1}</div>
+          <div class="text-frost-dark/60 text-[10px] sm:text-xs font-mono uppercase tracking-industrial">{tr.baikal_stat_1_label}</div>
+        </div>
+        <div class="bg-white border-2 border-frost-dark p-4 sm:p-6 text-center">
+          <div class="text-bolt font-display font-black text-2xl sm:text-4xl mb-1">{tr.baikal_stat_2}</div>
+          <div class="text-frost-dark/60 text-[10px] sm:text-xs font-mono uppercase tracking-industrial">{tr.baikal_stat_2_label}</div>
+        </div>
+        <div class="bg-white border-2 border-frost-dark p-4 sm:p-6 text-center">
+          <div class="text-bolt font-display font-black text-2xl sm:text-4xl mb-1">{tr.baikal_stat_3}</div>
+          <div class="text-frost-dark/60 text-[10px] sm:text-xs font-mono uppercase tracking-industrial">{tr.baikal_stat_3_label}</div>
+        </div>
+        <div class="bg-white border-2 border-frost-dark p-4 sm:p-6 text-center">
+          <div class="text-bolt font-display font-black text-2xl sm:text-4xl mb-1">{tr.baikal_stat_4}</div>
+          <div class="text-frost-dark/60 text-[10px] sm:text-xs font-mono uppercase tracking-industrial">{tr.baikal_stat_4_label}</div>
+        </div>
+      </div>
+
+      <!-- Карточка тура -->
+      <div class="bg-thunder text-frost p-6 sm:p-10 max-w-3xl mx-auto border-l-4 border-bolt">
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
+          <div>
+            <div class="text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs mb-2">{tr.baikal_partner}</div>
+            <h3 class="font-display font-black text-xl sm:text-2xl uppercase">{tr.baikal_tour_title}</h3>
+            <p class="text-frost/70 text-sm mt-2">{tr.baikal_tour_subtitle}</p>
+          </div>
+          <div class="text-right shrink-0">
+            <div class="text-frost/50 text-[10px] uppercase tracking-industrial">{lang === 'ru' ? 'с человека' : 'per person'}</div>
+            <div class="text-bolt font-display font-black text-2xl sm:text-3xl">{tr.baikal_tour_price}</div>
+          </div>
+        </div>
+        <div class="border-t border-frost/20 pt-4 mb-6 text-sm">
+          <div class="text-frost/60 text-[10px] uppercase tracking-industrial mb-2">{lang === 'ru' ? 'Включено:' : 'Includes:'}</div>
+          <p class="text-frost/90">{tr.baikal_tour_includes}</p>
+        </div>
+        <div class="bg-bolt/10 border border-bolt/40 p-3 mb-4 text-xs text-bolt">
+          ⚡ {tr.baikal_pro_position}
+        </div>
+        <a href="https://alpindustria-tour.ru" target="_blank" rel="noopener" class="btn-bolt inline-flex">{tr.baikal_tour_action}</a>
+      </div>
+
+      <div class="text-center mt-8">
+        <a href={`${import.meta.env.BASE_URL}/tours`} class="text-bolt font-black uppercase tracking-industrial text-sm hover:underline">{tr.baikal_btn}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- ОТЗЫВЫ — Социальное доказательство -->
+  <!-- ============================== -->
+  <section class="bg-thunder text-frost py-20 sm:py-24 relative overflow-hidden">
+    <div class="absolute inset-0 bg-ice-texture opacity-40"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8 sm:mb-12">
+        <div class="text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs mb-3">{tr.reviews_label}</div>
+        <h2 class="font-display font-black text-2xl sm:text-5xl uppercase">{tr.reviews_heading}</h2>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-4 sm:gap-6">
+        {reviews[lang].map(r => (
+          <div class="bg-frost/5 border-l-4 border-bolt p-6">
+            <div class="text-bolt text-sm mb-3 tracking-widest">★★★★★</div>
+            <p class="text-frost/90 italic leading-relaxed mb-4">«{r.text}»</p>
+            <div class="flex items-center justify-between text-xs font-mono uppercase tracking-industrial">
+              <span class="text-bolt">{r.name}</span>
+              <span class="text-frost/50">{r.city} · {r.date}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- ДОКУМЕНТАЛКА — Скоро -->
+  <!-- ============================== -->
+  <section class="bg-frost-dark/30 py-16 sm:py-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="bg-thunder text-frost border-2 border-bolt p-8 sm:p-12">
+        <div class="flex items-center justify-center mb-4">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 border-2 border-bolt rounded-full flex items-center justify-center">
+            <svg width="32" height="32" viewBox="0 0 32 32" class="text-bolt fill-current"><path d="M19 2 L8 18 L15 18 L11 30 L24 14 L17 14 Z"/></svg>
+          </div>
+        </div>
+        <div class="text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs mb-3">{tr.pro_video_label}</div>
+        <h3 class="font-display font-black text-2xl sm:text-3xl uppercase mb-4">{lang === 'ru' ? '5–8 мин от Антона (мастер)' : '5–8 min from Anton (master)'}</h3>
+        <p class="text-frost/70 text-sm sm:text-base max-w-2xl mx-auto">{tr.pro_video_note}</p>
+        <div class="mt-6 inline-flex items-center gap-2 text-bolt font-mono text-xs uppercase tracking-industrial">
+          <span class="w-2 h-2 bg-bolt rounded-full animate-pulse"></span>
+          {lang === 'ru' ? 'Скоро на сайте' : 'Coming soon'}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- КАТАЛОГ — Карточки товаров -->
+  <!-- ============================== -->
+  <section class="bg-frost ice-cracks-bg py-20 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-8 sm:mb-12 gap-4">
+        <div>
+          <div class="section-label mb-3">{tr.catalog_label}</div>
+          <h2 class="font-display font-black text-thunder text-2xl sm:text-5xl uppercase">{tr.catalog_heading}</h2>
+        </div>
+        <a href={`${import.meta.env.BASE_URL}/catalog`} class="btn-steel">{tr.catalog_all}</a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+         {products[lang].map(p => (
+          <a href={`${import.meta.env.BASE_URL}product/${p.sku}`} class="product-card group block">
+            {p.badge && <div class="badge-bolt absolute top-3 right-3 z-10">{p.badge}</div>}
+            <div class="aspect-square bg-ice-texture overflow-hidden flex items-center justify-center">
+              <img src={`${import.meta.env.BASE_URL}photos/${p.sku}.jpg`} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'text-bolt text-5xl sm:text-7xl\'>⚡</div>'" />
+            </div>
+            <div class="p-5">
+              <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/60 mb-1">Арт. {p.sku}</div>
+              <h3 class="font-display font-bold text-thunder leading-snug mb-2 group-hover:text-bolt transition text-sm sm:text-base">{p.name}</h3>
+              <p class="text-frost-dark/70 text-xs sm:text-sm mb-4">{p.short}</p>
+              {p.reviews > 0 && (
+                <div class="text-bolt text-xs font-mono uppercase tracking-industrial mb-3">★ {p.rating} · {p.reviews} отзывов</div>
+              )}
+              <div class="flex items-end justify-between pt-4 border-t border-frost-dark">
+                <div class="font-display font-black text-thunder text-xl sm:text-2xl">{p.price.toLocaleString('ru-RU')} <span class="text-sm sm:text-base">₽</span></div>
+                <div class="text-bolt font-black text-xs uppercase tracking-industrial group-hover:translate-x-1 transition">→</div>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- КАЛЬКУЛЯТОР РАЗМЕРА — Интерактив -->
+  <!-- ============================== -->
+  <section class="bg-thunder text-frost py-20 sm:py-24 relative overflow-hidden">
+    <div class="absolute inset-0 bg-ice-texture opacity-30"></div>
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8 sm:mb-12">
+        <div class="text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs mb-3">{tr.calc_label}</div>
+        <h2 class="font-display font-black text-2xl sm:text-5xl uppercase">{tr.calc_heading}</h2>
+        <p class="mt-3 sm:mt-4 text-frost/70 max-w-2xl mx-auto text-sm sm:text-base">{tr.calc_subtitle}</p>
+      </div>
+      <div class="bg-frost/5 border-2 border-bolt/30 p-4 sm:p-10 backdrop-blur-sm">
+        <div class="grid sm:grid-cols-2 gap-4 sm:gap-6 items-end">
+          <div>
+            <label for="boot-size" class="block text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs mb-2 sm:mb-3">{tr.calc_label1}</label>
+            <select id="boot-size" class="size-input">
+              <option>Выберите размер</option>
+              {Array.from({length: 13}, (_, i) => i + 34).map(s => <option value={s}>{s} EU</option>)}
+            </select>
+          </div>
+          <div>
+            <label for="binding-type" class="block text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs mb-2 sm:mb-3">{tr.calc_label2}</label>
+            <select id="binding-type" class="size-input">
+              <option>NNN (Salomon, Atomic, Fischer)</option>
+              <option>SNS (Atomic, Rossignol)</option>
+              <option>Prolink</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-6 p-5 bg-bolt/10 border border-bolt/40 flex items-center justify-between">
+          <div>
+            <div class="text-frost/60 text-xs font-mono uppercase tracking-industrial">{tr.calc_recommend}</div>
+            <div class="text-bolt font-display font-black text-2xl mt-1">{tr.calc_result}</div>
+          </div>
+          <a href={`${import.meta.env.BASE_URL}/product/003`} class="btn-bolt">{tr.calc_cta}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-frost ice-cracks-bg py-20 sm:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <svg width="48" height="48" viewBox="0 0 32 32" class="text-bolt fill-current mx-auto mb-6">
+        <path d="M19 2 L8 18 L15 18 L11 30 L24 14 L17 14 Z"/>
+      </svg>
+      <h2 class="font-display font-black text-thunder text-2xl sm:text-5xl uppercase mb-4 sm:mb-6">{tr.cta_heading}</h2>
+      <p class="text-frost-dark/70 max-w-2xl mx-auto mb-6 sm:mb-8 text-sm sm:text-base">
+        {tr.cta_text}
+      </p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href={`${import.meta.env.BASE_URL}/catalog`} class="btn-bolt">{tr.cta_catalog}</a>
+        <a href={`${import.meta.env.BASE_URL}/tours`} class="btn-steel">{tr.cta_tours}</a>
+      </div>
+    </div>
+  </section>
+
+</Base>

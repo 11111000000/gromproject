@@ -1,0 +1,203 @@
+---
+import Base from '../layouts/Base.astro';
+import { t, defaultLang, type Lang } from '../i18n/translations';
+
+const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
+const tr = t[lang];
+
+// 4 бренда для сравнения
+const brands = [
+  {
+    name: 'ГРОМ Базовая', country: 'Россия', price: '7 800 ₽', hrc: '50', thick: '1.2 мм', radius: '30 м',
+    serial: 'да', warranty: '1 год', origin: 'Ангарск', accent: 'border-frost-dark',
+    rowBg: 'bg-frost/5', isGrom: false,
+  },
+  {
+    name: 'ГРОМ PRO', country: 'Россия', price: '14 000 ₽', hrc: '56', thick: '1.4 мм', radius: '30 м',
+    serial: 'да + мастер', warranty: '3 года', origin: 'Ангарск', accent: 'border-bolt',
+    rowBg: 'bg-bolt/10', isGrom: true, gromTier: 'PRO',
+  },
+  {
+    name: 'ГРОМ Heritage', country: 'Россия', price: '22 000 ₽', hrc: '60', thick: '1.4 мм', radius: '30 м',
+    serial: 'да + подпись', warranty: 'пожизненно', origin: 'Ангарск', accent: 'border-bolt',
+    rowBg: 'bg-bolt/10', isGrom: true, gromTier: 'Heritage',
+  },
+  {
+    name: 'Zandstra Tango', country: 'Нидерланды', price: '16 390 ₽', hrc: '60', thick: '1.25 мм', radius: '35 м',
+    serial: 'нет', warranty: '2 года', origin: 'Импорт', accent: 'border-frost-dark',
+    rowBg: 'bg-frost/5', isGrom: false,
+  },
+  {
+    name: 'Zandstra Isvidda', country: 'Нидерланды', price: '18 135 ₽', hrc: '60', thick: '1.25 мм', radius: 'неизв.',
+    serial: 'нет', warranty: '2 года', origin: 'Импорт', accent: 'border-frost-dark',
+    rowBg: 'bg-frost/5', isGrom: false,
+  },
+  {
+    name: 'Zandstra Competition', country: 'Нидерланды', price: '22 990 ₽', hrc: '60', thick: '1.4 мм 🟡', radius: 'неизв.',
+    serial: 'нет', warranty: '2 года', origin: 'Импорт', accent: 'border-frost-dark',
+    rowBg: 'bg-frost/5', isGrom: false,
+  },
+  {
+    name: 'Lundhags T-Skate', country: 'Швеция', price: '~25 000 ₽ 🟡', hrc: '58 (Sandvik)', thick: '1.4 мм', radius: 'неизв.',
+    serial: 'нет', warranty: '2 года', origin: 'Импорт', accent: 'border-frost-dark',
+    rowBg: 'bg-frost/5', isGrom: false,
+  },
+  {
+    name: 'ГОРAA', country: 'Китай (РФ-бренд)', price: '2 900 ₽', hrc: 'неизв.', thick: '1.25 мм', radius: 'неизв.',
+    serial: 'нет', warranty: 'нет', origin: 'АльпИндустрия', accent: 'border-frost-dark',
+    rowBg: 'bg-frost/5', isGrom: false,
+  },
+  {
+    name: 'Скороходы Про 42см', country: 'Россия', price: '16 000 ₽', hrc: 'неизв.', thick: 'неизв.', radius: 'неизв.',
+    serial: 'нет', warranty: 'неизв.', origin: 'ТЕРРА СПб', accent: 'border-frost-dark',
+    rowBg: 'bg-frost/5', isGrom: false,
+  },
+];
+---
+<Base title={tr.sravnenie_title} description={lang === 'ru' ? 'Честное сравнение ГРОМ с Zandstra, Lundhags, ГОРAA. Цены на июль 2026.' : lang === 'en' ? 'Honest comparison GROM vs Zandstra, Lundhags, GORAA. Prices as of July 2026.' : 'ГРОМ vs Zandstra、Lundhags、GORAA诚实对比。'}>
+
+  <!-- Schema.org -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": lang === 'ru' ? 'Сравнение ГРОМ с конкурентами' : 'GROM vs competitors',
+    "description": lang === 'ru' ? 'Честное сравнение лезвий для озёрных коньков: ГРОМ, Zandstra, Lundhags, ГОРAA, Скороходы.' : 'Honest comparison of lake skates: GROM, Zandstra, Lundhags, GORAA, Skorokhody.',
+  })} />
+
+  <!-- ============================== -->
+  <!-- HERO -->
+  <!-- ============================== -->
+  <section class="relative bg-thunder text-frost overflow-hidden border-b-4 border-bolt">
+    <div class="absolute inset-0 bg-ice-texture opacity-90"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 sm:py-24 text-center">
+      <div class="inline-block bg-bolt text-thunder px-3 py-1 text-[10px] sm:text-xs font-black uppercase tracking-industrial mb-4">
+        {lang === 'ru' ? 'Сравнение' : 'Comparison'}
+      </div>
+      <h1 class="font-display font-black text-frost leading-[0.95] tracking-tight text-4xl sm:text-6xl lg:text-7xl mb-4 sm:mb-6 uppercase">
+        {tr.sravnenie_h1}
+      </h1>
+      <p class="text-base sm:text-xl text-frost/80 leading-relaxed max-w-3xl mx-auto mb-4">{tr.sravnenie_subtitle}</p>
+      <div class="text-bolt font-mono text-xs uppercase tracking-industrial">{tr.sravnenie_note}</div>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 skate-track opacity-50"></div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- ТАБЛИЦА СРАВНЕНИЯ -->
+  <!-- ============================== -->
+  <section class="bg-frost ice-cracks-bg py-12 sm:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse bg-white border-2 border-frost-dark">
+          <thead>
+            <tr class="bg-thunder text-frost">
+              <th class="p-3 sm:p-4 text-left text-[10px] sm:text-xs font-black uppercase tracking-industrial border-b-2 border-bolt">{tr.sravnenie_table_brand}</th>
+              <th class="p-3 sm:p-4 text-left text-[10px] sm:text-xs font-black uppercase tracking-industrial border-b-2 border-bolt hidden sm:table-cell">{tr.sravnenie_table_country}</th>
+              <th class="p-3 sm:p-4 text-right text-[10px] sm:text-xs font-black uppercase tracking-industrial border-b-2 border-bolt">{tr.sravnenie_table_price}</th>
+              <th class="p-3 sm:p-4 text-center text-[10px] sm:text-xs font-black uppercase tracking-industrial border-b-2 border-bolt">HRC</th>
+              <th class="p-3 sm:p-4 text-center text-[10px] sm:text-xs font-black uppercase tracking-industrial border-b-2 border-bolt hidden md:table-cell">{tr.sravnenie_table_thickness}</th>
+              <th class="p-3 sm:p-4 text-center text-[10px] sm:text-xs font-black uppercase tracking-industrial border-b-2 border-bolt hidden md:table-cell">{tr.sravnenie_table_radius}</th>
+              <th class="p-3 sm:p-4 text-center text-[10px] sm:text-xs font-black uppercase tracking-industrial border-b-2 border-bolt hidden lg:table-cell">{tr.sravnenie_table_serial}</th>
+              <th class="p-3 sm:p-4 text-center text-[10px] sm:text-xs font-black uppercase tracking-industrial border-b-2 border-bolt hidden lg:table-cell">{tr.sravnenie_table_warranty}</th>
+              <th class="p-3 sm:p-4 text-center text-[10px] sm:text-xs font-black uppercase tracking-industrial border-b-2 border-bolt">{lang === 'ru' ? 'Действие' : 'Action'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {brands.map(b => (
+              <tr class={`${b.rowBg} ${b.isGrom ? 'border-l-4 border-bolt' : ''} hover:bg-bolt/5 transition`}>
+                <td class="p-3 sm:p-4 border-b border-frost-dark">
+                  <div class={`font-display font-black text-thunder text-sm sm:text-base ${b.isGrom ? 'text-bolt' : ''}`}>
+                    {b.name}
+                    {b.isGrom && <span class="ml-2 text-[10px] uppercase tracking-industrial text-bolt">⭐ {b.gromTier}</span>}
+                  </div>
+                  <div class="text-frost-dark/50 text-[10px] font-mono mt-1 sm:hidden">{b.country}</div>
+                </td>
+                <td class="p-3 sm:p-4 text-frost-dark/70 text-sm hidden sm:table-cell border-b border-frost-dark">{b.country}</td>
+                <td class={`p-3 sm:p-4 text-right font-display font-black text-sm sm:text-base border-b border-frost-dark ${b.isGrom ? 'text-bolt' : 'text-thunder'}`}>{b.price}</td>
+                <td class={`p-3 sm:p-4 text-center font-mono text-sm border-b border-frost-dark ${b.isGrom ? 'text-bolt font-bold' : 'text-frost-dark'}`}>{b.hrc}</td>
+                <td class="p-3 sm:p-4 text-center font-mono text-sm text-frost-dark/70 border-b border-frost-dark hidden md:table-cell">{b.thick}</td>
+                <td class="p-3 sm:p-4 text-center font-mono text-sm text-frost-dark/70 border-b border-frost-dark hidden md:table-cell">{b.radius}</td>
+                <td class="p-3 sm:p-4 text-center text-sm border-b border-frost-dark hidden lg:table-cell">
+                  {b.serial === 'да' || b.serial.includes('да') ? (
+                    <span class="text-bolt font-bold">{b.serial}</span>
+                  ) : (
+                    <span class="text-frost-dark/50">{b.serial}</span>
+                  )}
+                </td>
+                <td class="p-3 sm:p-4 text-center text-sm text-frost-dark/70 border-b border-frost-dark hidden lg:table-cell">{b.warranty}</td>
+                <td class="p-3 sm:p-4 text-center border-b border-frost-dark">
+                  {b.isGrom ? (
+                    <a href={`${import.meta.env.BASE_URL}/pro?lang=${lang}`} class="text-bolt text-xs uppercase tracking-industrial font-bold hover:underline">→</a>
+                  ) : (
+                    <span class="text-frost-dark/30 text-xs">—</span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-6 text-xs text-frost-dark/60 italic text-center">
+        {lang === 'ru' ? '🟡 — параметр уточнён, но требует подтверждения от производителя' : '🟡 — estimated, manufacturer confirmation needed'}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- ВЫВОДЫ -->
+  <!-- ============================== -->
+  <section class="bg-frost ice-cracks-bg py-12 sm:py-16">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8 sm:mb-12">
+        <h2 class="font-display font-black text-thunder text-2xl sm:text-4xl uppercase">
+          {lang === 'ru' ? 'Что в итоге?' : 'Bottom line?'}
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+        <div class="bg-thunder text-frost p-6 border-l-4 border-frost/30">
+          <div class="text-bolt font-display font-black text-3xl mb-2">7 800 ₽</div>
+          <div class="text-frost font-bold text-sm mb-2">{lang === 'ru' ? 'ГРОМ Базовая' : 'GROM Base'}</div>
+          <p class="text-frost/70 text-xs">
+            {lang === 'ru'
+              ? 'В 2.3 раза дешевле Zandstra Tango. Не конкурент ГОРAA — другая ниша.'
+              : '2.3x cheaper than Zandstra Tango. Different niche vs GORAA.'}
+          </p>
+        </div>
+        <div class="bg-bolt/10 border-2 border-bolt p-6">
+          <div class="text-bolt font-display font-black text-3xl mb-2">14 000 ₽</div>
+          <div class="text-frost font-bold text-sm mb-2">ГРОМ PRO</div>
+          <p class="text-frost-dark/70 text-xs">
+            {lang === 'ru'
+              ? 'Дешевле Zandstra Tango (16 390 ₽) и толще 1.4 мм. Свободная ниша в РФ.'
+              : 'Cheaper than Zandstra Tango (16 390 ₽) and thicker 1.4mm. Open niche in Russia.'}
+          </p>
+        </div>
+        <div class="bg-bolt/10 border-2 border-bolt p-6">
+          <div class="text-bolt font-display font-black text-3xl mb-2">22 000 ₽</div>
+          <div class="text-frost font-bold text-sm mb-2">ГРОМ Heritage</div>
+          <p class="text-frost-dark/70 text-xs">
+            {lang === 'ru'
+              ? 'На уровне Zandstra Competition (22 990 ₽), но с историей (мастер, серия, видео).'
+              : 'Same price tier as Zandstra Competition (22 990 ₽), but with story (master, series, video).'}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- CTA -->
+  <!-- ============================== -->
+  <section class="bg-frost ice-cracks-bg py-16 text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <svg width="40" height="40" viewBox="0 0 32 32" class="text-bolt fill-current mx-auto mb-4"><path d="M19 2 L8 18 L15 18 L11 30 L24 14 L17 14 Z"/></svg>
+      <h2 class="font-display font-black text-thunder text-2xl sm:text-4xl uppercase mb-4">{tr.pro_h1}</h2>
+      <p class="text-frost-dark/70 mb-6 text-sm sm:text-base">{tr.pro_subtitle}</p>
+      <a href={`${import.meta.env.BASE_URL}/pro?lang=${lang}`} class="btn-bolt">{lang === 'ru' ? 'Смотреть PRO-серию' : 'See PRO series'}</a>
+    </div>
+  </section>
+
+</Base>

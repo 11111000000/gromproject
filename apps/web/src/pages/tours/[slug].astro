@@ -1,0 +1,221 @@
+---
+import Base from '../../layouts/Base.astro';
+import { t, defaultLang, type Lang } from '../../i18n/translations';
+
+const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
+const tr = t[lang];
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'baikal' } },
+    { params: { slug: 'sayany' } },
+    { params: { slug: 'datsans' } },
+  ];
+}
+
+interface Tour {
+  name: string;
+  desc: string;
+  days: number;
+  price: number;
+  maxPeople: number;
+  season: string;
+  emoji: string;
+  program: Array<{ day: number; title: string; desc: string }>;
+  includes: string[];
+}
+
+const tours: Record<Lang, Record<string, Tour>> = {
+  ru: {
+    baikal: {
+      name: t.ru.tour_baikal_name, desc: t.ru.tour_baikal_desc, days: 5, price: 45000, maxPeople: 8, season: 'Январь — Март', emoji: '🏔',
+      program: [
+        { day: 1, title: 'Прибытие в Иркутск', desc: 'Встреча в аэропорту, трансфер в посёлок Листвянка, обед, прогулка по Байкалу.' },
+        { day: 2, title: 'Листвянка → Ольхон', desc: 'Переезд на пароме до острова Ольхон, размещение, экскурсия к скале Шаманка.' },
+        { day: 3, title: 'Мыс Хобой', desc: 'Поездка на самую северную точку Байкала, ледовые пещеры, обед на льду.' },
+        { day: 4, title: 'Свободный день', desc: 'Коньки, лыжи, баня, рыбалка — по вашему выбору.' },
+        { day: 5, title: 'Возвращение', desc: 'Возвращение в Иркутск, трансфер в аэропорт.' },
+      ],
+      includes: ['Трансфер на внедорожнике', 'Гид-сопровождающий', 'Проживание в гостевом доме', 'Завтраки и ужины', 'Баня', 'Снаряжение'],
+    },
+    sayany: {
+      name: t.ru.tour_sayany_name, desc: t.ru.tour_sayany_desc, days: 7, price: 65000, maxPeople: 6, season: 'Круглый год', emoji: '⛰',
+      program: [
+        { day: 1, title: 'Иркутск → Аршан', desc: 'Переезд в Тункинскую долину, размещение, знакомство с курортом.' },
+        { day: 2, title: 'Термальные источники', desc: 'Купание в горячих источниках, отдых.' },
+        { day: 3, title: 'Вулкан Кропоткина', desc: 'Треккинг к подножию потухшего вулкана (8 км).' },
+        { day: 4, title: 'Озеро Байкал', desc: 'Поездка на восточный берег, прогулка, рыбалка.' },
+        { day: 5, title: 'Бурятское стойбище', desc: 'Знакомство с культурой, мастер-класс по приготовлению бухлёра.' },
+        { day: 6, title: 'Пик Любви', desc: 'Треккинг к панорамной точке (12 км).' },
+        { day: 7, title: 'Возвращение', desc: 'Возвращение в Иркутск.' },
+      ],
+      includes: ['Трансфер', 'Гид', 'Проживание', 'Питание', 'Баня', 'Снаряжение для треккинга'],
+    },
+    datsans: {
+      name: t.ru.tour_datsans_name, desc: t.ru.tour_datsans_desc, days: 4, price: 38000, maxPeople: 10, season: 'Круглый год', emoji: '🛕',
+      program: [
+        { day: 1, title: 'Иркутск → Улан-Удэ', desc: 'Перелёт или поезд, вечерняя прогулка по городу.' },
+        { day: 2, title: 'Иволгинский дацан', desc: 'Экскурсия в центр российского буддизма, встреча с ламой.' },
+        { day: 3, title: 'Этно-лагерь', desc: 'Ночёвка в юртах, мастер-классы, горловое пение, обряды.' },
+        { day: 4, title: 'Возвращение', desc: 'Возвращение в Иркутск.' },
+      ],
+      includes: ['Трансфер', 'Экскурсовод', 'Проживание в юртах', 'Традиционная бурятская кухня'],
+    },
+  },
+  en: {
+    baikal: {
+      name: t.en.tour_baikal_name, desc: t.en.tour_baikal_desc, days: 5, price: 45000, maxPeople: 8, season: 'January — March', emoji: '🏔',
+      program: [
+        { day: 1, title: 'Arrival in Irkutsk', desc: 'Airport pickup, transfer to Listvyanka village, lunch, walk along Baikal.' },
+        { day: 2, title: 'Listvyanka → Olkhon', desc: 'Ferry to Olkhon Island, check-in, excursion to Shamanka Rock.' },
+        { day: 3, title: 'Cape Khoboy', desc: 'Trip to the northernmost point of Baikal, ice caves, lunch on ice.' },
+        { day: 4, title: 'Free day', desc: 'Skating, skiing, banya, fishing — your choice.' },
+        { day: 5, title: 'Return', desc: 'Return to Irkutsk, transfer to airport.' },
+      ],
+      includes: ['SUV transfer', 'Guide', 'Guesthouse accommodation', 'Breakfasts and dinners', 'Banya', 'Equipment'],
+    },
+    sayany: {
+      name: t.en.tour_sayany_name, desc: t.en.tour_sayany_desc, days: 7, price: 65000, maxPeople: 6, season: 'Year-round', emoji: '⛰',
+      program: [
+        { day: 1, title: 'Irkutsk → Arshan', desc: 'Transfer to Tunkinskaya Valley, check-in, resort tour.' },
+        { day: 2, title: 'Thermal springs', desc: 'Bathing in hot springs, relaxation.' },
+        { day: 3, title: 'Kropotkin Volcano', desc: 'Trekking to the base of the extinct volcano (8 km).' },
+        { day: 4, title: 'Lake Baikal', desc: 'Trip to the eastern shore, walk, fishing.' },
+        { day: 5, title: 'Buryat camp', desc: 'Cultural introduction, cooking masterclass.' },
+        { day: 6, title: 'Love Peak', desc: 'Trekking to panoramic viewpoint (12 km).' },
+        { day: 7, title: 'Return', desc: 'Return to Irkutsk.' },
+      ],
+      includes: ['Transfer', 'Guide', 'Accommodation', 'Meals', 'Banya', 'Trekking gear'],
+    },
+    datsans: {
+      name: t.en.tour_datsans_name, desc: t.en.tour_datsans_desc, days: 4, price: 38000, maxPeople: 10, season: 'Year-round', emoji: '🛕',
+      program: [
+        { day: 1, title: 'Irkutsk → Ulan-Ude', desc: 'Flight or train, evening city walk.' },
+        { day: 2, title: 'Ivolginsky Datsan', desc: 'Tour of the center of Russian Buddhism, meeting with a lama.' },
+        { day: 3, title: 'Ethno-camp', desc: 'Overnight in yurts, masterclasses, throat singing, rituals.' },
+        { day: 4, title: 'Return', desc: 'Return to Irkutsk.' },
+      ],
+      includes: ['Transfer', 'Guide', 'Yurt accommodation', 'Traditional Buryat cuisine'],
+    },
+  },
+  zh: {
+    baikal: {
+      name: t.zh.tour_baikal_name, desc: t.zh.tour_baikal_desc, days: 5, price: 45000, maxPeople: 8, season: '一月 — 三月', emoji: '🏔',
+      program: [
+        { day: 1, title: '抵达伊尔库茨克', desc: '机场接送，前往利斯特维扬卡村，午餐，贝加尔湖畔漫步。' },
+        { day: 2, title: '利斯特维扬卡 → 奥利洪岛', desc: '乘渡轮到奥利洪岛，入住，游览萨满岩。' },
+        { day: 3, title: '霍博伊角', desc: '前往贝加尔湖最北端，冰洞，冰上午餐。' },
+        { day: 4, title: '自由活动日', desc: '冰鞋、滑雪、桑拿、钓鱼——任您选择。' },
+        { day: 5, title: '返程', desc: '返回伊尔库茨克，送往机场。' },
+      ],
+      includes: ['越野车接送', '导游', '民宿住宿', '早餐和晚餐', '桑拿', '装备'],
+    },
+    sayany: {
+      name: t.zh.tour_sayany_name, desc: t.zh.tour_sayany_desc, days: 7, price: 65000, maxPeople: 6, season: '全年', emoji: '⛰',
+      program: [
+        { day: 1, title: '伊尔库茨克 → 阿尔尚', desc: '前往通卡山谷，入住，游览度假村。' },
+        { day: 2, title: '温泉', desc: '泡温泉，放松。' },
+        { day: 3, title: '克鲁波特金火山', desc: '徒步至死火山山脚（8公里）。' },
+        { day: 4, title: '贝加尔湖', desc: '前往东岸，漫步，钓鱼。' },
+        { day: 5, title: '布里亚特营地', desc: '文化体验，烹饪课。' },
+        { day: 6, title: '爱情峰', desc: '徒步至观景点（12公里）。' },
+        { day: 7, title: '返程', desc: '返回伊尔库茨克。' },
+      ],
+      includes: ['交通', '导游', '住宿', '餐食', '桑拿', '徒步装备'],
+    },
+    datsans: {
+      name: t.zh.tour_datsans_name, desc: t.zh.tour_datsans_desc, days: 4, price: 38000, maxPeople: 10, season: '全年', emoji: '🛕',
+      program: [
+        { day: 1, title: '伊尔库茨克 → 乌兰乌德', desc: '飞机或火车，傍晚城市漫步。' },
+        { day: 2, title: '伊沃尔金斯基达仓', desc: '游览俄罗斯佛教中心，与喇嘛会面。' },
+        { day: 3, title: '民族营地', desc: '蒙古包住宿，民俗课，呼麦，仪式。' },
+        { day: 4, title: '返程', desc: '返回伊尔库茨克。' },
+      ],
+      includes: ['交通', '导游', '蒙古包住宿', '传统布里亚特美食'],
+    },
+  },
+};
+
+const slug = Astro.params.slug as 'baikal' | 'sayany' | 'datsans';
+const tour = tours[lang][slug];
+if (!tour) { return Astro.redirect('/tours'); }
+
+const labels = {
+  ru: { home: 'Главная', tours: 'Туры', duration: 'Длительность', days: 'дн.', group: 'Группа', upTo: 'до', price: 'Цена', season: 'Сезон', program: 'Программа тура', dayByDay: 'День за днём', day: 'Д', book: 'Готов забронировать?', pricePerson: 'с человека', included: 'Включено' },
+  en: { home: 'Home', tours: 'Tours', duration: 'Duration', days: 'days', group: 'Group', upTo: 'up to', price: 'Price', season: 'Season', program: 'Day by day', dayByDay: 'Day by day', day: 'D', book: 'Ready to book?', pricePerson: 'per person', included: 'Included' },
+  zh: { home: '首页', tours: '旅游', duration: '时长', days: '天', group: '团队', upTo: '最多', price: '价格', season: '季节', program: '逐日行程', dayByDay: '逐日行程', day: '第', book: '准备预订？', pricePerson: '每人', included: '包含' },
+} as const;
+const L = labels[lang];
+---
+<Base title={`${tour.name.toUpperCase()} · GROM`} description={`${tour.name} — ${lang === 'ru' ? 'Тур на Байкал с коньками ГРОМ' : lang === 'en' ? 'Baikal tour with GROM skates' : 'ГРОМ 贝加尔湖之旅'}. ${tour.desc}`}>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": lang === 'ru' ? 'Главная' : lang === 'en' ? 'Home' : '首页', "item": "https://11111000000.github.io/gromproject/" },
+      { "@type": "ListItem", "position": 2, "name": lang === 'ru' ? 'Туры' : lang === 'en' ? 'Tours' : '旅游', "item": "https://11111000000.github.io/gromproject/tours/" },
+      { "@type": "ListItem", "position": 3, "name": tour.name }
+    ]
+  })} />
+
+  <section class="relative bg-thunder text-frost py-12 sm:py-16 overflow-hidden border-b-4 border-bolt">
+    <div class="absolute inset-0 bg-ice-texture opacity-90"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="text-xs font-mono uppercase tracking-industrial text-frost/50 mb-6">
+        <a href={`${import.meta.env.BASE_URL}/`} class="hover:text-bolt">{L.home}</a> ·
+        <a href={`${import.meta.env.BASE_URL}/tours`} class="hover:text-bolt">{L.tours}</a> ·
+        <span class="text-frost">{tour.name}</span>
+      </nav>
+      <div class="text-7xl mb-4">{tour.emoji}</div>
+      <h1 class="font-display font-black uppercase leading-[0.95] text-4xl sm:text-6xl mb-6">{tour.name}</h1>
+      <p class="text-lg sm:text-xl text-frost/80 max-w-2xl mb-8">{tour.desc}</p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl">
+        <div class="border-2 border-bolt/40 p-4">
+          <div class="text-[10px] font-mono uppercase tracking-industrial text-frost/60">{L.duration}</div>
+          <div class="text-2xl font-display font-black text-bolt">{tour.days} {L.days}</div>
+        </div>
+        <div class="border-2 border-bolt/40 p-4">
+          <div class="text-[10px] font-mono uppercase tracking-industrial text-frost/60">{L.group}</div>
+          <div class="text-2xl font-display font-black text-bolt">{L.upTo} {tour.maxPeople}</div>
+        </div>
+        <div class="border-2 border-bolt/40 p-4">
+          <div class="text-[10px] font-mono uppercase tracking-industrial text-frost/60">{L.price}</div>
+          <div class="text-2xl font-display font-black text-bolt">{tour.price.toLocaleString('ru-RU')} ₽</div>
+        </div>
+        <div class="border-2 border-bolt/40 p-4">
+          <div class="text-[10px] font-mono uppercase tracking-industrial text-frost/60">{L.season}</div>
+          <div class="text-base font-display font-black text-bolt">{tour.season}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-frost ice-cracks-bg py-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="section-label mb-3">{L.program}</div>
+      <h2 class="font-display font-black text-thunder text-3xl uppercase mb-8">{L.dayByDay}</h2>
+      <div class="space-y-3">
+        {tour.program.map(d => (
+          <div class="bg-white border-l-4 border-bolt p-6 flex gap-4">
+            <div class="text-3xl font-display font-black text-bolt shrink-0 w-12">{L.day}{d.day}</div>
+            <div>
+              <h3 class="font-display font-black text-thunder text-lg uppercase mb-1">{d.title}</h3>
+              <p class="text-frost-dark/70 text-sm">{d.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-thunder text-frost py-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="font-display font-black text-3xl sm:text-5xl uppercase mb-6">{L.book}</h2>
+      <p class="text-frost/70 max-w-2xl mx-auto mb-4">{L.price}: <span class="text-bolt font-black text-2xl">{tour.price.toLocaleString('ru-RU')} ₽</span> {L.pricePerson}</p>
+      <p class="text-frost/70 max-w-2xl mx-auto mb-8">{L.included}: {tour.includes.join(', ')}</p>
+      <a href="https://max.ru/join/CItXClkmsu0XXWDvSS1a8icqjoIhikdprAks4RmZAaM" target="_blank" rel="noopener" class="btn-bolt">{tr.tours_book_action}</a>
+    </div>
+  </section>
+</Base>

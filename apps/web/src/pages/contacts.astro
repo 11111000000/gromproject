@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import { t, defaultLang, type Lang } from '../i18n/translations';
+
+const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
+const tr = t[lang];
+
+const fieldLabels: Record<Lang, { addr: string; addrVal: string; coords: string; coordsVal: string; phone: string; email: string; hours: string; hoursVal: string }> = {
+  ru: { addr: 'Адрес', addrVal: 'г. Ангарск, Иркутская область,<br/>пр. Карла Маркса, 87/10', coords: 'Координаты', coordsVal: 'N 52°31′ · E 103°54′', phone: 'Телефон', email: 'Email', hours: 'Часы работы', hoursVal: 'Пн–Пт 10:00–17:00 · Сб 10:00–15:00' },
+  en: { addr: 'Address', addrVal: '87/10 Karla Marksa Ave., Angarsk,<br/>Irkutsk Oblast', coords: 'Coordinates', coordsVal: 'N 52°31′ · E 103°54′', phone: 'Phone', email: 'Email', hours: 'Working hours', hoursVal: 'Mon–Fri 10:00–17:00 · Sat 10:00–15:00' },
+  zh: { addr: '地址', addrVal: '安加尔斯克市，伊尔库茨克州，<br/>卡尔·马克思大街87/10号', coords: '坐标', coordsVal: 'N 52°31′ · E 103°54′', phone: '电话', email: '邮箱', hours: '工作时间', hoursVal: '周一至周五 10:00–17:00 · 周六 10:00–15:00' },
+};
+
+const requisites: Record<Lang, { inn: string; addr: string; bank: string; rs: string; ks: string; bik: string }> = {
+  ru: { inn: 'ИНН/КПП', addr: 'Юрадрес', bank: 'Банк', rs: 'Р/с', ks: 'Корр/с', bik: 'БИК' },
+  en: { inn: 'TIN/CRR', addr: 'Legal address', bank: 'Bank', rs: 'Account', ks: 'Corr. acc.', bik: 'BIC' },
+  zh: { inn: '税号', addr: '法定地址', bank: '银行', rs: '账户', ks: '关联账户', bik: '银行代码' },
+};
+---
+<Base title={tr.contacts_title} description={lang === 'ru' ? 'Контакты ООО «ГРОМ» — Ангарск, Иркутская область. Телефон, email, адрес.' : lang === 'en' ? 'Contact GROM LLC — Angarsk, Irkutsk region. Phone, email, address.' : '联系 ГРОМ 公司 — 安加尔斯克，伊尔库茨克州。电话、邮箱、地址。'}>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": lang === 'ru' ? 'Главная' : lang === 'en' ? 'Home' : '首页', "item": "https://11111000000.github.io/gromproject/" },
+      { "@type": "ListItem", "position": 2, "name": lang === 'ru' ? 'Контакты' : lang === 'en' ? 'Contacts' : '联系' }
+    ]
+  })} />
+
+  <section class="relative bg-thunder text-frost py-16 overflow-hidden border-b-4 border-bolt">
+    <div class="absolute inset-0 bg-ice-texture opacity-90"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="section-label justify-center mb-3">{tr.contacts_write}</div>
+      <h1 class="font-display font-black uppercase leading-[0.95] text-4xl sm:text-6xl lg:text-7xl mb-6">{tr.contacts_h1}</h1>
+    </div>
+  </section>
+
+  <section class="bg-frost ice-cracks-bg py-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8">
+      <div>
+        <h2 class="font-display font-black text-thunder text-2xl uppercase mb-6">{tr.contacts_office}</h2>
+        <div class="bg-white border-2 border-frost-dark p-6 space-y-4">
+          <div><div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50">{fieldLabels[lang].addr}</div><div class="font-bold text-thunder" set:html={fieldLabels[lang].addrVal} /></div>
+          <div><div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50">{fieldLabels[lang].coords}</div><div class="font-mono text-thunder">{fieldLabels[lang].coordsVal}</div></div>
+          <div><div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50">{fieldLabels[lang].phone}</div><a href="tel:+79025761917" class="font-bold text-thunder block hover:text-bolt">+7 (902) 576-19-17</a></div>
+          <div><div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50">{fieldLabels[lang].email}</div><a href="mailto:info@grom38.ru" class="font-bold text-thunder block hover:text-bolt">info@grom38.ru</a></div>
+          <div><div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50">{fieldLabels[lang].hours}</div><div class="font-bold text-thunder">{fieldLabels[lang].hoursVal}</div></div>
+        </div>
+      </div>
+      <div>
+        <h2 class="font-display font-black text-thunder text-2xl uppercase mb-6">{tr.contacts_details}</h2>
+        <div class="bg-white border-2 border-frost-dark p-6 space-y-3 text-sm">
+          <div><div class="font-bold text-thunder">{tr.contacts_company}</div></div>
+          <div><span class="text-frost-dark/60">{requisites[lang].inn}:</span> <span class="font-mono">3801165352 / 380101001</span></div>
+          <div><span class="text-frost-dark/60">{requisites[lang].addr}:</span> 665832, г. Ангарск, 6 мкр-н, д.15/15а, кв.29</div>
+          <div><span class="text-frost-dark/60">{requisites[lang].bank}:</span> АО «Т-банк» г. Москва</div>
+          <div><span class="text-frost-dark/60">{requisites[lang].rs}:</span> <span class="font-mono">40702810010001927660</span></div>
+          <div><span class="text-frost-dark/60">{requisites[lang].ks}:</span> <span class="font-mono">30101810145250000974</span></div>
+          <div><span class="text-frost-dark/60">{requisites[lang].bik}:</span> <span class="font-mono">044525974</span></div>
+        </div>
+        <a href="https://max.ru/join/CItXClkmsu0XXWDvSS1a8icqjoIhikdprAks4RmZAaM" target="_blank" rel="noopener" class="btn-bolt mt-6 w-full text-center inline-flex justify-center">
+          {tr.contacts_write}
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

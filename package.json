@@ -1,0 +1,20 @@
+{
+  "name": "grom-project",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n web,api -c green,magenta \"npm run dev:web\" \"npm run dev:api\"",
+    "dev:web": "cd apps/web && npx astro dev --host 0.0.0.0 --port 4321",
+    "dev:api": "node apps/api/server.cjs",
+    "build": "cd apps/web && npx astro build",
+    "test": "echo 'Тесты пока не настроены'"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.3"
+  }
+}
