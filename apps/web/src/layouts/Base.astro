@@ -69,6 +69,7 @@ const metaDesc = ogDescriptions[descKey]?.[lang] || pageDescription;
     <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
     <link rel="manifest" href={`${import.meta.env.BASE_URL}site.webmanifest`} />
     <meta name="theme-color" content="#f4b942" />
+    <meta name="x-base-url" content={import.meta.env.BASE_URL} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&display=swap" />
@@ -332,14 +333,21 @@ const metaDesc = ogDescriptions[descKey]?.[lang] || pageDescription;
 
         // Обновить активную кнопку языка
         var langBtns = document.querySelectorAll('#lang-switcher .theme-btn');
-        var langMap = { 'РУС': 'ru', 'ENG': 'en', '中文': 'zh' };
+        var langMap = { 'RU': 'ru', 'EN': 'en', 'ZH': 'zh' };
         langBtns.forEach(function(btn) {
           btn.classList.toggle('active', langMap[btn.title] === lang);
         });
 
         // ... rest of i18n script
 
-        fetch('/gromproject/i18n.json').then(r => r.json()).then(dict => {
+        var baseUrl = (function() {
+          var meta = document.querySelector('meta[name="x-base-url"]');
+          if (meta) return meta.getAttribute('content');
+          var path = window.location.pathname;
+          var m = path.match(/^(\/[^/]+\/)/);
+          return m ? m[1] : '/';
+        })();
+        fetch(baseUrl + 'i18n.json').then(r => r.json()).then(dict => {
           if (!dict[lang] || lang === 'ru') return;
           var d = dict[lang];
           if (d.site_name) document.title = d.site_name;
@@ -411,6 +419,9 @@ const metaDesc = ogDescriptions[descKey]?.[lang] || pageDescription;
     </script>
   </head>
   <body class="min-h-screen flex flex-col overflow-x-hidden">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-bolt focus:text-thunder focus:px-4 focus:py-2 focus:font-black focus:uppercase focus:tracking-industrial focus:text-sm">
+      {lang === 'ru' ? 'Перейти к содержимому' : lang === 'en' ? 'Skip to main content' : '跳到主要内容'}
+    </a>
     <header class="bg-thunder/95 text-frost sticky top-0 z-50 border-b-2 border-bolt/40 backdrop-blur-md">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
         <a href={`${import.meta.env.BASE_URL}/`} class="flex items-center gap-2 sm:gap-3 group shrink-0">
@@ -425,7 +436,7 @@ const metaDesc = ogDescriptions[descKey]?.[lang] || pageDescription;
           </div>
         </a>
         <!-- Hamburger — visible below md -->
-        <button id="menu-toggle" class="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5 text-frost" aria-label="Меню" aria-expanded="false" aria-controls="mobile-menu">
+        <button id="menu-toggle" class="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5 text-frost" aria-label={lang === 'ru' ? 'Открыть меню' : lang === 'en' ? 'Open menu' : '打开菜单'} aria-expanded="false" aria-controls="mobile-menu">
           <span class="menu-bar block w-5 h-0.5 bg-current transition-all duration-300 origin-center"></span>
           <span class="menu-bar block w-5 h-0.5 bg-current transition-all duration-300"></span>
           <span class="menu-bar block w-5 h-0.5 bg-current transition-all duration-300 origin-center"></span>
@@ -443,19 +454,19 @@ const metaDesc = ogDescriptions[descKey]?.[lang] || pageDescription;
           <input type="search" id="site-search" placeholder="Поиск..." class="hidden sm:block bg-frost/10 border border-frost/30 text-frost text-xs font-mono px-3 py-1.5 w-28 lg:w-40 focus:w-48 transition-all focus:outline-none focus:border-bolt placeholder:text-frost/40" onkeydown={`if(event.key==='Enter'){var q=document.getElementById('site-search').value;if(q)window.location.href='${import.meta.env.BASE_URL}catalog/?q='+encodeURIComponent(q)}`} />
           <!-- Язык — client-side updated via script below -->
           <div class="theme-switcher flex-shrink-0" id="lang-switcher">
-            <a href={`${slug}?lang=ru`} class="theme-btn" title="РУС">🇷🇺</a>
-            <a href={`${slug}?lang=en`} class="theme-btn" title="ENG">🇬🇧</a>
-            <a href={`${slug}?lang=zh`} class="theme-btn" title="中文">🇨🇳</a>
+            <a href={`${slug}?lang=ru`} class="theme-btn" title="RU" aria-label="Русский язык">РУ</a>
+            <a href={`${slug}?lang=en`} class="theme-btn" title="EN" aria-label="English language">EN</a>
+            <a href={`${slug}?lang=zh`} class="theme-btn" title="ZH" aria-label="中文 / Chinese">ZH</a>
           </div>
           <!-- Переключатель тем -->
           <div class="theme-switcher flex-shrink-0" id="theme-switcher">
-            <button class="theme-btn" data-theme="light" title="Рассвет">🌅</button>
-            <button class="theme-btn" data-theme="night" title="Ночь">🌙</button>
-            <button class="theme-btn" data-theme="taiga" title="Тайга">🪵</button>
-            <button class="theme-btn" data-theme="ice" title="Лёд">🧊</button>
-            <button class="theme-btn" data-theme="polar" title="Аврора">🌌</button>
-            <button class="theme-btn" data-theme="sunrise" title="Закат">🌇</button>
-            <button class="theme-btn" data-theme="ember" title="Угли">🔥</button>
+            <button class="theme-btn" data-theme="light" title="Рассвет" aria-label="Тема: Рассвет">🌅</button>
+            <button class="theme-btn" data-theme="night" title="Ночь" aria-label="Тема: Ночь">🌙</button>
+            <button class="theme-btn" data-theme="taiga" title="Тайга" aria-label="Тема: Тайга">🪵</button>
+            <button class="theme-btn" data-theme="ice" title="Лёд" aria-label="Тема: Лёд">🧊</button>
+            <button class="theme-btn" data-theme="polar" title="Аврора" aria-label="Тема: Аврора">🌌</button>
+            <button class="theme-btn" data-theme="sunrise" title="Закат" aria-label="Тема: Закат">🌇</button>
+            <button class="theme-btn" data-theme="ember" title="Угли" aria-label="Тема: Угли">🔥</button>
           </div>
           <a href={`tel:${tr.phone.replace(/[^+\d]/g,'')}`} class="hidden lg:flex items-center gap-1.5 text-xs font-mono text-frost/80 hover:text-bolt transition shrink-0">
             {tr.phone}
@@ -478,12 +489,12 @@ const metaDesc = ogDescriptions[descKey]?.[lang] || pageDescription;
           <input type="search" id="site-search-mobile" placeholder="Поиск..." class="bg-frost/10 border border-frost/30 text-frost text-xs font-mono px-3 py-2 flex-1 focus:outline-none focus:border-bolt placeholder:text-frost/40" onkeydown={`if(event.key==='Enter'){var q=document.getElementById('site-search-mobile').value;if(q)window.location.href='${import.meta.env.BASE_URL}catalog/?q='+encodeURIComponent(q)}`} />
         </div>
         <div class="flex items-center gap-2 px-3 py-2">
-          <a href="tel:+79149775533" class="text-xs font-mono text-frost/80 hover:text-bolt transition">+7 914 977 55 33</a>
+          <a href={`tel:${tr.phone.replace(/[^+\d]/g,'')}`} class="text-xs font-mono text-frost/80 hover:text-bolt transition">{tr.phone}</a>
         </div>
       </nav>
     </div>
 
-    <main class="flex-1 overflow-x-hidden">
+    <main id="main-content" class="flex-1 overflow-x-hidden">
       <slot />
     </main>
 
@@ -538,26 +549,14 @@ const metaDesc = ogDescriptions[descKey]?.[lang] || pageDescription;
     <script is:inline>
       (function() {
         var btns = document.querySelectorAll('#lang-switcher .theme-btn, .theme-btn');
-        var langMap = { 'РУС': 'ru', 'ENG': 'en', '中文': 'zh' };
-        var themeBtns = document.querySelectorAll('#theme-switcher .theme-btn');
-        var switcher = document.getElementById('theme-switcher');
-        var meta = document.querySelector('meta[name="theme-color"]');
-        var colors = { light: '#f0f4f8', night: '#0b1622', taiga: '#2c1810', ice: '#e8f4fd', polar: '#0d1b2a', sunrise: '#fdf0e6', ember: '#1a0f0f' };
-        if (!switcher) return;
-
-        function setTheme(name) {
-          document.documentElement.setAttribute('data-theme', name);
-          localStorage.setItem('grom-theme', name);
-          themeBtns.forEach(function(b) { b.classList.toggle('active', b.dataset.theme === name); });
-          if (meta && colors[name]) meta.setAttribute('content', colors[name]);
-        }
+        var langMap = { 'RU': 'ru', 'EN': 'en', 'ZH': 'zh' };
 
         // Set active lang button
         var url2 = new URL(window.location.href);
         var currentLang = url2.searchParams.get('lang') || localStorage.getItem('grom-lang') || 'ru';
         if (!['ru','en','zh'].includes(currentLang)) currentLang = 'ru';
         var langBtns = document.querySelectorAll('#lang-switcher .theme-btn');
-        var langMap2 = { 'РУС': 'ru', 'ENG': 'en', '中文': 'zh' };
+        var langMap2 = { 'RU': 'ru', 'EN': 'en', 'ZH': 'zh' };
         langBtns.forEach(function(b) { b.classList.toggle('active', langMap2[b.title] === currentLang); });
 
         switcher.addEventListener('click', function(e) {

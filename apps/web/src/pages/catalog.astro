@@ -38,6 +38,18 @@ const reviewsLabel: Record<Lang, string> = {
   en: '★ {rating} · {count} reviews',
   zh: '★ {rating} · {count}条评价',
 };
+
+const filterLabels: Record<Lang, Record<string, string>> = {
+  ru: { all: 'Все', blades: 'Лезвия', finished: 'Готовые коньки', accessories: 'Аксессуары' },
+  en: { all: 'All', blades: 'Blades', finished: 'Complete skates', accessories: 'Accessories' },
+  zh: { all: '全部', blades: '冰刀', finished: '成品冰鞋', accessories: '配件' },
+};
+const filters = ['all', 'blades', 'finished', 'accessories'];
+const emptyText: Record<Lang, string> = {
+  ru: 'В этой категории пока ничего нет.',
+  en: 'Nothing in this category yet.',
+  zh: '该分类暂无产品。',
+};
 ---
 <Base title={tr.catalog_page_title} description={lang === 'ru' ? 'Каталог озёрных коньков ГРОМ — 6 моделей: готовые коньки, лезвия, аксессуары.' : lang === 'en' ? 'GROM lake skate catalog — 6 models: complete skates, blades, accessories.' : 'ГРОМ 冰刀目录 — 6款型号：成品冰刀、刀片、配件。'}>
 
@@ -62,9 +74,28 @@ const reviewsLabel: Record<Lang, string> = {
   <section class="bg-frost ice-cracks-bg py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="sr-only">{tr.catalog_h1}</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <nav id="catalog-filters" class="flex flex-wrap gap-2 mb-8" aria-label={lang === 'ru' ? 'Фильтр категорий' : 'Category filter'}>
+        {filters.map(f => (
+          <button
+            type="button"
+            data-cat={f}
+            class={
+              f === 'all'
+                ? "filter-btn px-4 py-2 text-xs font-black uppercase tracking-industrial border-2 border-bolt bg-bolt text-thunder"
+                : "filter-btn px-4 py-2 text-xs font-black uppercase tracking-industrial border-2 border-frost-dark text-frost-dark hover:border-bolt hover:text-bolt transition"
+            }
+          >{filterLabels[lang][f]}</button>
+        ))}
+      </nav>
+
+      <div id="catalog-empty" class="hidden text-center py-12">
+        <p class="text-frost-dark/70 text-lg">{emptyText[lang]}</p>
+      </div>
+
+      <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {products[lang].map(p => (
-          <a href={`${import.meta.env.BASE_URL}product/${p.sku}`} class="product-card group block">
+          <a href={`${import.meta.env.BASE_URL}product/${p.sku}`} data-cat={p.category} class="product-card group block">
             {p.badge && <span class="badge-bolt absolute top-3 right-3 z-10">{p.badge}</span>}
             <div class="aspect-square bg-thunder overflow-hidden flex items-center justify-center relative">
               <ProductImage sku={p.sku} name={p.name} class="absolute inset-0" />
@@ -75,7 +106,7 @@ const reviewsLabel: Record<Lang, string> = {
               <p class="text-frost-dark/60 text-sm mb-4">{p.short}</p>
               {p.reviews > 0 && <div class="text-bolt text-xs font-mono mb-3">{reviewsLabel[lang].replace('{rating}', String(p.rating)).replace('{count}', String(p.reviews))}</div>}
               <div class="flex items-end justify-between pt-4 border-t border-frost-dark">
-                <span class="font-display font-black text-thunder text-2xl">{p.price.toLocaleString('ru-RU')} ₽</span>
+                <span class="font-display font-black text-thunder text-2xl">{p.price.toLocaleString('ru-RU')} {tr.currency_symbol}</span>
                 <span class="text-bolt font-black text-xs uppercase tracking-industrial">→</span>
               </div>
             </div>
@@ -84,4 +115,54 @@ const reviewsLabel: Record<Lang, string> = {
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    (function() {
+      var nav = document.getElementById('catalog-filters');
+      var grid = document.getElementById('catalog-grid');
+      var empty = document.getElementById('catalog-empty');
+      if (!nav || !grid || !empty) return;
+
+      var cards = Array.from(grid.querySelectorAll('[data-cat]'));
+      var buttons = Array.from(nav.querySelectorAll('button[data-cat]'));
+      var activeClass = ['border-bolt', 'bg-bolt', 'text-thunder'];
+      var inactiveClass = ['border-frost-dark', 'text-frost-dark', 'hover:border-bolt', 'hover:text-bolt', 'transition'];
+
+      function apply(cat) {
+        var visible = 0;
+        cards.forEach(function(c) {
+          var show = cat === 'all' || c.dataset.cat === cat;
+          c.style.display = show ? '' : 'none';
+          if (show) visible++;
+        });
+        empty.classList.toggle('hidden', visible > 0);
+        buttons.forEach(function(b) {
+          var isActive = b.dataset.cat === cat;
+          if (isActive) {
+            b.classList.add.apply(b.classList, activeClass);
+            b.classList.remove.apply(b.classList, inactiveClass);
+          } else {
+            b.classList.remove.apply(b.classList, activeClass);
+            b.classList.add.apply(b.classList, inactiveClass);
+          }
+        });
+        try { history.replaceState(null, '', cat === 'all' ? window.location.pathname : window.location.pathname + '?cat=' + cat); } catch(e) {}
+      }
+
+      // Начальная инициализация из ?cat=
+      var initial = 'all';
+      try {
+        var p = new URLSearchParams(window.location.search);
+        var c = p.get('cat');
+        if (c && ['all', 'blades', 'finished', 'accessories'].indexOf(c) !== -1) initial = c;
+      } catch(e) {}
+      apply(initial);
+
+      nav.addEventListener('click', function(e) {
+        var btn = e.target.closest('button[data-cat]');
+        if (!btn) return;
+        apply(btn.dataset.cat);
+      });
+    })();
+  </script>
 </Base>

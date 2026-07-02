@@ -38,6 +38,7 @@ export const t = {
     email: 'info@grom38.ru',
     address: 'Ангарск, пр. Карла Маркса 87/10',
     desc: 'ГРОМ — российские озёрные коньки. Сделано в Ангарске. Испытано на Байкале.',
+    currency_symbol: '₽',
 
     // Index page
     hero_made_in: 'Сделано в Ангарске · Испытано на Байкале',
@@ -310,6 +311,7 @@ export const t = {
     phone: '+7 (902) 576-19-17',
     email: 'info@grom38.ru',
     address: '87/10 Karla Marksa Ave., Angarsk',
+    currency_symbol: '₽',
     desc: 'GROM — Russian lake skates. Made in Angarsk. Tested on Lake Baikal.',
 
     // Index
@@ -573,6 +575,7 @@ export const t = {
     phone: '+7 (902) 576-19-17',
     email: 'info@grom38.ru',
     address: '安加尔斯克市卡尔·马克思大街87/10号',
+    currency_symbol: '₽',
     desc: 'GROM — 俄罗斯湖上冰刀。安加尔斯克制造。贝加尔湖测试。',
 
     // Index
@@ -609,7 +612,7 @@ export const t = {
     calc_label2: '绑定类型',
     calc_recommend: '我们推荐',
     calc_result: 'GROM冰刀 480mm',
-    calc_cta: '购买 ¥6 600',
+    calc_cta: '购买 6 600 ₽',
     cta_heading: '准备好在冰面上驰骋了吗？',
     cta_text: '109位用户已经信任GROM。加入他们。俄罗斯全境配送3–7天 · 1年质保。',
     cta_catalog: '⚡ 进入目录',

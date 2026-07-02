@@ -182,7 +182,7 @@ const L = labels[lang];
         </div>
         <div class="border-2 border-bolt/40 p-4">
           <div class="text-[10px] font-mono uppercase tracking-industrial text-frost/60">{L.price}</div>
-          <div class="text-2xl font-display font-black text-bolt">{tour.price.toLocaleString('ru-RU')} ₽</div>
+          <div class="text-2xl font-display font-black text-bolt">{tour.price.toLocaleString('ru-RU')} {tr.currency_symbol}</div>
         </div>
         <div class="border-2 border-bolt/40 p-4">
           <div class="text-[10px] font-mono uppercase tracking-industrial text-frost/60">{L.season}</div>
@@ -213,7 +213,7 @@ const L = labels[lang];
   <section class="bg-thunder text-frost py-20">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <h2 class="font-display font-black text-3xl sm:text-5xl uppercase mb-6">{L.book}</h2>
-      <p class="text-frost/70 max-w-2xl mx-auto mb-4">{L.price}: <span class="text-bolt font-black text-2xl">{tour.price.toLocaleString('ru-RU')} ₽</span> {L.pricePerson}</p>
+      <p class="text-frost/70 max-w-2xl mx-auto mb-4">{L.price}: <span class="text-bolt font-black text-2xl">{tour.price.toLocaleString('ru-RU')} {tr.currency_symbol}</span> {L.pricePerson}</p>
       <p class="text-frost/70 max-w-2xl mx-auto mb-8">{L.included}: {tour.includes.join(', ')}</p>
       <a href="https://max.ru/join/CItXClkmsu0XXWDvSS1a8icqjoIhikdprAks4RmZAaM" target="_blank" rel="noopener" class="btn-bolt">{tr.tours_book_action}</a>
     </div>

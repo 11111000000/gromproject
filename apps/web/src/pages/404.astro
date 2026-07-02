@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import { t, defaultLang, type Lang } from '../i18n/translations';
+
+const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
+const tr = t[lang];
+
+const i18n = {
+  ru: {
+    title: '404 · Страница не найдена',
+    label: 'Ошибка 404',
+    heading: 'Страница ушла под лёд',
+    subtitle: 'Такой страницы на сайте нет. Возможно, ссылка устарела или в ней опечатка.',
+    home: '⚡ На главную',
+    catalog: 'В каталог',
+  },
+  en: {
+    title: '404 · Page not found',
+    label: 'Error 404',
+    heading: 'Page fell through the ice',
+    subtitle: "This page doesn't exist on the site. The link may be outdated or contain a typo.",
+    home: '⚡ Home',
+    catalog: 'To catalog',
+  },
+  zh: {
+    title: '404 · 页面未找到',
+    label: '错误 404',
+    heading: '页面掉进冰层了',
+    subtitle: '网站上没有此页面。链接可能已过期或包含拼写错误。',
+    home: '⚡ 首页',
+    catalog: '进入目录',
+  },
+};
+
+const l = i18n[lang];
+---
+<Base title={l.title} description={l.subtitle}>
+
+  <section class="relative bg-thunder text-frost min-h-[70vh] flex items-center overflow-hidden border-b-4 border-bolt">
+    <div class="absolute inset-0 bg-ice-texture opacity-90"></div>
+    <div class="absolute inset-0 ice-cracks-bg opacity-40"></div>
+
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center w-full">
+      <div class="section-label justify-center mb-6">{l.label}</div>
+
+      <h1 class="font-display font-black uppercase leading-[0.9] text-[120px] sm:text-[180px] lg:text-[220px] text-bolt mb-4 select-none" aria-hidden="true">
+        404
+      </h1>
+
+      <h2 class="font-display font-black uppercase text-2xl sm:text-4xl lg:text-5xl mb-4">
+        {l.heading}
+      </h2>
+
+      <p class="text-frost/70 max-w-2xl mx-auto mb-10 text-sm sm:text-base leading-relaxed">
+        {l.subtitle}
+      </p>
+
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href={`${import.meta.env.BASE_URL}/`} class="btn-bolt text-sm sm:text-base">{l.home}</a>
+        <a href={`${import.meta.env.BASE_URL}/catalog`} class="btn-ghost text-sm sm:text-base">{l.catalog}</a>
+      </div>
+    </div>
+
+    <div class="absolute bottom-0 left-0 right-0 skate-track opacity-50"></div>
+  </section>
+
+</Base>

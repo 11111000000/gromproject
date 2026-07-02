@@ -4,51 +4,52 @@ import { t, defaultLang, type Lang } from '../i18n/translations';
 
 const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
 const tr = t[lang];
+const cur = tr.currency_symbol;
 
 // 4 бренда для сравнения
 const brands = [
   {
-    name: 'ГРОМ Базовая', country: 'Россия', price: '7 800 ₽', hrc: '50', thick: '1.2 мм', radius: '30 м',
+    name: 'ГРОМ Базовая', country: 'Россия', price: `7 800 ${cur}`, hrc: '50', thick: '1.2 мм', radius: '30 м',
     serial: 'да', warranty: '1 год', origin: 'Ангарск', accent: 'border-frost-dark',
     rowBg: 'bg-frost/5', isGrom: false,
   },
   {
-    name: 'ГРОМ PRO', country: 'Россия', price: '14 000 ₽', hrc: '56', thick: '1.4 мм', radius: '30 м',
+    name: 'ГРОМ PRO', country: 'Россия', price: `14 000 ${cur}`, hrc: '56', thick: '1.4 мм', radius: '30 м',
     serial: 'да + мастер', warranty: '3 года', origin: 'Ангарск', accent: 'border-bolt',
     rowBg: 'bg-bolt/10', isGrom: true, gromTier: 'PRO',
   },
   {
-    name: 'ГРОМ Heritage', country: 'Россия', price: '22 000 ₽', hrc: '60', thick: '1.4 мм', radius: '30 м',
+    name: 'ГРОМ Heritage', country: 'Россия', price: `22 000 ${cur}`, hrc: '60', thick: '1.4 мм', radius: '30 м',
     serial: 'да + подпись', warranty: 'пожизненно', origin: 'Ангарск', accent: 'border-bolt',
     rowBg: 'bg-bolt/10', isGrom: true, gromTier: 'Heritage',
   },
   {
-    name: 'Zandstra Tango', country: 'Нидерланды', price: '16 390 ₽', hrc: '60', thick: '1.25 мм', radius: '35 м',
+    name: 'Zandstra Tango', country: 'Нидерланды', price: `16 390 ${cur}`, hrc: '60', thick: '1.25 мм', radius: '35 м',
     serial: 'нет', warranty: '2 года', origin: 'Импорт', accent: 'border-frost-dark',
     rowBg: 'bg-frost/5', isGrom: false,
   },
   {
-    name: 'Zandstra Isvidda', country: 'Нидерланды', price: '18 135 ₽', hrc: '60', thick: '1.25 мм', radius: 'неизв.',
+    name: 'Zandstra Isvidda', country: 'Нидерланды', price: `18 135 ${cur}`, hrc: '60', thick: '1.25 мм', radius: 'неизв.',
     serial: 'нет', warranty: '2 года', origin: 'Импорт', accent: 'border-frost-dark',
     rowBg: 'bg-frost/5', isGrom: false,
   },
   {
-    name: 'Zandstra Competition', country: 'Нидерланды', price: '22 990 ₽', hrc: '60', thick: '1.4 мм 🟡', radius: 'неизв.',
+    name: 'Zandstra Competition', country: 'Нидерланды', price: `22 990 ${cur}`, hrc: '60', thick: '1.4 мм 🟡', radius: 'неизв.',
     serial: 'нет', warranty: '2 года', origin: 'Импорт', accent: 'border-frost-dark',
     rowBg: 'bg-frost/5', isGrom: false,
   },
   {
-    name: 'Lundhags T-Skate', country: 'Швеция', price: '~25 000 ₽ 🟡', hrc: '58 (Sandvik)', thick: '1.4 мм', radius: 'неизв.',
+    name: 'Lundhags T-Skate', country: 'Швеция', price: `~25 000 ${cur} 🟡`, hrc: '58 (Sandvik)', thick: '1.4 мм', radius: 'неизв.',
     serial: 'нет', warranty: '2 года', origin: 'Импорт', accent: 'border-frost-dark',
     rowBg: 'bg-frost/5', isGrom: false,
   },
   {
-    name: 'ГОРAA', country: 'Китай (РФ-бренд)', price: '2 900 ₽', hrc: 'неизв.', thick: '1.25 мм', radius: 'неизв.',
+    name: 'ГОРAA', country: 'Китай (РФ-бренд)', price: `2 900 ${cur}`, hrc: 'неизв.', thick: '1.25 мм', radius: 'неизв.',
     serial: 'нет', warranty: 'нет', origin: 'АльпИндустрия', accent: 'border-frost-dark',
     rowBg: 'bg-frost/5', isGrom: false,
   },
   {
-    name: 'Скороходы Про 42см', country: 'Россия', price: '16 000 ₽', hrc: 'неизв.', thick: 'неизв.', radius: 'неизв.',
+    name: 'Скороходы Про 42см', country: 'Россия', price: `16 000 ${cur}`, hrc: 'неизв.', thick: 'неизв.', radius: 'неизв.',
     serial: 'нет', warranty: 'неизв.', origin: 'ТЕРРА СПб', accent: 'border-frost-dark',
     rowBg: 'bg-frost/5', isGrom: false,
   },
@@ -158,30 +159,30 @@ const brands = [
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         <div class="bg-thunder text-frost p-6 border-l-4 border-frost/30">
-          <div class="text-bolt font-display font-black text-3xl mb-2">7 800 ₽</div>
+          <div class="text-bolt font-display font-black text-3xl mb-2">7 800 {cur}</div>
           <div class="text-frost font-bold text-sm mb-2">{lang === 'ru' ? 'ГРОМ Базовая' : 'GROM Base'}</div>
           <p class="text-frost/70 text-xs">
             {lang === 'ru'
-              ? 'В 2.3 раза дешевле Zandstra Tango. Не конкурент ГОРAA — другая ниша.'
+              ? `В 2.3 раза дешевле Zandstra Tango. Не конкурент ГОРAA — другая ниша.`
               : '2.3x cheaper than Zandstra Tango. Different niche vs GORAA.'}
           </p>
         </div>
         <div class="bg-bolt/10 border-2 border-bolt p-6">
-          <div class="text-bolt font-display font-black text-3xl mb-2">14 000 ₽</div>
+          <div class="text-bolt font-display font-black text-3xl mb-2">14 000 {cur}</div>
           <div class="text-frost font-bold text-sm mb-2">ГРОМ PRO</div>
           <p class="text-frost-dark/70 text-xs">
             {lang === 'ru'
-              ? 'Дешевле Zandstra Tango (16 390 ₽) и толще 1.4 мм. Свободная ниша в РФ.'
-              : 'Cheaper than Zandstra Tango (16 390 ₽) and thicker 1.4mm. Open niche in Russia.'}
+              ? `Дешевле Zandstra Tango (16 390 ${cur}) и толще 1.4 мм. Свободная ниша в РФ.`
+              : `Cheaper than Zandstra Tango (16 390 ${cur}) and thicker 1.4mm. Open niche in Russia.`}
           </p>
         </div>
         <div class="bg-bolt/10 border-2 border-bolt p-6">
-          <div class="text-bolt font-display font-black text-3xl mb-2">22 000 ₽</div>
+          <div class="text-bolt font-display font-black text-3xl mb-2">22 000 {cur}</div>
           <div class="text-frost font-bold text-sm mb-2">ГРОМ Heritage</div>
           <p class="text-frost-dark/70 text-xs">
             {lang === 'ru'
-              ? 'На уровне Zandstra Competition (22 990 ₽), но с историей (мастер, серия, видео).'
-              : 'Same price tier as Zandstra Competition (22 990 ₽), but with story (master, series, video).'}
+              ? `На уровне Zandstra Competition (22 990 ${cur}), но с историей (мастер, серия, видео).`
+              : `Same price tier as Zandstra Competition (22 990 ${cur}), but with story (master, series, video).`}
           </p>
         </div>
       </div>

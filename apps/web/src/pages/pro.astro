@@ -6,22 +6,23 @@ const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
 const tr = t[lang];
 
 // 3 сегмента PRO-серии
+const cur = tr.currency_symbol;
 const tiers: Record<Lang, any[]> = {
   ru: [
     {
-      name: 'Базовая', tier: 'base', price: '7 800 ₽', hrc: '50 HRC', thick: '1.2 мм', steel: 'Сталь 420',
+      name: 'Базовая', tier: 'base', price: `7 800 ${cur}`, hrc: '50 HRC', thick: '1.2 мм', steel: 'Сталь 420',
       serial: 'да', warranty: '1 год', accent: 'border-frost-dark', priceColor: 'text-thunder',
       desc: 'Базовый сегмент. Для первого знакомства с диким льдом.',
       features: ['Сталь 420 нержавеющая', 'Толщина 1.2 мм', 'Серийный №', 'Гарантия 1 год', '5 SKU'],
     },
     {
-      name: 'PRO', tier: 'pro', price: '14 000 ₽', hrc: '56 HRC', thick: '1.4 мм', steel: 'Сталь 9ХС',
+      name: 'PRO', tier: 'pro', price: `14 000 ${cur}`, hrc: '56 HRC', thick: '1.4 мм', steel: 'Сталь 9ХС',
       serial: 'да + мастер', warranty: '3 года', accent: 'border-bolt', priceColor: 'text-bolt',
       desc: 'PRO-серия. Для тех, кто катает 500+ км в сезон.',
       features: ['Сталь 9ХС (инструментальная)', 'Толщина 1.4 мм', 'HRC 56 (двойная закалка)', 'Серийный № + имя мастера', 'PVD-покрытие нитрид титана', 'Гарантия 3 года', 'Деревянный ящик', 'Сертификат HRC'],
     },
     {
-      name: 'Heritage', tier: 'heritage', price: '22 000 ₽', hrc: '60 HRC', thick: '1.4 мм', steel: 'Сталь ШХ15',
+      name: 'Heritage', tier: 'heritage', price: `22 000 ${cur}`, hrc: '60 HRC', thick: '1.4 мм', steel: 'Сталь ШХ15',
       serial: 'да + подпись', warranty: 'пожизненно', accent: 'border-bolt', priceColor: 'text-bolt',
       desc: 'Лимитированная серия 50 пар. Ручная финишная доводка, подпись мастера.',
       features: ['Сталь ШХ15 (Sandvik-аналог)', 'Толщина 1.4 мм', 'HRC 60 (вакуумная закалка)', 'Серийный № + подпись мастера', 'PVD-покрытие улучшенное', 'Пожизненная гарантия', 'Деревянный ящик из ангарской сосны', 'Паспорт изделия', 'Лимитированная серия 50 пар/год'],
@@ -29,19 +30,19 @@ const tiers: Record<Lang, any[]> = {
   ],
   en: [
     {
-      name: 'Base', tier: 'base', price: '7 800 ₽', hrc: '50 HRC', thick: '1.2 mm', steel: 'Steel 420',
+      name: 'Base', tier: 'base', price: `7 800 ${cur}`, hrc: '50 HRC', thick: '1.2 mm', steel: 'Steel 420',
       serial: 'yes', warranty: '1 year', accent: 'border-frost-dark', priceColor: 'text-thunder',
       desc: 'Base segment. First steps on wild ice.',
       features: ['Steel 420 stainless', '1.2 mm thick', 'Serial №', '1-year warranty', '5 SKUs'],
     },
     {
-      name: 'PRO', tier: 'pro', price: '14 000 ₽', hrc: '56 HRC', thick: '1.4 mm', steel: 'Steel 9KhS',
+      name: 'PRO', tier: 'pro', price: `14 000 ${cur}`, hrc: '56 HRC', thick: '1.4 mm', steel: 'Steel 9KhS',
       serial: 'yes + master', warranty: '3 years', accent: 'border-bolt', priceColor: 'text-bolt',
       desc: 'PRO series. For those who ride 500+ km per season.',
       features: ['Steel 9KhS (tool steel)', '1.4 mm thick', 'HRC 56 (double hardening)', 'Serial № + master name', 'PVD titanium nitride coating', '3-year warranty', 'Wooden case', 'HRC certificate'],
     },
     {
-      name: 'Heritage', tier: 'heritage', price: '22 000 ₽', hrc: '60 HRC', thick: '1.4 mm', steel: 'Steel ShKh15',
+      name: 'Heritage', tier: 'heritage', price: `22 000 ${cur}`, hrc: '60 HRC', thick: '1.4 mm', steel: 'Steel ShKh15',
       serial: 'yes + signature', warranty: 'lifetime', accent: 'border-bolt', priceColor: 'text-bolt',
       desc: 'Limited series of 50 pairs. Manual finishing, master signature.',
       features: ['Steel ShKh15 (Sandvik analog)', '1.4 mm thick', 'HRC 60 (vacuum hardening)', 'Serial № + master signature', 'PVD enhanced coating', 'Lifetime warranty', 'Wooden case from Angarsk pine', 'Product passport', 'Limited: 50 pairs/year'],
@@ -49,19 +50,19 @@ const tiers: Record<Lang, any[]> = {
   ],
   zh: [
     {
-      name: '基础', tier: 'base', price: '¥7 800', hrc: '50 HRC', thick: '1.2毫米', steel: '420钢',
+      name: '基础', tier: 'base', price: `7 800 ${cur}`, hrc: '50 HRC', thick: '1.2毫米', steel: '420钢',
       serial: '有', warranty: '1年', accent: 'border-frost-dark', priceColor: 'text-thunder',
       desc: '基础段。野冰的入门之选。',
       features: ['420不锈钢', '1.2毫米厚', '序列号', '1年质保', '5款产品'],
     },
     {
-      name: 'PRO', tier: 'pro', price: '¥14 000', hrc: '56 HRC', thick: '1.4毫米', steel: '9ХС钢',
+      name: 'PRO', tier: 'pro', price: `14 000 ${cur}`, hrc: '56 HRC', thick: '1.4毫米', steel: '9ХС钢',
       serial: '有 + 师傅', warranty: '3年', accent: 'border-bolt', priceColor: 'text-bolt',
       desc: 'PRO系列。为一个赛季骑行500+公里的用户设计。',
       features: ['9ХС工具钢', '1.4毫米厚', 'HRC 56（双淬火）', '序列号 + 师傅姓名', 'PVD氮化钛涂层', '3年质保', '木盒', 'HRC证书'],
     },
     {
-      name: 'Heritage', tier: 'heritage', price: '¥22 000', hrc: '60 HRC', thick: '1.4毫米', steel: 'ШХ15钢',
+      name: 'Heritage', tier: 'heritage', price: `22 000 ${cur}`, hrc: '60 HRC', thick: '1.4毫米', steel: 'ШХ15钢',
       serial: '有 + 签名', warranty: '终身', accent: 'border-bolt', priceColor: 'text-bolt',
       desc: '限量50双。手工精修，师傅签名。',
       features: ['ШХ15钢（Sandvik同级）', '1.4毫米厚', 'HRC 60（真空淬火）', '序列号 + 师傅签名', 'PVD增强涂层', '终身质保', '安加尔斯克松木盒', '产品护照', '限量50双/年'],
@@ -97,7 +98,7 @@ const steps: Record<Lang, any[]> = {
   ],
 };
 ---
-<Base title={tr.pro_title} description={lang === 'ru' ? 'PRO-серия ГРОМ. Сталь 9ХС/ШХ15, HRC 56/60, серийный №, подпись мастера. 14 000–22 000 ₽.' : lang === 'en' ? 'GROM PRO series. Steel 9KhS/ShKh15, HRC 56/60, serial №, master signature. 14 000–22 000 ₽.' : 'ГРОМ PRO系列。9ХС/ШХ15钢，HRC 56/60，序列号，师傅签名。'}>
+<Base title={tr.pro_title} description={lang === 'ru' ? `PRO-серия ГРОМ. Сталь 9ХС/ШХ15, HRC 56/60, серийный №, подпись мастера. 14 000–22 000 ${cur}.` : lang === 'en' ? `GROM PRO series. Steel 9KhS/ShKh15, HRC 56/60, serial №, master signature. 14 000–22 000 ${cur}.` : `ГРОМ PRO系列。9ХС/ШХ15钢，HRC 56/60，序列号，师傅签名。`}>
 
   <!-- Schema.org Product -->
   <script type="application/ld+json" set:html={JSON.stringify({

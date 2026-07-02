@@ -117,7 +117,7 @@ const L = labels[lang];
 
 const sku = Astro.params.sku as string;
 const p = products[lang][sku];
-if (!p) return Astro.redirect('/catalog');
+if (!p) return Astro.redirect(import.meta.env.BASE_URL + 'catalog');
 ---
 <Base title={`${p.name.toUpperCase()} · GROM`} description={`${p.name} — ${p.specs[0]?.v || 'Сталь 420'}. ${lang === 'ru' ? 'Озёрные коньки ГРОМ. Доставка по РФ.' : lang === 'en' ? 'GROM lake skates. Ships across Russia.' : 'ГРОМ 冰刀。全俄配送。'}`}>
 
@@ -127,7 +127,7 @@ if (!p) return Astro.redirect('/catalog');
     "@type": "Product",
     "name": p.name,
     "description": p.desc,
-    "image": `https://11111000000.github.io/gromproject/photos/${p.sku}.jpg`,
+    "image": `https://11111000000.github.io/gromproject/photos-v2/${p.sku}.jpg`,
     "sku": p.sku,
     "brand": { "@type": "Brand", "name": "ГРОМ" },
     "manufacturer": { "@type": "Organization", "name": "ООО «ГРОМ»", "address": { "@type": "PostalAddress", "addressLocality": "Ангарск", "addressCountry": "RU" } },
@@ -173,14 +173,14 @@ if (!p) return Astro.redirect('/catalog');
 
           {p.reviews > 0 && (
             <div class="flex items-center gap-2 mb-4">
-              <span class="text-bolt text-sm">★★★★★</span>
+              <span class="text-bolt text-sm" role="img" aria-label="5 из 5">★★★★★</span>
               <span class="text-frost/80 text-xs font-mono">{L.reviewsCount(p.reviews, p.rating ?? 0)}</span>
             </div>
           )}
 
           <p class="text-frost/80 mb-6 leading-relaxed">{p.short}</p>
 
-          <div class="font-display font-black text-bolt text-4xl mb-8">{p.price.toLocaleString('ru-RU')} ₽</div>
+          <div class="font-display font-black text-bolt text-4xl mb-8">{p.price.toLocaleString('ru-RU')} {tr.currency_symbol}</div>
 
           {p.sku !== '005' && p.sku !== '006' && (
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6 text-xs">
@@ -271,7 +271,7 @@ if (!p) return Astro.redirect('/catalog');
         <div class="grid sm:grid-cols-2 gap-4">
           {reviewsData[lang].map(r => (
             <div class="bg-frost/5 border-l-4 border-bolt p-5">
-              <div class="text-bolt text-xs mb-2">★★★★★</div>
+              <div class="text-bolt text-xs mb-2" role="img" aria-label="5 из 5">★★★★★</div>
               <p class="text-frost/90 italic leading-relaxed mb-3 text-sm">«{r.text}»</p>
               <div class="text-xs font-mono uppercase tracking-industrial">
                 <span class="text-bolt">{r.name}</span> · <span class="text-frost/50">{r.city}</span>
@@ -287,7 +287,7 @@ if (!p) return Astro.redirect('/catalog');
     <div class="max-w-3xl mx-auto px-4">
       <svg width="40" height="40" viewBox="0 0 32 32" class="text-bolt fill-current mx-auto mb-4"><path d="M19 2 L8 18 L15 18 L11 30 L24 14 L17 14 Z"/></svg>
       <h2 class="font-display font-black text-thunder text-2xl sm:text-4xl uppercase mb-4">{L.ready}</h2>
-      <p class="text-frost-dark/70 mb-6">{L.priceLinePrefix} <span class="text-thunder font-black text-xl">{p.price.toLocaleString('ru-RU')} ₽</span> {L.priceLineSuffix}</p>
+      <p class="text-frost-dark/70 mb-6">{L.priceLinePrefix} <span class="text-thunder font-black text-xl">{p.price.toLocaleString('ru-RU')} {tr.currency_symbol}</span> {L.priceLineSuffix}</p>
       <a href="https://max.ru/join/CItXClkmsu0XXWDvSS1a8icqjoIhikdprAks4RmZAaM" target="_blank" rel="noopener" class="btn-bolt">{L.orderMax}</a>
     </div>
   </section>
@@ -310,7 +310,7 @@ if (!p) return Astro.redirect('/catalog');
               <div class="font-display font-black text-2xl text-bolt">PRO</div>
               <div class="text-right">
                 <div class="text-frost/50 text-[10px] uppercase tracking-industrial">{lang === 'ru' ? 'от' : 'from'}</div>
-                <div class="text-bolt font-display font-black text-2xl">14 000 ₽</div>
+                <div class="text-bolt font-display font-black text-2xl">14 000 {tr.currency_symbol}</div>
               </div>
             </div>
             <div class="grid grid-cols-3 gap-2 text-xs mb-3">
@@ -327,7 +327,7 @@ if (!p) return Astro.redirect('/catalog');
               <div class="font-display font-black text-2xl text-frost">Heritage</div>
               <div class="text-right">
                 <div class="text-frost/50 text-[10px] uppercase tracking-industrial">{lang === 'ru' ? 'от' : 'from'}</div>
-                <div class="text-frost font-display font-black text-2xl">22 000 ₽</div>
+                <div class="text-frost font-display font-black text-2xl">22 000 {tr.currency_symbol}</div>
               </div>
             </div>
             <div class="grid grid-cols-3 gap-2 text-xs mb-3">

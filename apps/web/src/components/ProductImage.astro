@@ -12,6 +12,7 @@ interface Props {
 const { sku, name, class: className = '', loading = 'lazy', size = 'card' } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const iconSize = size === 'hero' ? '7xl' : '5xl';
+const dim = size === 'hero' ? { w: 1200, h: 1200 } : { w: 600, h: 600 };
 // Cache-bust версия: путь /photos-v2/ — новый, не кэширован Pages CDN
 const v = '2';
 ---
@@ -22,6 +23,8 @@ const v = '2';
       src={`${base}/photos-v${v}/${sku}.jpg`}
       alt={name}
       class="w-full h-full object-cover block"
+      width={dim.w}
+      height={dim.h}
       loading={loading}
       decoding="async"
       onerror="this.closest('picture')?.classList.add('img-failed');"
