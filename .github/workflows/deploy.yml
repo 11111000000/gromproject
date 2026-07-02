@@ -1,9 +1,10 @@
-name: Deploy to GitHub Pages
+name: Build site
 
 on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -33,9 +34,6 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: apps/web
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
