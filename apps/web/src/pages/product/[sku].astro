@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import ProductImage from '../../components/ProductImage.astro';
 import { t, defaultLang, type Lang } from '../../i18n/translations';
 
 const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
@@ -162,8 +163,8 @@ if (!p) return Astro.redirect('/catalog');
       </nav>
       <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
         <div class="relative aspect-square bg-ice-texture overflow-hidden border-2 border-bolt/40">
-          <img src={`${import.meta.env.BASE_URL}/photos/${p.sku}.jpg`} alt={p.name} class="w-full h-full object-cover" loading="eager" />
-          {p.badge && <div class="badge-bolt absolute top-4 right-4">{p.badge}</div>}
+          <ProductImage sku={p.sku} name={p.name} class="absolute inset-0" loading="eager" size="hero" />
+          {p.badge && <div class="badge-bolt absolute top-4 right-4 z-10">{p.badge}</div>}
         </div>
 
         <div>

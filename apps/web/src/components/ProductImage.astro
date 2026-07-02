@@ -1,0 +1,39 @@
+---
+// components/ProductImage.astro
+// Safari-safe <picture> с WebP + JPG.
+// Если картинка не загрузилась — показывает ⚡ через CSS-селектор.
+interface Props {
+  sku: string;
+  name: string;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  size?: 'card' | 'hero';
+}
+const { sku, name, class: className = '', loading = 'lazy', size = 'card' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const iconSize = size === 'hero' ? '7xl' : '5xl';
+// Cache-bust версия: путь /photos-v2/ — новый, не кэширован Pages CDN
+const v = '2';
+---
+<div class={`product-image-wrap relative overflow-hidden ${className}`}>
+  <picture class="block w-full h-full relative">
+    <source srcset={`${base}/photos-v${v}/${sku}.webp`} type="image/webp" />
+    <img
+      src={`${base}/photos-v${v}/${sku}.jpg`}
+      alt={name}
+      class="w-full h-full object-cover block"
+      loading={loading}
+      decoding="async"
+      onerror="this.closest('picture')?.classList.add('img-failed');"
+    />
+  </picture>
+  <div class="product-image-fallback absolute inset-0 flex items-center justify-center bg-frost-dark/30 pointer-events-none">
+    <span class={`text-bolt text-${iconSize}`}>⚡</span>
+  </div>
+</div>
+
+<style>
+  .product-image-wrap .product-image-fallback { display: none; }
+  .product-image-wrap .img-failed + .product-image-fallback { display: flex; }
+  .product-image-wrap picture.img-failed img { display: none; }
+</style>

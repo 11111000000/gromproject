@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import ProductImage from '../components/ProductImage.astro';
 import { t, defaultLang, type Lang } from '../i18n/translations';
 
 const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
@@ -489,8 +490,8 @@ const heroTiers: Record<Lang, any[]> = {
          {products[lang].map(p => (
           <a href={`${import.meta.env.BASE_URL}product/${p.sku}`} class="product-card group block">
             {p.badge && <div class="badge-bolt absolute top-3 right-3 z-10">{p.badge}</div>}
-            <div class="aspect-square bg-ice-texture overflow-hidden flex items-center justify-center">
-              <img src={`${import.meta.env.BASE_URL}photos/${p.sku}.jpg`} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'text-bolt text-5xl sm:text-7xl\'>⚡</div>'" />
+            <div class="aspect-square bg-ice-texture overflow-hidden flex items-center justify-center relative">
+              <ProductImage sku={p.sku} name={p.name} class="absolute inset-0" />
             </div>
             <div class="p-5">
               <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/60 mb-1">Арт. {p.sku}</div>

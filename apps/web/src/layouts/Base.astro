@@ -267,23 +267,39 @@ const metaDesc = ogDescriptions[descKey]?.[lang] || pageDescription;
       .text-ice                         { color: var(--accent-2) !important; }
       .border-ice\/30, .border-ice\/40  { border-color: var(--accent-2) !important; opacity: 0.4; }
       .border-frost-dark                { border-color: var(--border) !important; }
-      .bg-frost-dark\/30                { background: color-mix(in srgb, var(--border) 30%, transparent) !important; }
-      .bg-thunder\/95                   { background: color-mix(in srgb, var(--header-bg) 95%, transparent) !important; }
-      .border-frost\/30                 { border-color: color-mix(in srgb, var(--header-fg) 30%, transparent) !important; }
-      .border-frost\/10                 { border-color: color-mix(in srgb, var(--header-fg) 10%, transparent) !important; }
-      .bg-frost\/5                      { background: color-mix(in srgb, var(--header-fg) 5%, transparent) !important; }
-      .bg-bolt\/10                      { background: color-mix(in srgb, var(--accent) 10%, transparent) !important; }
+      .bg-frost-dark\/30                { background: rgba(201, 217, 230, 0.3) !important; }
+      .bg-thunder\/95                   { background: var(--header-bg) !important; opacity: 0.95; }
+      .border-frost\/30                 { border-color: rgba(232, 244, 253, 0.3) !important; }
+      .border-frost\/10                 { border-color: rgba(232, 244, 253, 0.1) !important; }
+      .bg-frost\/5                      { background: rgba(232, 244, 253, 0.05) !important; }
+      .bg-bolt\/10                      { background: rgba(244, 185, 66, 0.1) !important; }
       .product-card                    { background-color: var(--surface) !important; }
       .bg-white                         { background-color: var(--surface) !important; }
       .ice-cracks-bg                    { background-color: var(--bg) !important; }
       .bg-ice-texture::after            { opacity: var(--texture-opacity) !important; }
-      .to-thunder-dark                  { --tw-gradient-to: color-mix(in srgb, var(--hero-bg) 80%, black) !important; }
+      .to-thunder-dark                  { --tw-gradient-to: var(--hero-bg) !important; }
+
+      /* Safari 16.4+ — color-mix (точные цвета с прозрачностью) */
+      @supports (background: color-mix(in srgb, red 50%, transparent)) {
+        .bg-frost-dark\/30                { background: color-mix(in srgb, var(--border) 30%, transparent) !important; }
+        .bg-thunder\/95                   { background: color-mix(in srgb, var(--header-bg) 95%, transparent) !important; }
+        .border-frost\/30                 { border-color: color-mix(in srgb, var(--header-fg) 30%, transparent) !important; }
+        .border-frost\/10                 { border-color: color-mix(in srgb, var(--header-fg) 10%, transparent) !important; }
+        .bg-frost\/5                      { background: color-mix(in srgb, var(--header-fg) 5%, transparent) !important; }
+        .bg-bolt\/10                      { background: color-mix(in srgb, var(--accent) 10%, transparent) !important; }
+        .to-thunder-dark                  { --tw-gradient-to: color-mix(in srgb, var(--hero-bg) 80%, black) !important; }
+      }
 
       /* ═══ ПЕРЕКЛЮЧАТЕЛЬ ТЕМ ═══ */
-      .theme-switcher    { display: inline-flex; gap: 0; background: color-mix(in srgb, var(--header-fg) 8%, transparent); border: 1px solid color-mix(in srgb, var(--header-fg) 15%, transparent); padding: 1px; }
+      .theme-switcher    { display: inline-flex; gap: 0; background: rgba(232, 244, 253, 0.08); border: 1px solid rgba(232, 244, 253, 0.15); padding: 1px; }
       .theme-btn         { width: 20px; height: 20px; border: 1px solid transparent; cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center; font-size: 10px; background: transparent; color: var(--header-fg); }
-      .theme-btn:hover   { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 15%, transparent); }
-      .theme-btn.active  { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 20%, transparent); }
+      .theme-btn:hover   { border-color: var(--accent); background: rgba(244, 185, 66, 0.15); }
+      .theme-btn.active  { border-color: var(--accent); background: rgba(244, 185, 66, 0.2); }
+      @supports (background: color-mix(in srgb, red 50%, transparent)) {
+        .theme-switcher    { background: color-mix(in srgb, var(--header-fg) 8%, transparent); border-color: color-mix(in srgb, var(--header-fg) 15%, transparent); }
+        .theme-btn:hover   { background: color-mix(in srgb, var(--accent) 15%, transparent); }
+        .theme-btn.active  { background: color-mix(in srgb, var(--accent) 20%, transparent); }
+      }
       @media (min-width: 640px) { .theme-btn { width: 28px; height: 26px; font-size: 14px; } .theme-switcher { padding: 2px; gap: 2px; } }
 
       /* ═══ HAMBURGER ═══ */

@@ -28,6 +28,21 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-tight;
   }
+
+  /* Safari fix: backdrop-blur без -webkit префикса не работает на iOS 9-17.
+     Tailwind v3 генерирует только backdrop-filter, поэтому добавляем -webkit-. */
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .backdrop-blur-sm {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  .backdrop-blur {
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  }
 }
 
 @layer components {
@@ -35,6 +50,9 @@
   .btn {
     @apply inline-flex items-center justify-center gap-2 font-bold uppercase tracking-industrial transition-all duration-200;
   }
+  /* Safari 16.4+ поддерживает calc() в clip-path. Старые Safari (15-16.3) —
+     кнопка будет прямоугольной (Safari просто проигнорирует clip-path). Это OK,
+     потому что современный Safari 16.4+ уже на всех устройствах с 2023 года. */
   .btn-bolt {
     @apply btn bg-bolt hover:bg-bolt-dark text-steel px-7 py-4 rounded-none;
     clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
@@ -89,7 +107,7 @@
   }
 }
 
-/* === Фоны с эффектом льда === */
+/* === Фоны с эффектом льда (Safari-safe: no feTurbulence) === */
 .bg-ice-texture {
   background-color: #0a1929;
   background-image:
@@ -102,8 +120,11 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='800' viewBox='0 0 800 800'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.85' numOctaves='2' seed='5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-  opacity: 0.15;
+  /* Статичный SVG-паттерн: тонкие линии льда (НЕ используем feTurbulence —
+     Safari рендерит его нестабильно). Просто повторяющийся паттерн. */
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cpath d='M0 50 L40 55 L80 48 L120 58 L160 50 L200 52' stroke='%231e4a62' stroke-width='0.5' fill='none' opacity='0.4'/%3E%3Cpath d='M0 110 L30 105 L70 115 L110 108 L150 118 L200 110' stroke='%231e4a62' stroke-width='0.5' fill='none' opacity='0.3'/%3E%3Cpath d='M0 160 L40 165 L80 158 L120 168 L160 160 L200 162' stroke='%239fc2e8' stroke-width='0.3' fill='none' opacity='0.5'/%3E%3Cpath d='M50 0 L45 50 L55 100 L48 150 L52 200' stroke='%239fc2e8' stroke-width='0.3' fill='none' opacity='0.5'/%3E%3Cpath d='M150 0 L155 50 L148 100 L152 150 L148 200' stroke='%231e4a62' stroke-width='0.3' fill='none' opacity='0.4'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  opacity: 0.6;
   pointer-events: none;
 }
 
@@ -146,9 +167,10 @@
   100% { background-position: 200px 0; }
 }
 
-/* Ледяные трещины для светлых фонов */
+/* Ледяные трещины для светлых фонов (Safari-safe: простые path, без feTurbulence) */
 .ice-cracks-bg {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cpath d='M0 300 L100 280 L150 320 L200 290 L300 320 L400 300 L500 340 L600 320' stroke='%232c5a6e' stroke-width='1' fill='none' opacity='0.15'/%3E%3Cpath d='M50 100 L120 130 L200 110 L300 150 L400 130 L500 170 L600 150' stroke='%239fc2e8' stroke-width='0.5' fill='none' opacity='0.2'/%3E%3Cpath d='M0 450 L100 470 L250 440 L350 480 L500 450 L600 470' stroke='%232c5a6e' stroke-width='0.5' fill='none' opacity='0.1'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cpath d='M0 300 L100 280 L150 320 L200 290 L300 320 L400 300 L500 340 L600 320' stroke='%232c5a6e' stroke-width='1' fill='none' opacity='0.15'/%3E%3Cpath d='M50 100 L120 130 L200 110 L300 150 L400 130 L500 170 L600 150' stroke='%239fc2e8' stroke-width='0.5' fill='none' opacity='0.2'/%3E%3Cpath d='M0 450 L100 470 L250 440 L350 480 L500 450 L600 470' stroke='%232c5a6e' stroke-width='0.5' fill='none' opacity='0.1'/%3E%3Cpath d='M150 0 L145 150 L155 300 L148 450 L152 600' stroke='%232c5a6e' stroke-width='0.4' fill='none' opacity='0.12'/%3E%3Cpath d='M450 0 L455 150 L448 300 L452 450 L448 600' stroke='%239fc2e8' stroke-width='0.4' fill='none' opacity='0.18'/%3E%3C/svg%3E");
+  background-repeat: repeat;
 }
 
 /* Эффект свечения */
