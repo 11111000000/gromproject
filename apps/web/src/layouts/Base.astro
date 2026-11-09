@@ -10,6 +10,10 @@ const slug = Astro.url.pathname;
 const otherLangs = (Object.keys(langs) as Array<'ru'|'en'|'zh'>).filter(k => k !== lang);
 
 const siteUrl = (import.meta.env.SITE || 'https://grom.kosov.online').replace(/\/$/, '');
+// ID счётчика Яндекс.Метрики. Задаётся переменной окружения METRICA_ID при
+// сборке; если она не задана — счётчик не подключается вовсе (раньше стоял
+// placeholder 00000000, и скрипт метрики грузился впустую).
+const metricaId = process.env.METRICA_ID?.trim() || '';
 const canonicalURL = `${siteUrl}${slug}`;
 const pageDescription = description || tr.desc;
 
@@ -53,18 +57,26 @@ const metaDesc = ogDescriptions[descKey]?.[lang] || pageDescription;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={metaDesc} />
-    <!-- Yandex.Metrica counter (замените COUNTER_ID на реальный) -->
-    <script is:inline type="text/javascript">
-      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-      m[i].l=1*new Date();
-      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-      // Замените 00000000 на реальный ID счётчика Яндекс.Метрики
-      ym(00000000, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/00000000" style="position:absolute;left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrica counter -->
+    <!--
+      Yandex.Metrica — счётчик подключается ТОЛЬКО если задан реальный ID.
+      Раньше здесь стоял placeholder 00000000: скрипт metrika/tag.js всё равно
+      грузился, а вебвизор слал данные в никуда. Задаётся переменной
+      окружения METRICA_ID при сборке (см. README), по умолчанию — пусто,
+      то есть счётчика на сайте нет.
+    -->
+    {metricaId && (
+      <>
+        <script is:inline define:vars={{ metricaId }}>
+          (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+          (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+          ym(metricaId, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
+        </script>
+        <noscript><div><img src={`https://mc.yandex.ru/watch/${metricaId}`} style="position:absolute;left:-9999px;" alt="" /></div></noscript>
+      </>
+    )}
     <!-- Favicon + Manifest -->
     <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
     <link rel="manifest" href={`${import.meta.env.BASE_URL}site.webmanifest`} />
