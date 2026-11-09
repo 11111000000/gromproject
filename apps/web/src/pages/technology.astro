@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { t, defaultLang, type Lang } from '../i18n/translations';
+const siteUrl = (import.meta.env.SITE || 'https://grom.kosov.online').replace(/\/$/, '');
 
 const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
 const tr = t[lang];
@@ -42,7 +43,7 @@ const productionLabel: Record<Lang, string> = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": lang === 'ru' ? 'Главная' : lang === 'en' ? 'Home' : '首页', "item": "https://11111000000.github.io/gromproject/" },
+      { "@type": "ListItem", "position": 1, "name": lang === 'ru' ? 'Главная' : lang === 'en' ? 'Home' : '首页', "item": siteUrl + '/' },
       { "@type": "ListItem", "position": 2, "name": lang === 'ru' ? 'Технология' : lang === 'en' ? 'Technology' : '工艺' }
     ]
   })} />

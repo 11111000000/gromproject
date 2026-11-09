@@ -2,13 +2,13 @@
   "name": "ГРОМ — Озёрные коньки",
   "short_name": "ГРОМ",
   "description": "Российские озёрные коньки собственного производства. Сталь 420, лазерная резка.",
-  "start_url": "/gromproject/",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#0a1929",
   "theme_color": "#f4b942",
   "icons": [
     {
-      "src": "/gromproject/favicon.svg",
+      "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     }
