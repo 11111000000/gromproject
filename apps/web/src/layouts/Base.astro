@@ -9,7 +9,7 @@ const l = langs[lang];
 const slug = Astro.url.pathname;
 const otherLangs = (Object.keys(langs) as Array<'ru'|'en'|'zh'>).filter(k => k !== lang);
 
-const siteUrl = 'https://11111000000.github.io/gromproject';
+const siteUrl = (import.meta.env.SITE || 'https://grom.kosov.online').replace(/\/$/, '');
 const canonicalURL = `${siteUrl}${slug}`;
 const pageDescription = description || tr.desc;
 

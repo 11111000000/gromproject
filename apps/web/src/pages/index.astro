@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import ProductImage from '../components/ProductImage.astro';
 import { t, defaultLang, type Lang } from '../i18n/translations';
+const siteUrl = (import.meta.env.SITE || 'https://grom.kosov.online').replace(/\/$/, '');
 
 const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
 const tr = t[lang];
@@ -99,8 +100,8 @@ const heroTiers: Record<Lang, any[]> = {
     "@type": "Organization",
     "name": "ГРОМ",
     "alternateName": ["GROM", "ГРОМ коньки", "GROM skates"],
-    "url": "https://11111000000.github.io/gromproject/",
-    "logo": "https://11111000000.github.io/gromproject/logo-grom.svg",
+    "url": siteUrl + '/',
+    "logo": siteUrl + '/og-image.png',
     "description": lang === 'ru' ? 'Российские озёрные коньки собственной разработки. Сталь 420/9ХС, лазерная резка на ЧПУ, HRC 50–60.' : lang === 'en' ? 'Russian-made lake skates. Steel 420/9KhS, CNC laser cutting, HRC 50–60.' : '俄罗斯自制冰刀。420/9ХС钢，CNC激光切割，HRC 50–60。',
     "foundingDate": "2018",
     "address": {

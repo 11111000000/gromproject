@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { t, defaultLang, type Lang } from '../../i18n/translations';
+const siteUrl = (import.meta.env.SITE || 'https://grom.kosov.online').replace(/\/$/, '');
 
 const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
 const tr = t[lang];
@@ -93,8 +94,8 @@ const L = labels[lang];
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": lang === 'ru' ? 'Главная' : lang === 'en' ? 'Home' : '首页', "item": "https://11111000000.github.io/gromproject/" },
-      { "@type": "ListItem", "position": 2, "name": lang === 'ru' ? 'Туры' : lang === 'en' ? 'Tours' : '旅游', "item": "https://11111000000.github.io/gromproject/tours/" }
+      { "@type": "ListItem", "position": 1, "name": lang === 'ru' ? 'Главная' : lang === 'en' ? 'Home' : '首页', "item": siteUrl + '/' },
+      { "@type": "ListItem", "position": 2, "name": lang === 'ru' ? 'Туры' : lang === 'en' ? 'Tours' : '旅游', "item": siteUrl + '/tours/' }
     ]
   })} />
 
