@@ -574,10 +574,14 @@ const heroTiers: Record<Lang, any[]> = {
         var size = parseInt(bootSize.value, 10);
         if (!size) {
           resultEl.textContent = (lang === 'ru') ? 'Выберите размер ботинка' : (lang === 'en') ? 'Choose your boot size' : '选择靴码';
-          ctaEl.textContent = t.buy6600 + t.cur.trim();
-          ctaEl.setAttribute('href', base + 'product/003');
+          ctaEl.textContent = (lang === 'ru') ? 'Сначала выберите размер' : (lang === 'en') ? 'Choose a size first' : '请先选择尺寸';
+          ctaEl.removeAttribute('href');
+          ctaEl.setAttribute('aria-disabled', 'true');
+          ctaEl.classList.add('pointer-events-none', 'opacity-50');
           return;
         }
+        ctaEl.removeAttribute('aria-disabled');
+        ctaEl.classList.remove('pointer-events-none', 'opacity-50');
         var href, text, ctaText;
         if (size >= 34 && size <= 37) {
           text = (size <= 35) ? t.skate460 : t.skate460;
@@ -604,6 +608,7 @@ const heroTiers: Record<Lang, any[]> = {
 
       bootSize.addEventListener('change', update);
       bindingType.addEventListener('change', update);
+      update();
     })();
   </script>
 

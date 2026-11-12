@@ -1,7 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
-import ProductImage from '../../components/ProductImage.astro';
+import ProductGallery from '../../components/ProductGallery.astro';
 import { t, defaultLang, type Lang } from '../../i18n/translations';
+import { listProductPhotos } from '../../lib/productPhotos';
 const siteUrl = (import.meta.env.SITE || 'https://grom.kosov.online').replace(/\/$/, '');
 
 const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
@@ -110,15 +111,17 @@ const reviewsData: Record<Lang, Array<{ name: string; city: string; text: string
 };
 
 const labels = {
-  ru: { home: 'Главная', catalog: 'Каталог', article: 'Арт.', reviewsCount: (n: number, r: number) => `${n} ОТЗЫВОВ · ${r}`, size: 'Размер', chooseSize: 'Выбрать размер', binding: 'Крепление', chooseBinding: 'Выбрать тип', orderMax: '⚡ Заказать в MAX', back: '← В каталог', desc: 'Описание', specs: 'Характеристики', reviewsLabel: (r: number) => `★ ★ ★ ★ ★ · 5.0 · ${r} отзывов`, reviews: 'Отзывы', ready: 'Готов заказать?', priceLinePrefix: 'Цена:', priceLineSuffix: '· Доставка по РФ 3–7 дней · Гарантия 1 год' },
-  en: { home: 'Home', catalog: 'Catalog', article: 'Art.', reviewsCount: (n: number, r: number) => `${n} REVIEWS · ${r}`, size: 'Size', chooseSize: 'Choose size', binding: 'Binding', chooseBinding: 'Choose type', orderMax: '⚡ Order via MAX', back: '← To catalog', desc: 'Description', specs: 'Specifications', reviewsLabel: (r: number) => `★ ★ ★ ★ ★ · 5.0 · ${r} reviews`, reviews: 'Reviews', ready: 'Ready to order?', priceLinePrefix: 'Price:', priceLineSuffix: '· Shipping across Russia 3–7 days · 1-year warranty' },
-  zh: { home: '首页', catalog: '目录', article: '货号', reviewsCount: (n: number, r: number) => `${n}条评价 · ${r}`, size: '尺寸', chooseSize: '选择尺寸', binding: '绑定类型', chooseBinding: '选择类型', orderMax: '⚡ 在MAX中订购', back: '← 返回目录', desc: '描述', specs: '规格', reviewsLabel: (r: number) => `★ ★ ★ ★ ★ · 5.0 · ${r}条评价`, reviews: '用户评价', ready: '准备订购？', priceLinePrefix: '价格:', priceLineSuffix: '· 俄罗斯全境配送3–7天 · 1年质保' },
+  ru: { home: 'Главная', catalog: 'Каталог', article: 'Арт.', reviewsCount: (n: number, r: number) => `${n} ОТЗЫВОВ · ${r}`, size: 'Размер', chooseSize: 'Выбрать размер', binding: 'Крепление', chooseBinding: 'Выбрать тип', orderMax: '⚡ Заказать в MAX', back: '← В каталог', chooseHint: 'Сначала выберите:', selectedPrefix: 'Ваш выбор:', desc: 'Описание', specs: 'Характеристики', reviewsLabel: (r: number) => `★ ★ ★ ★ ★ · 5.0 · ${r} отзывов`, reviews: 'Отзывы', ready: 'Готов заказать?', priceLinePrefix: 'Цена:', priceLineSuffix: '· Доставка по РФ 3–7 дней · Гарантия 1 год' },
+  en: { home: 'Home', catalog: 'Catalog', article: 'Art.', reviewsCount: (n: number, r: number) => `${n} REVIEWS · ${r}`, size: 'Size', chooseSize: 'Choose size', binding: 'Binding', chooseBinding: 'Choose type', orderMax: '⚡ Order via MAX', back: '← To catalog', chooseHint: 'Choose first:', selectedPrefix: 'Your choice:', desc: 'Description', specs: 'Specifications', reviewsLabel: (r: number) => `★ ★ ★ ★ ★ · 5.0 · ${r} reviews`, reviews: 'Reviews', ready: 'Ready to order?', priceLinePrefix: 'Price:', priceLineSuffix: '· Shipping across Russia 3–7 days · 1-year warranty' },
+  zh: { home: '首页', catalog: '目录', article: '货号', reviewsCount: (n: number, r: number) => `${n}条评价 · ${r}`, size: '尺寸', chooseSize: '选择尺寸', binding: '绑定类型', chooseBinding: '选择类型', orderMax: '⚡ 在MAX中订购', back: '← 返回目录', chooseHint: '请先选择：', selectedPrefix: '您的选择：', desc: '描述', specs: '规格', reviewsLabel: (r: number) => `★ ★ ★ ★ ★ · 5.0 · ${r}条评价`, reviews: '用户评价', ready: '准备订购？', priceLinePrefix: '价格:', priceLineSuffix: '· 俄罗斯全境配送3–7天 · 1年质保' },
 } as const;
 const L = labels[lang];
 
 const sku = Astro.params.sku as string;
 const p = products[lang][sku];
 if (!p) return Astro.redirect(import.meta.env.BASE_URL + 'catalog');
+
+const galleryImages = listProductPhotos(sku).map(f => siteUrl + '/photos-v2/' + f);
 ---
 <Base title={`${p.name.toUpperCase()} · GROM`} description={`${p.name} — ${p.specs[0]?.v || 'Сталь 420'}. ${lang === 'ru' ? 'Озёрные коньки ГРОМ. Доставка по РФ.' : lang === 'en' ? 'GROM lake skates. Ships across Russia.' : 'ГРОМ 冰刀。全俄配送。'}`}>
 
@@ -128,7 +131,7 @@ if (!p) return Astro.redirect(import.meta.env.BASE_URL + 'catalog');
     "@type": "Product",
     "name": p.name,
     "description": p.desc,
-    "image": siteUrl + '/photos-v2/' + p.sku + '.jpg',
+    "image": galleryImages.length ? galleryImages : siteUrl + '/photos-v2/' + p.sku + '.jpg',
     "sku": p.sku,
     "brand": { "@type": "Brand", "name": "ГРОМ" },
     "manufacturer": { "@type": "Organization", "name": "ООО «ГРОМ»", "address": { "@type": "PostalAddress", "addressLocality": "Ангарск", "addressCountry": "RU" } },
@@ -163,10 +166,7 @@ if (!p) return Astro.redirect(import.meta.env.BASE_URL + 'catalog');
         <span class="text-frost">{p.name}</span>
       </nav>
       <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-        <div class="relative aspect-square bg-ice-texture overflow-hidden border-2 border-bolt/40">
-          <ProductImage sku={p.sku} name={p.name} class="absolute inset-0" loading="eager" size="hero" />
-          {p.badge && <div class="badge-bolt absolute top-4 right-4 z-10">{p.badge}</div>}
-        </div>
+        <ProductGallery sku={p.sku} name={p.name} badge={p.badge} />
 
         <div>
           <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50 mb-1"><span>{L.article}</span> <span>{p.sku}</span></div>
@@ -201,30 +201,29 @@ if (!p) return Astro.redirect(import.meta.env.BASE_URL + 'catalog');
           )}
 
           {p.variants && (
-            <div class="space-y-4 mb-8">
+            <div class="space-y-4 mb-8" id="variants" data-hint={L.chooseHint} data-selected={L.selectedPrefix}>
               {p.variants.size && (
-                <div>
+                <div data-variant-group={L.size}>
                   <label class="block text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs mb-2">{L.size}</label>
-                  <select class="size-input">
-                    <option>{L.chooseSize}</option>
-                    {p.variants.size.map(s => <option value={s}>{s}</option>)}
-                  </select>
+                  <div class="flex flex-wrap gap-2">
+                    {p.variants.size.map(s => <button type="button" class="variant-chip" data-value={s}>{s}</button>)}
+                  </div>
                 </div>
               )}
               {p.variants.binding && (
-                <div>
+                <div data-variant-group={L.binding}>
                   <label class="block text-bolt font-mono uppercase tracking-industrial text-[10px] sm:text-xs mb-2">{L.binding}</label>
-                  <select class="size-input">
-                    <option>{L.chooseBinding}</option>
-                    {p.variants.binding.map(b => <option value={b}>{b}</option>)}
-                  </select>
+                  <div class="flex flex-wrap gap-2">
+                    {p.variants.binding.map(b => <button type="button" class="variant-chip" data-value={b}>{b}</button>)}
+                  </div>
                 </div>
               )}
+              <p id="variant-status" class="text-xs font-mono uppercase tracking-industrial text-frost/50">{L.chooseHint}</p>
             </div>
           )}
 
           <div class="flex flex-wrap gap-3">
-            <a href="https://max.ru/join/CItXClkmsu0XXWDvSS1a8icqjoIhikdprAks4RmZAaM" target="_blank" rel="noopener" class="btn-bolt text-sm sm:text-base">{L.orderMax}</a>
+            <a href="https://max.ru/join/CItXClkmsu0XXWDvSS1a8icqjoIhikdprAks4RmZAaM" target="_blank" rel="noopener" class="btn-bolt text-sm sm:text-base" data-order-btn>{L.orderMax}</a>
             <a href={`${import.meta.env.BASE_URL}/catalog`} class="btn-ghost text-sm sm:text-base">{L.back}</a>
           </div>
         </div>
@@ -289,7 +288,7 @@ if (!p) return Astro.redirect(import.meta.env.BASE_URL + 'catalog');
       <svg width="40" height="40" viewBox="0 0 32 32" class="text-bolt fill-current mx-auto mb-4"><path d="M19 2 L8 18 L15 18 L11 30 L24 14 L17 14 Z"/></svg>
       <h2 class="font-display font-black text-thunder text-2xl sm:text-4xl uppercase mb-4">{L.ready}</h2>
       <p class="text-frost-dark/70 mb-6">{L.priceLinePrefix} <span class="text-thunder font-black text-xl">{p.price.toLocaleString('ru-RU')} {tr.currency_symbol}</span> {L.priceLineSuffix}</p>
-      <a href="https://max.ru/join/CItXClkmsu0XXWDvSS1a8icqjoIhikdprAks4RmZAaM" target="_blank" rel="noopener" class="btn-bolt">{L.orderMax}</a>
+      <a href="https://max.ru/join/CItXClkmsu0XXWDvSS1a8icqjoIhikdprAks4RmZAaM" target="_blank" rel="noopener" class="btn-bolt" data-order-btn>{L.orderMax}</a>
     </div>
   </section>
 
@@ -344,4 +343,65 @@ if (!p) return Astro.redirect(import.meta.env.BASE_URL + 'catalog');
       </div>
     </section>
   )}
+
+  <script is:inline>
+    (function () {
+      var root = document.getElementById('variants');
+      if (!root) return;
+      var status = document.getElementById('variant-status');
+      var groups = Array.prototype.slice.call(root.querySelectorAll('[data-variant-group]'));
+
+      function state() {
+        var missing = [];
+        var values = [];
+        groups.forEach(function (g) {
+          var active = g.querySelector('.variant-chip.is-active');
+          if (active) values.push(active.getAttribute('data-value'));
+          else missing.push(g);
+        });
+        return { missing: missing, values: values };
+      }
+
+      function update() {
+        var s = state();
+        if (s.missing.length === 0) {
+          status.textContent = root.getAttribute('data-selected') + ' ' + s.values.join(' · ');
+          status.classList.remove('text-frost/50');
+          status.classList.add('text-bolt');
+        } else {
+          status.textContent = root.getAttribute('data-hint') + ' ' + s.missing.map(function (g) {
+            return g.getAttribute('data-variant-group').toLowerCase();
+          }).join(', ');
+          status.classList.add('text-frost/50');
+          status.classList.remove('text-bolt');
+        }
+      }
+
+      root.addEventListener('click', function (e) {
+        var chip = e.target.closest('.variant-chip');
+        if (!chip) return;
+        Array.prototype.forEach.call(chip.parentElement.querySelectorAll('.variant-chip'), function (c) {
+          c.classList.remove('is-active');
+        });
+        chip.classList.add('is-active');
+        update();
+      });
+
+      Array.prototype.forEach.call(document.querySelectorAll('[data-order-btn]'), function (btn) {
+        btn.addEventListener('click', function (e) {
+          var s = state();
+          if (s.missing.length === 0) return;
+          e.preventDefault();
+          s.missing.forEach(function (g) {
+            g.classList.remove('variant-group-missing');
+            void g.offsetWidth;
+            g.classList.add('variant-group-missing');
+          });
+          root.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+      });
+
+      update();
+    })();
+  </script>
 </Base>

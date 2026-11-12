@@ -1,0 +1,217 @@
+---
+// components/ProductGallery.astro
+// Галерея фото товара с лайтбоксом (свайп, стрелки, Esc).
+// Фото собираются при сборке из public/photos-v2/:
+//   {sku}.jpg — главное, {sku}-2.jpg, {sku}-3.jpg… — дополнительные.
+// Добавил файлы с таким именем — галерея подхватит их сама.
+// Для каждого jpg можно положить рядом .webp с тем же именем.
+import { listProductPhotos, listWebpPhotos } from '../lib/productPhotos';
+
+interface Props {
+  sku: string;
+  name: string;
+  badge?: string | null;
+}
+const { sku, name, badge = null } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const jpgs = listProductPhotos(sku);
+const webps = listWebpPhotos();
+const images = jpgs.map((j) => {
+  const w = j.replace(/\.jpg$/, '.webp');
+  return {
+    jpg: `${base}/photos-v2/${j}`,
+    webp: webps.has(w) ? `${base}/photos-v2/${w}` : null,
+  };
+});
+---
+
+<div class="product-gallery" data-gallery>
+  <button type="button" class="relative block w-full aspect-square bg-ice-texture overflow-hidden border-2 border-bolt/40 cursor-zoom-in" data-open aria-label={`${name} — открыть фото`}>
+    <picture class="block w-full h-full">
+      {images[0]?.webp && <source srcset={images[0].webp} type="image/webp" data-main-webp />}
+      <img src={images[0]?.jpg} alt={name} class="w-full h-full object-cover block" width="1200" height="1200" loading="eager" decoding="async" data-main-img />
+    </picture>
+    {badge && <div class="badge-bolt absolute top-4 right-4 z-10">{badge}</div>}
+    <span class="absolute bottom-3 right-3 z-10 flex items-center gap-1.5 bg-thunder/80 text-frost text-[10px] font-mono uppercase tracking-industrial px-2.5 py-1.5 pointer-events-none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-bolt"><circle cx="11" cy="11" r="7"/><path d="M21 21 L16.5 16.5"/></svg>
+      {images.length > 1 ? `1 / ${images.length}` : ''}
+    </span>
+  </button>
+
+  {images.length > 1 && (
+    <div class="flex gap-2 mt-2 overflow-x-auto" data-thumbs>
+      {images.map((img, i) => (
+        <button type="button" class:list={["shrink-0 w-16 h-16 border-2 overflow-hidden transition-colors", i === 0 ? 'border-bolt' : 'border-frost/30 hover:border-bolt']} data-thumb={i} aria-label={`${name} — фото ${i + 1}`}>
+          <img src={img.jpg} alt="" class="w-full h-full object-cover block" width="64" height="64" loading="lazy" decoding="async" />
+        </button>
+      ))}
+    </div>
+  )}
+
+  <dialog data-lightbox class="lightbox" aria-label={name}>
+    <div class="lightbox-inner">
+      <button type="button" class="absolute top-4 right-4 z-20 text-frost hover:text-bolt p-2" data-close aria-label="Закрыть">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4 L20 20 M20 4 L4 20"/></svg>
+      </button>
+      {images.length > 1 && (
+        <>
+          <button type="button" class="absolute left-2 sm:left-6 z-20 text-frost hover:text-bolt p-3" data-prev aria-label="Предыдущее фото">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 4 L7 12 L15 20"/></svg>
+          </button>
+          <button type="button" class="absolute right-2 sm:right-6 z-20 text-frost hover:text-bolt p-3" data-next aria-label="Следующее фото">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 4 L17 12 L9 20"/></svg>
+          </button>
+        </>
+      )}
+      <img src={images[0]?.jpg} alt={name} class="max-w-full max-h-full object-contain select-none" data-lightbox-img draggable="false" />
+      <div class="absolute bottom-4 left-0 right-0 text-center text-frost/60 text-xs font-mono" data-counter>1 / {images.length}</div>
+    </div>
+  </dialog>
+</div>
+
+<script is:inline define:vars={{ srcs: images.map(i => i.jpg), webps: images.map(i => i.webp) }}>
+(function () {
+  var root = document.querySelector('[data-gallery]');
+  if (!root) return;
+  var mainImg = root.querySelector('[data-main-img]');
+  var mainWebp = root.querySelector('[data-main-webp]');
+  var lightbox = root.querySelector('[data-lightbox]');
+  var lbImg = root.querySelector('[data-lightbox-img]');
+  var counter = root.querySelector('[data-counter]');
+  var thumbs = Array.prototype.slice.call(root.querySelectorAll('[data-thumb]'));
+  var current = 0;
+  var lbAnimating = false;
+  var preloaded = {};
+
+  function preload(i) {
+    if (preloaded[i] || !srcs[i]) return;
+    var im = new Image();
+    im.src = srcs[i];
+    preloaded[i] = true;
+  }
+
+  function setMain(i) {
+    current = i;
+    if (mainWebp && webps[i]) mainWebp.srcset = webps[i];
+    else if (mainWebp) mainWebp.removeAttribute('srcset');
+    mainImg.classList.add('main-img-fade');
+    setTimeout(function () {
+      mainImg.src = srcs[i];
+      mainImg.classList.remove('main-img-fade');
+    }, 140);
+    thumbs.forEach(function (t, j) {
+      t.classList.toggle('border-bolt', j === i);
+      t.classList.toggle('border-frost/30', j !== i);
+    });
+    preload((i + 1) % srcs.length);
+    preload((i - 1 + srcs.length) % srcs.length);
+  }
+
+  function render(dir) {
+    counter.textContent = (current + 1) + ' / ' + srcs.length;
+    if (lbAnimating) return;
+    lbAnimating = true;
+    var d = dir || 0;
+    if (d > 0) lbImg.classList.add('lb-out-left');
+    else if (d < 0) lbImg.classList.add('lb-out-right');
+    else lbImg.classList.add('lb-out-fade');
+    setTimeout(function () {
+      lbImg.src = srcs[current];
+      lbImg.classList.remove('lb-out-left', 'lb-out-right', 'lb-out-fade');
+      if (d > 0) { lbImg.classList.add('lb-in-right'); void lbImg.offsetWidth; lbImg.classList.remove('lb-in-right'); }
+      else if (d < 0) { lbImg.classList.add('lb-in-left'); void lbImg.offsetWidth; lbImg.classList.remove('lb-in-left'); }
+      lbAnimating = false;
+      preload((current + 1) % srcs.length);
+      preload((current - 1 + srcs.length) % srcs.length);
+    }, 180);
+  }
+  function open(i) {
+    current = i;
+    lbImg.src = srcs[i];
+    counter.textContent = (current + 1) + ' / ' + srcs.length;
+    if (typeof lightbox.showModal === 'function') lightbox.showModal();
+    else lightbox.setAttribute('open', '');
+    document.body.style.overflow = 'hidden';
+    preload((current + 1) % srcs.length);
+    preload((current - 1 + srcs.length) % srcs.length);
+  }
+  function close() {
+    if (typeof lightbox.close === 'function') lightbox.close();
+    else lightbox.removeAttribute('open');
+    document.body.style.overflow = '';
+    setMain(current);
+  }
+  function step(d) {
+    current = (current + d + srcs.length) % srcs.length;
+    render(d);
+  }
+
+  root.querySelector('[data-open]').addEventListener('click', function () { open(current); });
+  root.querySelector('[data-close]').addEventListener('click', close);
+  lightbox.addEventListener('click', function (e) { if (e.target === lightbox || e.target.classList.contains('lightbox-inner')) close(); });
+  lightbox.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
+  var prev = root.querySelector('[data-prev]');
+  var next = root.querySelector('[data-next]');
+  if (prev) prev.addEventListener('click', function () { step(-1); });
+  if (next) next.addEventListener('click', function () { step(1); });
+  thumbs.forEach(function (t, i) {
+    t.addEventListener('click', function () { setMain(i); });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!lightbox.hasAttribute('open')) return;
+    if (e.key === 'Escape') { e.preventDefault(); close(); }
+    if (e.key === 'ArrowLeft' && srcs.length > 1) step(-1);
+    if (e.key === 'ArrowRight' && srcs.length > 1) step(1);
+  });
+
+  var touchX = null;
+  lightbox.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+  lightbox.addEventListener('touchend', function (e) {
+    if (touchX === null || srcs.length < 2) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
+    touchX = null;
+  }, { passive: true });
+})();
+</script>
+
+<style>
+  .lightbox {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    overflow: hidden;
+  }
+  .lightbox::backdrop {
+    background: rgba(10, 25, 41, 0.95);
+  }
+  .lightbox-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  [data-main-img] {
+    transition: opacity 140ms ease;
+  }
+  .main-img-fade {
+    opacity: 0;
+  }
+  [data-lightbox-img] {
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+  .lb-out-left { opacity: 0; transform: translateX(-8%); }
+  .lb-out-right { opacity: 0; transform: translateX(8%); }
+  .lb-out-fade { opacity: 0; }
+  .lb-in-right { transition: none; opacity: 0; transform: translateX(8%); }
+  .lb-in-left { transition: none; opacity: 0; transform: translateX(-8%); }
+</style>

@@ -97,6 +97,46 @@
     box-shadow: 8px 8px 0 0 rgba(244, 185, 66, 0.3);
   }
 
+  /* Поля выбора (калькулятор, варианты товара) */
+  .size-input {
+    @apply w-full bg-thunder-light text-frost border-2 border-bolt/40 px-4 py-3 text-sm font-mono uppercase tracking-industrial rounded-none cursor-pointer transition-colors;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1 L6 6 L11 1' stroke='%23f4b942' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.75rem;
+  }
+  .size-input:hover,
+  .size-input:focus {
+    @apply border-bolt outline-none;
+  }
+  .size-input option {
+    @apply bg-thunder text-frost;
+  }
+
+  /* Чипсы выбора варианта на странице товара */
+  .variant-chip {
+    @apply border-2 border-frost/30 text-frost px-5 py-3 text-sm font-mono uppercase tracking-industrial rounded-none cursor-pointer transition-all duration-150 bg-frost/5;
+  }
+  .variant-chip:hover {
+    @apply border-bolt text-bolt;
+  }
+  .variant-chip.is-active {
+    @apply bg-bolt text-steel border-bolt font-black;
+  }
+  .variant-group-missing {
+    animation: chip-shake 0.4s ease-in-out;
+  }
+  .variant-group-missing .variant-chip {
+    @apply border-bolt;
+  }
+  @keyframes chip-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+
   /* Молния как иконка */
   .bolt-icon {
     display: inline-block;

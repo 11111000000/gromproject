@@ -16,7 +16,7 @@ const dim = size === 'hero' ? { w: 1200, h: 1200 } : { w: 600, h: 600 };
 // Cache-bust версия: путь /photos-v2/ — новый, не кэширован Pages CDN
 const v = '2';
 ---
-<div class={`product-image-wrap relative overflow-hidden ${className}`}>
+<div class={`product-image-wrap overflow-hidden ${className}`}>
   <picture class="block w-full h-full relative">
     <source srcset={`${base}/photos-v${v}/${sku}.webp`} type="image/webp" />
     <img
