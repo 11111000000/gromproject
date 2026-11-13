@@ -326,12 +326,32 @@ const metaDesc = ogDescriptions[descKey]?.[lang] || pageDescription;
       #mobile-menu.-translate-y-full { transform: translateY(-100%); }
     </style>
     <script is:inline>
+      // ═══ Темы оформления ═══
+      // Тема применяется сразу, до отрисовки страницы (иначе мигнёт светлая
+      // тема), и переключается кнопками в шапке (#theme-switcher).
+      // Функция живёт в window, потому что обработчик клика — в другом
+      // инлайн-скрипте в конце <body>.
       (function() {
-        var theme = localStorage.getItem('grom-theme') || 'light';
-        var meta = document.querySelector('meta[name="theme-color"]');
-        var colors = { light: '#f0f4f7', night: '#0b1622', taiga: '#2c1810', ice: '#e8f4fd', polar: '#0d1b2a', sunrise: '#fdf0e6', ember: '#1a0f0f' };
-        document.documentElement.setAttribute('data-theme', theme);
-        if (meta && colors[theme]) meta.setAttribute('content', colors[theme]);
+        var THEMES = ['light', 'night', 'taiga', 'ice', 'polar', 'sunrise', 'ember'];
+        var COLORS = { light: '#f0f4f7', night: '#0b1622', taiga: '#2c1810', ice: '#e8f4fd', polar: '#0d1b2a', sunrise: '#fdf0e6', ember: '#1a0f0f' };
+        window.GROM_THEMES = THEMES;
+        window.GROM_APPLY_THEME = function (theme, persist) {
+          if (THEMES.indexOf(theme) === -1) theme = 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta && COLORS[theme]) meta.setAttribute('content', COLORS[theme]);
+          // Подсветка активной темы (после загрузки разметки).
+          document.querySelectorAll('#theme-switcher .theme-btn').forEach(function (btn) {
+            var active = btn.dataset.theme === theme;
+            btn.classList.toggle('active', active);
+            btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+          });
+          if (persist) {
+            try { localStorage.setItem('grom-theme', theme); } catch (e) {}
+          }
+          return theme;
+        };
+        window.GROM_APPLY_THEME(localStorage.getItem('grom-theme') || 'light', false);
       })();
     </script>
     <script is:inline>
@@ -560,9 +580,6 @@ const metaDesc = ogDescriptions[descKey]?.[lang] || pageDescription;
 
     <script is:inline>
       (function() {
-        var btns = document.querySelectorAll('#lang-switcher .theme-btn, .theme-btn');
-        var langMap = { 'RU': 'ru', 'EN': 'en', 'ZH': 'zh' };
-
         // Set active lang button
         var url2 = new URL(window.location.href);
         var currentLang = url2.searchParams.get('lang') || localStorage.getItem('grom-lang') || 'ru';
@@ -571,12 +588,22 @@ const metaDesc = ogDescriptions[descKey]?.[lang] || pageDescription;
         var langMap2 = { 'RU': 'ru', 'EN': 'en', 'ZH': 'zh' };
         langBtns.forEach(function(b) { b.classList.toggle('active', langMap2[b.title] === currentLang); });
 
-        switcher.addEventListener('click', function(e) {
-          var btn = e.target.closest('.theme-btn');
-          if (btn) setTheme(btn.dataset.theme);
-        });
-
-        setTheme(localStorage.getItem('grom-theme') || 'light');
+        // ═══ Переключение тем ═══
+        // Клик делегируется на контейнер: кнопки тем — .theme-btn[data-theme],
+        // а у переключателя языка такой кнопки нет (это ссылки без
+        // data-theme), поэтому язык тему не сбивает.
+        var themeSwitcher = document.getElementById('theme-switcher');
+        if (themeSwitcher && window.GROM_APPLY_THEME) {
+          themeSwitcher.addEventListener('click', function(e) {
+            var target = e.target;
+            if (!target || !target.closest) return;
+            var btn = target.closest('.theme-btn[data-theme]');
+            if (!btn) return;
+            window.GROM_APPLY_THEME(btn.dataset.theme, true);
+          });
+          // Разметка шапки уже в DOM — синхронизируем подсветку активной темы.
+          window.GROM_APPLY_THEME(localStorage.getItem('grom-theme') || 'light', false);
+        }
 
         // ═══ Mobile menu toggle ═══
         var menuToggle = document.getElementById('menu-toggle');
