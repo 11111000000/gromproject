@@ -233,6 +233,43 @@ const heroTiers: Record<Lang, any[]> = {
   </section>
 
   <!-- ============================== -->
+  <!-- КАТАЛОГ — Карточки товаров -->
+  <!-- ============================== -->
+  <section id="catalog" class="bg-frost ice-cracks-bg py-20 sm:py-24 border-b-2 border-frost-dark">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-8 sm:mb-12 gap-4">
+        <div>
+          <div class="section-label mb-3">{tr.catalog_label}</div>
+          <h2 class="font-display font-black text-thunder text-2xl sm:text-5xl uppercase">{tr.catalog_heading}</h2>
+        </div>
+        <a href={`${import.meta.env.BASE_URL}catalog`} class="btn-steel">{tr.catalog_all}</a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+         {products[lang].map(p => (
+          <a href={`${import.meta.env.BASE_URL}product/${p.sku}`} class="product-card group block">
+            {p.badge && <div class="badge-bolt absolute top-3 right-3 z-10">{p.badge}</div>}
+            <div class="aspect-square bg-ice-texture overflow-hidden flex items-center justify-center relative">
+              <ProductImage sku={p.sku} name={p.name} class="absolute inset-0" />
+            </div>
+            <div class="p-5">
+              <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/60 mb-1">Арт. {p.sku}</div>
+              <h3 class="font-display font-bold text-thunder leading-snug mb-2 group-hover:text-bolt transition text-sm sm:text-base">{p.name}</h3>
+              <p class="text-frost-dark/70 text-xs sm:text-sm mb-4">{p.short}</p>
+              {p.reviews > 0 && (
+                <div class="text-bolt text-xs font-mono uppercase tracking-industrial mb-3">★ {p.rating} · {p.reviews} отзывов</div>
+              )}
+              <div class="flex items-end justify-between pt-4 border-t border-frost-dark">
+                <div class="font-display font-black text-thunder text-xl sm:text-2xl">{p.price.toLocaleString('ru-RU')} <span class="text-sm sm:text-base">{tr.currency_symbol}</span></div>
+                <div class="text-bolt font-black text-xs uppercase tracking-industrial group-hover:translate-x-1 transition">→</div>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
   <!-- ТЕХНОЛОГИЯ — Характеристики -->
   <!-- ============================== -->
   <section class="bg-frost py-20 sm:py-24 ice-cracks-bg">
@@ -475,42 +512,6 @@ const heroTiers: Record<Lang, any[]> = {
     </div>
   </section>
 
-  <!-- ============================== -->
-  <!-- КАТАЛОГ — Карточки товаров -->
-  <!-- ============================== -->
-  <section class="bg-frost ice-cracks-bg py-20 sm:py-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-8 sm:mb-12 gap-4">
-        <div>
-          <div class="section-label mb-3">{tr.catalog_label}</div>
-          <h2 class="font-display font-black text-thunder text-2xl sm:text-5xl uppercase">{tr.catalog_heading}</h2>
-        </div>
-        <a href={`${import.meta.env.BASE_URL}catalog`} class="btn-steel">{tr.catalog_all}</a>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-         {products[lang].map(p => (
-          <a href={`${import.meta.env.BASE_URL}product/${p.sku}`} class="product-card group block">
-            {p.badge && <div class="badge-bolt absolute top-3 right-3 z-10">{p.badge}</div>}
-            <div class="aspect-square bg-ice-texture overflow-hidden flex items-center justify-center relative">
-              <ProductImage sku={p.sku} name={p.name} class="absolute inset-0" />
-            </div>
-            <div class="p-5">
-              <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/60 mb-1">Арт. {p.sku}</div>
-              <h3 class="font-display font-bold text-thunder leading-snug mb-2 group-hover:text-bolt transition text-sm sm:text-base">{p.name}</h3>
-              <p class="text-frost-dark/70 text-xs sm:text-sm mb-4">{p.short}</p>
-              {p.reviews > 0 && (
-                <div class="text-bolt text-xs font-mono uppercase tracking-industrial mb-3">★ {p.rating} · {p.reviews} отзывов</div>
-              )}
-              <div class="flex items-end justify-between pt-4 border-t border-frost-dark">
-                <div class="font-display font-black text-thunder text-xl sm:text-2xl">{p.price.toLocaleString('ru-RU')} <span class="text-sm sm:text-base">{tr.currency_symbol}</span></div>
-                <div class="text-bolt font-black text-xs uppercase tracking-industrial group-hover:translate-x-1 transition">→</div>
-              </div>
-            </div>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
 
   <!-- ============================== -->
   <!-- КАЛЬКУЛЯТОР РАЗМЕРА — Интерактив -->
