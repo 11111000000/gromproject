@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { t, langs } from '../i18n/translations';
+import { SITE_URL as siteUrl } from '../lib/site';
 
 const { title = 'ГРОМ — озёрные коньки для открытого льда', description } = Astro.props;
 const lang = (Astro.url.searchParams.get('lang') as 'ru'|'en'|'zh') || 'ru';
@@ -9,7 +10,6 @@ const l = langs[lang];
 const slug = Astro.url.pathname;
 const otherLangs = (Object.keys(langs) as Array<'ru'|'en'|'zh'>).filter(k => k !== lang);
 
-const siteUrl = (import.meta.env.SITE || 'https://grom.kosov.online').replace(/\/$/, '');
 // ID счётчика Яндекс.Метрики. Задаётся переменной окружения METRICA_ID при
 // сборке; если она не задана — счётчик не подключается вовсе (раньше стоял
 // placeholder 00000000, и скрипт метрики грузился впустую).

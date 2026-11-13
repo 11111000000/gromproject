@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import ProductGallery from '../../components/ProductGallery.astro';
 import { t, defaultLang, type Lang } from '../../i18n/translations';
 import { listProductPhotos } from '../../lib/productPhotos';
-const siteUrl = (import.meta.env.SITE || 'https://grom.kosov.online').replace(/\/$/, '');
+import { SITE_URL as siteUrl } from '../../lib/site';
 
 const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
 const tr = t[lang];

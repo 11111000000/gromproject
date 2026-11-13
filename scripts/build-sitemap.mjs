@@ -8,7 +8,7 @@
 //
 // Использование:
 //   node scripts/build-sitemap.mjs [distDir] [siteUrl]
-//   по умолчанию: apps/web/dist, https://grom.kosov.online
+//   по умолчанию: apps/web/dist, https://grom.sibres.tech
 
 import { readdirSync, statSync, writeFileSync, rmSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
@@ -17,7 +17,7 @@ import { dirname, resolve, join, relative } from 'path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const distDir = resolve(process.argv[2] ?? resolve(__dirname, '../apps/web/dist'));
-const siteUrl = (process.argv[3] ?? 'https://grom.kosov.online').replace(/\/$/, '');
+const siteUrl = (process.argv[3] ?? 'https://grom.sibres.tech').replace(/\/$/, '');
 
 if (!existsSync(distDir)) {
   console.error(`ERROR: dist не найден: ${distDir} (сначала npm run build)`);
@@ -35,14 +35,16 @@ function walk(dir) {
 }
 
 // Страница = index.html внутри директории. 404.html в корне исключаем.
+// Вместе с путём сразу берём mtime файла — из него делается <lastmod>.
 const pages = walk(distDir)
   .filter((f) => f.endsWith('index.html'))
   .map((f) => {
     const rel = relative(distDir, dirname(f)).split('\\').join('/');
-    return rel === '' ? '/' : `/${rel}/`;
+    const path = rel === '' ? '/' : `/${rel}/`;
+    return { path, lastmod: statSync(f).mtime.toISOString().slice(0, 10) };
   })
-  .filter((p) => p !== '/404/')
-  .sort();
+  .filter((p) => p.path !== '/404/')
+  .sort((a, b) => a.path.localeCompare(b.path));
 
 const PRIORITY = {
   '/': '1.0',
@@ -75,7 +77,7 @@ const xml = [
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
   ...pages.map(
     (p) =>
-      `  <url>\n    <loc>${siteUrl}${p}</loc>\n    <changefreq>${freqFor(p)}</changefreq>\n    <priority>${priorityFor(p)}</priority>\n  </url>`
+      `  <url>\n    <loc>${siteUrl}${p.path}</loc>\n    <lastmod>${p.lastmod}</lastmod>\n    <changefreq>${freqFor(p.path)}</changefreq>\n    <priority>${priorityFor(p.path)}</priority>\n  </url>`
   ),
   '</urlset>',
   '',
@@ -87,4 +89,4 @@ rmSync(outFile, { force: true });
 writeFileSync(outFile, xml, 'utf-8');
 
 console.log(`✅ sitemap.xml: ${pages.length} страниц → ${outFile}`);
-for (const p of pages) console.log(`   ${siteUrl}${p}`);
+for (const p of pages) console.log(`   ${siteUrl}${p.path}`);

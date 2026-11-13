@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://grom.kosov.online/sitemap.xml
+Sitemap: https://grom.sibres.tech/sitemap.xml
