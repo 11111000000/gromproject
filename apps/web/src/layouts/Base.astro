@@ -642,5 +642,22 @@ const metaDesc = ogDescriptions[descKey]?.[lang] || pageDescription;
         }
       })();
     </script>
+
+    <!-- ═══ Фото товаров: страховка от «пустого места» ═══
+         Если картинка не пришла (обрыв, 404, битый кэш), в блоке должно
+         остаться место для неё: помечаем обёртку, чтобы показалась заглушка ⚡. -->
+    <script is:inline>
+      (function() {
+        function markBroken() {
+          document.querySelectorAll('.product-image-wrap').forEach(function(wrap) {
+            var img = wrap.querySelector('img');
+            if (!img) return;
+            if (img.complete && img.naturalWidth === 0) wrap.classList.add('img-failed');
+          });
+        }
+        if (document.readyState === 'complete') markBroken();
+        else window.addEventListener('load', markBroken);
+      })();
+    </script>
   </body>
 </html>

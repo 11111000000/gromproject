@@ -17,11 +17,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const jpgs = listProductPhotos(sku);
 const webps = listWebpPhotos();
+// Версия в адресе: браузер не должен держать старую (битую) копию фото.
+const v = '3';
 const images = jpgs.map((j) => {
   const w = j.replace(/\.jpg$/, '.webp');
   return {
-    jpg: `${base}/photos-v2/${j}`,
-    webp: webps.has(w) ? `${base}/photos-v2/${w}` : null,
+    jpg: `${base}/photos-v2/${j}?v=${v}`,
+    webp: webps.has(w) ? `${base}/photos-v2/${w}?v=${v}` : null,
   };
 });
 ---

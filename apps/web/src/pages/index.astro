@@ -245,11 +245,11 @@ const heroTiers: Record<Lang, any[]> = {
         <a href={`${import.meta.env.BASE_URL}catalog`} class="btn-steel">{tr.catalog_all}</a>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-         {products[lang].map(p => (
+         {products[lang].map((p, i) => (
           <a href={`${import.meta.env.BASE_URL}product/${p.sku}`} class="product-card group block">
             {p.badge && <div class="badge-bolt absolute top-3 right-3 z-10">{p.badge}</div>}
             <div class="aspect-square bg-ice-texture overflow-hidden flex items-center justify-center relative">
-              <ProductImage sku={p.sku} name={p.name} class="absolute inset-0" />
+              <ProductImage sku={p.sku} name={p.name} class="absolute inset-0" loading={i < 2 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} />
             </div>
             <div class="p-5">
               <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/60 mb-1">Арт. {p.sku}</div>

@@ -95,11 +95,11 @@ const emptyText: Record<Lang, string> = {
       </div>
 
       <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products[lang].map(p => (
+        {products[lang].map((p, i) => (
           <a href={`${import.meta.env.BASE_URL}product/${p.sku}`} data-cat={p.category} class="product-card group block">
             {p.badge && <span class="badge-bolt absolute top-3 right-3 z-10">{p.badge}</span>}
             <div class="aspect-square bg-thunder overflow-hidden flex items-center justify-center relative">
-              <ProductImage sku={p.sku} name={p.name} class="absolute inset-0" />
+              <ProductImage sku={p.sku} name={p.name} class="absolute inset-0" loading={i < 3 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} />
             </div>
             <div class="p-5">
               <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50 mb-1"><span>{tr.article}</span> <span>{p.sku}</span></div>
