@@ -169,7 +169,7 @@ const galleryImages = listProductPhotos(sku).map(f => siteUrl + '/photos-v2/' + 
         <ProductGallery sku={p.sku} name={p.name} badge={p.badge} />
 
         <div>
-          <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50 mb-1"><span>{L.article}</span> <span>{p.sku}</span></div>
+          <div class="text-[10px] font-mono uppercase tracking-industrial text-frost/50 mb-1"><span>{L.article}</span> <span>{p.sku}</span></div>
           <h1 class="font-display font-black uppercase leading-[0.95] text-3xl sm:text-5xl mb-4">{p.name}</h1>
 
           {p.reviews > 0 && (
