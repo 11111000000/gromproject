@@ -157,7 +157,9 @@ const steps: Record<Lang, any[]> = {
               ))}
             </ul>
 
-            <a href={`${import.meta.env.BASE_URL}/contacts?lang=${lang}`} class={
+            <a href={tier.tier === 'base'
+              ? `${import.meta.env.BASE_URL}catalog?lang=${lang}`
+              : `${import.meta.env.BASE_URL}contacts?lang=${lang}`} class={
               tier.tier === 'base' ? "btn-steel text-xs w-full text-center justify-center" :
               "btn-bolt text-xs w-full text-center justify-center"
             }>
@@ -257,7 +259,7 @@ const steps: Record<Lang, any[]> = {
       <svg width="40" height="40" viewBox="0 0 32 32" class="text-bolt fill-current mx-auto mb-4"><path d="M19 2 L8 18 L15 18 L11 30 L24 14 L17 14 Z"/></svg>
       <h2 class="font-display font-black text-thunder text-2xl sm:text-4xl uppercase mb-4">{tr.sravnenie_h1}</h2>
       <p class="text-frost-dark/70 mb-6 text-sm sm:text-base">{tr.sravnenie_subtitle}</p>
-      <a href={`${import.meta.env.BASE_URL}/sravnenie?lang=${lang}`} class="btn-bolt">{tr.pro_compare}</a>
+      <a href={`${import.meta.env.BASE_URL}sravnenie?lang=${lang}`} class="btn-bolt">{tr.pro_compare}</a>
     </div>
   </section>
 
