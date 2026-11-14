@@ -4,3 +4,4 @@
 // поэтому canonical, hreflang, Open Graph и JSON-LD всегда указывают
 // на домен, заданный при сборке. Домен в коде больше не дублируется.
 export const SITE_URL = (import.meta.env.SITE || 'https://grom.sibres.tech').replace(/\/$/, '');
+export const MAX_URL = 'https://max.ru/join/CItXClkmsu0XXWDvSS1a8icqjoIhikdprAks4RmZAaM';

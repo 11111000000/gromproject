@@ -54,32 +54,54 @@
      кнопка будет прямоугольной (Safari просто проигнорирует clip-path). Это OK,
      потому что современный Safari 16.4+ уже на всех устройствах с 2023 года. */
   .btn-bolt {
-    @apply btn bg-bolt hover:bg-bolt-dark text-steel px-7 py-4 rounded-none;
+    @apply btn px-7 py-4 rounded-none;
+    background-color: var(--accent);
+    color: var(--accent-fg);
     clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
   }
   .btn-bolt:hover {
-    box-shadow: 0 0 32px -8px rgba(244, 185, 66, 0.6);
+    background-color: var(--accent-hover);
+    box-shadow: 0 0 32px -8px var(--glow);
   }
+  /* Вторичная кнопка — тёмная (якорь подвала), поэтому свой цвет, а не контекстный. */
   .btn-steel {
-    @apply btn bg-steel hover:bg-thunder text-frost px-7 py-4 rounded-none;
+    @apply btn px-7 py-4 rounded-none;
+    background-color: var(--footer-bg);
+    color: var(--footer-fg);
     clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
   }
+  .btn-steel:hover {
+    background-color: var(--brand);
+    color: #16232e;
+  }
   .btn-ghost {
-    @apply btn border-2 border-frost/30 hover:border-bolt hover:text-bolt text-frost px-7 py-4 rounded-none;
+    @apply btn border-2 px-7 py-4 rounded-none;
+    border-color: rgba(var(--ink-rgb), 0.3);
+    color: var(--ctx-fg);
+  }
+  .btn-ghost:hover {
+    border-color: var(--ctx-accent-border);
+    color: var(--ctx-accent);
   }
 
   /* Бейдж */
   .badge-bolt {
-    @apply inline-flex items-center gap-1.5 bg-bolt text-steel px-3 py-1 text-xs font-black uppercase tracking-industrial;
+    @apply inline-flex items-center gap-1.5 px-3 py-1 text-xs font-black uppercase tracking-industrial;
+    background-color: var(--accent);
+    color: var(--accent-fg);
     clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
   }
   .badge-steel {
-    @apply inline-flex items-center gap-1.5 bg-steel/90 text-frost px-3 py-1 text-xs font-black uppercase tracking-industrial;
+    @apply inline-flex items-center gap-1.5 px-3 py-1 text-xs font-black uppercase tracking-industrial;
+    background-color: var(--footer-bg);
+    color: var(--footer-fg);
   }
 
   /* Карточка товара */
   .product-card {
-    @apply relative bg-white overflow-hidden border-2 border-frost-dark hover:border-bolt transition-all duration-300;
+    @apply relative overflow-hidden border-2 transition-all duration-300;
+    background-color: var(--surface);
+    border-color: var(--ctx-border);
     color: var(--text);
   }
   .product-card::before {
@@ -89,47 +111,60 @@
     width: 0; height: 0;
     border-style: solid;
     border-width: 0 32px 32px 0;
-    border-color: transparent var(--bolt, #f4b942) transparent transparent;
+    border-color: transparent var(--ctx-accent) transparent transparent;
     z-index: 1;
   }
   .product-card:hover {
     transform: translateY(-4px);
-    box-shadow: 8px 8px 0 0 rgba(244, 185, 66, 0.3);
+    border-color: var(--ctx-accent-border);
+    box-shadow: 8px 8px 0 0 var(--glow);
   }
 
   /* Поля выбора (калькулятор, варианты товара) */
   .size-input {
-    @apply w-full bg-thunder-light text-frost border-2 border-bolt/40 px-4 py-3 text-sm font-mono uppercase tracking-industrial rounded-none cursor-pointer transition-colors;
+    @apply w-full px-4 py-3 text-sm font-mono uppercase tracking-industrial rounded-none cursor-pointer transition-colors;
+    background-color: var(--ctx-frost);
+    color: var(--ctx-fg);
+    border: 2px solid var(--ctx-accent-border);
     appearance: none;
     -webkit-appearance: none;
-    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1 L6 6 L11 1' stroke='%23f4b942' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1 L6 6 L11 1' stroke='%231a6f9c' stroke-width='2' fill='none'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 1rem center;
     padding-right: 2.75rem;
   }
   .size-input:hover,
   .size-input:focus {
-    @apply border-bolt outline-none;
+    border-color: var(--ctx-accent-border);
+    outline: none;
   }
   .size-input option {
-    @apply bg-thunder text-frost;
+    background-color: var(--ctx-frost);
+    color: var(--ctx-fg);
   }
 
   /* Чипсы выбора варианта на странице товара */
   .variant-chip {
-    @apply border-2 border-frost/30 text-frost px-5 py-3 text-sm font-mono uppercase tracking-industrial rounded-none cursor-pointer transition-all duration-150 bg-frost/5;
+    @apply border-2 px-5 py-3 text-sm font-mono uppercase tracking-industrial rounded-none cursor-pointer transition-all duration-150;
+    border-color: rgba(var(--ink-rgb), 0.3);
+    color: var(--ctx-fg);
+    background-color: rgba(var(--ink-rgb), 0.05);
   }
   .variant-chip:hover {
-    @apply border-bolt text-bolt;
+    border-color: var(--ctx-accent-border);
+    color: var(--ctx-accent);
   }
   .variant-chip.is-active {
-    @apply bg-bolt text-steel border-bolt font-black;
+    background-color: var(--accent);
+    color: var(--accent-fg);
+    border-color: var(--accent);
+    font-weight: 900;
   }
   .variant-group-missing {
     animation: chip-shake 0.4s ease-in-out;
   }
   .variant-group-missing .variant-chip {
-    @apply border-bolt;
+    border-color: var(--ctx-accent-border);
   }
   @keyframes chip-shake {
     0%, 100% { transform: translateX(0); }
@@ -149,21 +184,23 @@
 
 /* === Фоны с эффектом льда (Safari-safe: no feTurbulence) === */
 .bg-ice-texture {
-  background-color: #0a1929;
+  background-color: var(--texture-base);
   background-image:
-    radial-gradient(ellipse at top, rgba(159, 194, 232, 0.15), transparent 60%),
-    radial-gradient(ellipse at bottom right, rgba(44, 90, 110, 0.4), transparent 50%),
-    linear-gradient(135deg, transparent 0%, rgba(244, 185, 66, 0.03) 50%, transparent 100%);
+    radial-gradient(ellipse at top, var(--texture-glow), transparent 60%),
+    linear-gradient(160deg, var(--hero-from), var(--hero-to));
   position: relative;
 }
 .bg-ice-texture::after {
   content: '';
   position: absolute;
   inset: 0;
-  /* Статичный SVG-паттерн: тонкие линии льда (НЕ используем feTurbulence —
-     Safari рендерит его нестабильно). Просто повторяющийся паттерн. */
-  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cpath d='M0 50 L40 55 L80 48 L120 58 L160 50 L200 52' stroke='%231e4a62' stroke-width='0.5' fill='none' opacity='0.4'/%3E%3Cpath d='M0 110 L30 105 L70 115 L110 108 L150 118 L200 110' stroke='%231e4a62' stroke-width='0.5' fill='none' opacity='0.3'/%3E%3Cpath d='M0 160 L40 165 L80 158 L120 168 L160 160 L200 162' stroke='%239fc2e8' stroke-width='0.3' fill='none' opacity='0.5'/%3E%3Cpath d='M50 0 L45 50 L55 100 L48 150 L52 200' stroke='%239fc2e8' stroke-width='0.3' fill='none' opacity='0.5'/%3E%3Cpath d='M150 0 L155 50 L148 100 L152 150 L148 200' stroke='%231e4a62' stroke-width='0.3' fill='none' opacity='0.4'/%3E%3C/svg%3E");
-  background-repeat: repeat;
+  /* Рисунок льда задан маской, а цвет берётся из --texture-ink — поэтому
+     трещины одинаково читаются и на светлом, и на тёмном фоне. */
+  background-color: var(--texture-ink);
+  -webkit-mask-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cpath d='M0 50 L40 55 L80 48 L120 58 L160 50 L200 52' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3Cpath d='M0 110 L30 105 L70 115 L110 108 L150 118 L200 110' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3Cpath d='M0 160 L40 165 L80 158 L120 168 L160 160 L200 162' stroke='%23ffffff' stroke-width='0.3' fill='none'/%3E%3Cpath d='M50 0 L45 50 L55 100 L48 150 L52 200' stroke='%23ffffff' stroke-width='0.3' fill='none'/%3E%3Cpath d='M150 0 L155 50 L148 100 L152 150 L148 200' stroke='%23ffffff' stroke-width='0.4' fill='none'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cpath d='M0 50 L40 55 L80 48 L120 58 L160 50 L200 52' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3Cpath d='M0 110 L30 105 L70 115 L110 108 L150 118 L200 110' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3Cpath d='M0 160 L40 165 L80 158 L120 168 L160 160 L200 162' stroke='%23ffffff' stroke-width='0.3' fill='none'/%3E%3Cpath d='M50 0 L45 50 L55 100 L48 150 L52 200' stroke='%23ffffff' stroke-width='0.3' fill='none'/%3E%3Cpath d='M150 0 L155 50 L148 100 L152 150 L148 200' stroke='%23ffffff' stroke-width='0.4' fill='none'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
   opacity: 0.6;
   pointer-events: none;
 }
@@ -172,7 +209,7 @@
 .divider-bolt {
   position: relative;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #2c5a6e 30%, #f4b942 50%, #2c5a6e 70%, transparent);
+  background: linear-gradient(90deg, transparent, var(--ctx-accent-border) 30%, var(--ctx-accent) 50%, var(--ctx-accent-border) 70%, transparent);
   overflow: visible;
 }
 .divider-bolt::after {
@@ -181,8 +218,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #f4b942;
-  color: #0a1929;
+  background: var(--ctx-accent);
+  color: var(--ctx-fg);
   width: 32px;
   height: 32px;
   display: flex;
@@ -190,7 +227,7 @@
   justify-content: center;
   font-size: 18px;
   border-radius: 50%;
-  box-shadow: 0 0 16px rgba(244, 185, 66, 0.4);
+  box-shadow: 0 0 16px var(--glow);
 }
 
 /* Паттерн следа лезвия */
@@ -214,11 +251,59 @@
 }
 
 /* Эффект свечения */
-.glow-bolt { box-shadow: 0 0 24px -4px rgba(244, 185, 66, 0.5); }
-.text-glow-bolt { text-shadow: 0 0 24px rgba(244, 185, 66, 0.3); }
+.glow-bolt { box-shadow: 0 0 24px -4px var(--glow); }
+.text-glow-bolt { text-shadow: 0 0 24px var(--glow); }
 
 /* Скроллбар */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { @apply bg-frost; }
 ::-webkit-scrollbar-thumb { @apply bg-ice; }
 ::-webkit-scrollbar-thumb:hover { @apply bg-ice-dark; }
+
+/* Компактные подписи секций и защита мобильной типографики от переполнения. */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--ctx-accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+.section-label::before {
+  content: '';
+  width: 1.35rem;
+  height: 2px;
+  background: var(--ctx-accent);
+  flex-shrink: 0;
+}
+.section-label.justify-center::after {
+  content: '';
+  width: 1.35rem;
+  height: 2px;
+  background: var(--ctx-accent);
+  flex-shrink: 0;
+}
+
+h1, h2, h3, .btn {
+  overflow-wrap: anywhere;
+}
+.btn {
+  max-width: 100%;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .btn {
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    letter-spacing: 0.08em;
+  }
+  .section-label {
+    letter-spacing: 0.1em;
+  }
+}

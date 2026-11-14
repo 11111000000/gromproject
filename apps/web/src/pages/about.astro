@@ -6,50 +6,47 @@ import { SITE_URL as siteUrl } from '../lib/site';
 const lang = (Astro.url.searchParams.get('lang') as Lang) || defaultLang;
 const tr = t[lang];
 ---
-<Base title={tr.about_title} description={lang === 'ru' ? 'Бренд ГРОМ — российские озёрные коньки собственного производства. История и миссия.' : lang === 'en' ? 'GROM brand — Russian-made lake skates. Our story and mission.' : 'ГРОМ 品牌 — 俄罗斯自制冰刀。我们的故事与使命。'}>
 
-  <!-- Schema.org BreadcrumbList -->
+<Base title={tr.about_title} description={tr.about_story_1}>
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": lang === 'ru' ? 'Главная' : lang === 'en' ? 'Home' : '首页', "item": siteUrl + '/' },
-      { "@type": "ListItem", "position": 2, "name": lang === 'ru' ? 'О бренде' : lang === 'en' ? 'About' : '关于' }
+      { "@type": "ListItem", "position": 1, "name": tr.site_name, "item": siteUrl + '/' },
+      { "@type": "ListItem", "position": 2, "name": tr.about_h1 }
     ]
   })} />
 
-  <section class="relative bg-thunder text-frost py-16 overflow-hidden border-b-4 border-bolt">
-    <div class="absolute inset-0 bg-ice-texture opacity-90"></div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+  <section class="relative bg-thunder text-frost py-14 sm:py-20 overflow-hidden border-b-4 border-bolt">
+    <div class="absolute inset-0 bg-ice-texture opacity-80"></div>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <div class="section-label justify-center mb-3">ГРОМ</div>
-      <h1 class="font-display font-black uppercase leading-[0.95] text-4xl sm:text-6xl lg:text-7xl mb-6">{tr.about_h1}</h1>
-      <div class="mt-6 flex items-center justify-center gap-3 text-frost/60 text-xs font-mono tracking-industrial uppercase">
-        <span>{tr.about_established}</span><span>·</span><span>{tr.about_location}</span><span>·</span><span>{tr.about_region}</span>
-      </div>
+      <h1 class="font-display font-black leading-[0.95] text-4xl sm:text-6xl mb-5" data-i18n="about_h1">{tr.about_h1}</h1>
+      <p class="text-frost/70 font-mono uppercase tracking-industrial text-xs">2018 · Ангарск · Байкал</p>
     </div>
   </section>
 
-  <section class="bg-frost ice-cracks-bg py-20">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-lg leading-relaxed">
-      <div class="bg-white border-2 border-frost-dark p-8 space-y-6">
-        <h2 class="font-display font-black text-thunder text-2xl uppercase">{tr.about_story_title}</h2>
-        <p class="text-frost-dark/80">{tr.about_story_1}</p>
-        <p class="text-frost-dark/80">{tr.about_story_2}</p>
-        <p class="text-frost-dark/80">{tr.about_story_3}</p>
-      </div>
+  <section class="bg-frost ice-cracks-bg py-16 sm:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <article class="bg-white border-2 border-frost-dark p-6 sm:p-8 space-y-5 text-base sm:text-lg leading-relaxed">
+        <h2 class="font-display font-black text-thunder text-2xl uppercase" data-i18n="about_story_title">{tr.about_story_title}</h2>
+        <p class="text-frost-dark/80" data-i18n="about_story_1">{tr.about_story_1}</p>
+        <p class="text-frost-dark/80" data-i18n="about_story_2">{tr.about_story_2}</p>
+        <p class="text-frost-dark/80" data-i18n="about_story_3">{tr.about_story_3}</p>
+      </article>
 
-      <div class="grid grid-cols-3 gap-4 text-center">
+      <div class="grid sm:grid-cols-3 gap-4 text-center">
         <div class="bg-white border-2 border-frost-dark p-6">
-          <div class="text-4xl font-display font-black text-bolt">109</div>
-          <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50 mt-2">{tr.about_stat_reviews}</div>
+          <div class="text-4xl font-display font-black text-bolt">2018</div>
+          <div class="text-xs font-mono uppercase tracking-industrial text-frost-dark/60 mt-2" data-i18n="about_stat_year">{tr.about_stat_year}</div>
         </div>
         <div class="bg-white border-2 border-frost-dark p-6">
-          <div class="text-4xl font-display font-black text-bolt">700<sup class="text-xl">{lang === 'en' ? 'km' : lang === 'zh' ? '公里' : 'км'}</sup></div>
-          <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50 mt-2">{tr.about_stat_km}</div>
+          <div class="text-4xl font-display font-black text-bolt">Ангарск</div>
+          <div class="text-xs font-mono uppercase tracking-industrial text-frost-dark/60 mt-2" data-i18n="about_stat_place">{tr.about_stat_place}</div>
         </div>
         <div class="bg-white border-2 border-frost-dark p-6">
-          <div class="text-4xl font-display font-black text-bolt">110<sup class="text-xl">{lang === 'en' ? 'kg' : lang === 'zh' ? '公斤' : 'кг'}</sup></div>
-          <div class="text-[10px] font-mono uppercase tracking-industrial text-frost-dark/50 mt-2">{tr.about_stat_kg}</div>
+          <div class="text-4xl font-display font-black text-bolt">MAX</div>
+          <div class="text-xs font-mono uppercase tracking-industrial text-frost-dark/60 mt-2" data-i18n="about_stat_help">{tr.about_stat_help}</div>
         </div>
       </div>
     </div>

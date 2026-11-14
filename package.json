@@ -13,6 +13,7 @@
     "dev:api": "node apps/api/server.cjs",
     "i18n": "node scripts/build-i18n.mjs",
     "sitemap": "node scripts/build-sitemap.mjs",
+    "check:themes": "node scripts/check-themes.mjs",
     "build": "npm run i18n && cd apps/web && npx astro build && cd ../.. && npm run sitemap",
     "test": "echo 'Тесты пока не настроены'"
   },
